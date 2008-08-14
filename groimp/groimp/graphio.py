@@ -176,7 +176,6 @@ class Parser(object):
 
         local_t = transform.get(vid)
         if local_t:
-            print local_t
             m = local_t * m
 
         for eid in g.out_edges(vid):
@@ -193,7 +192,6 @@ class Parser(object):
         if shape:
             shape = transform4(matrix, shape)
             final_geometry[vid] = shape
-            print vid, matrix
 
     def _get_args( self, properties ):
         return dict([(p.attrib['name'], p.attrib['value']) for p in properties])
