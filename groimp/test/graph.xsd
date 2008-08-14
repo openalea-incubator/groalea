@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="graph" type="Graph" />
+  <xs:complexType name="Graph">
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="node" type="Node" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="edge" type="Edge" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Node">
+    <xs:choice minOccurs="1" maxOccurs="1">
+      <xs:element name="sphere" type="Sphere" />
+      <xs:element name="box" type="Box" />
+      <xs:element name="cone" type="Cone" />
+      <xs:element name="cylinder" type="Cylinder" />
+      <xs:element name="transform" type="Transform" />
+    </xs:choice>
+    <xs:attribute name="id" type="id_type" use="required" />
+    <xs:attribute name="name" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="Edge">
+  	<xs:attribute name="id" type="id_type" use="optional" />
+  	<xs:attribute name="src_id" type="id_type" use="required" />
+  	<xs:attribute name="dest_id" type="id_type" use="required" />
+  	<xs:attribute name="type" type="xs:string" use="required"></xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="Sphere">
+    <xs:attribute name="radius">
+      <xs:simpleType>
+        <xs:restriction base="xs:float">
+          <xs:minInclusive value="0" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="Box">
+    <xs:attribute name="length">
+      <xs:simpleType>
+        <xs:restriction base="xs:float">
+          <xs:minInclusive value="0" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="width">
+      <xs:simpleType>
+        <xs:restriction base="xs:float">
+          <xs:minInclusive value="0" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="height">
+      <xs:simpleType>
+        <xs:restriction base="xs:float">
+          <xs:minInclusive value="0" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="Cylinder">
+    <xs:attribute name="radius">
+      <xs:simpleType>
+        <xs:restriction base="xs:float">
+          <xs:minInclusive value="0" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="height">
+      <xs:simpleType>
+        <xs:restriction base="xs:float">
+          <xs:minInclusive value="0" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="Cone">
+    <xs:attribute name="radius">
+      <xs:simpleType>
+        <xs:restriction base="xs:float">
+          <xs:minInclusive value="0" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="height">
+      <xs:simpleType>
+        <xs:restriction base="xs:float">
+          <xs:minInclusive value="0" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="Transform">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="matrix" type="matrix_type" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="float_type">
+    <xs:restriction base="xs:double" />
+  </xs:simpleType>
+  <xs:simpleType name="list_of_floats_type">
+    <xs:list itemType="float_type" />
+  </xs:simpleType>
+  <xs:simpleType name="float4x4_type">
+    <xs:restriction base="list_of_floats_type">
+      <xs:minLength value="16" />
+      <xs:maxLength value="16" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="matrix_type">
+    <xs:annotation>
+      <xs:documentation>
+				Matrix transformations embody mathematical changes to
+				points within a coordinate systems or the coordinate
+				system itself. The matrix element contains a 4-by-4
+				matrix of floating-point values.
+			</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="float4x4_type" />
+  </xs:simpleType>
+  <xs:simpleType name="id_type">
+    <xs:restriction base="xs:int" />
+  </xs:simpleType>
+</xs:schema>
