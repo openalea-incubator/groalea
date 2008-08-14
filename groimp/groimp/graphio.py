@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as xml
 from openalea.core.graph.property_graph import PropertyGraph
 import openalea.plantgl.all as pgl
+from StringIO import StringIO
 
 class RootedGraph(PropertyGraph):
     def _set_root(self, root):
@@ -232,7 +233,7 @@ class Dumper(object):
         self.doc.tail = '\n'
         self.doc.text = '\n\t'
         # add root
-        self.SubElement(self.doc, 'root', {'root_id':'1'})
+        self.SubElement(self.doc, 'root', dict(root_id='1'))
         # universal types
         self.universal_node()
 
@@ -296,8 +297,25 @@ class Dumper(object):
         attrib['src_id'] = str(g.source(eid))
         attrib['dest_id'] = str(g.target(eid))
         if edge_type:
-            
-            attrib['type'] = edge_type
+            attrib['type'] = edge_type_conv[edge_type]
 
         self.SubElement(self.doc, 'edge', attrib)
 
+##########################################################################
+
+# Wrapper functions for OpenAlea usage.
+
+def xml2graph(xml_graph):
+    """
+    Convert a xml string to a graph and scene graph.
+    """
+    f = StringIO(xml_graph)
+    parser = Parser()
+    g, scene = parser.parse(f)
+    f.close()
+    return g, scene
+    
+
+def graph2xml(graph):
+    dump = Dumper()
+    return dump.dump(graph)

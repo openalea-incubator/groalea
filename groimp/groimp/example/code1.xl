@@ -1,0 +1,7 @@
+import de.grogra.imp3d.objects.*;
+public class Model {
+    public void run() {
+        String t = "Foo " + super.toString();
+    }
+}
+
