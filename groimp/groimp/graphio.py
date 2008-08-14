@@ -1,3 +1,11 @@
+# TODO
+# 1. add a header
+# 2. separate graphe parsing and scenegraph generation
+# 3. Error management
+# 4. Documentation
+# 5. Compute properties when it is possible (sphere, ...)
+# 6. 2D draw of the graph
+
 import xml.etree.ElementTree as xml
 from openalea.core.graph.property_graph import PropertyGraph
 import openalea.plantgl.all as pgl
@@ -41,7 +49,7 @@ class Parser(object):
         A graph is a set of nades and edges.
         """ 
         graph = self._graph = RootedGraph()
-        self._types = {}
+        graph._types = {}
 
         graph.add_vertex_property("name")
         graph.add_vertex_property("type")
@@ -55,14 +63,14 @@ class Parser(object):
 
     def type(self, elts, name):
         # Add this to the graph...
-        self._types[name] = []
+        self._graph._types[name] = []
         for elt in elts:
             elt.attrib['type_name'] = name
             self.dispatch(elt)
 
     def extends(self, elts, name, type_name):
         if name in self.geometries:
-            self._types[type_name].append(name)
+            self._graph._types[type_name].append(name)
 
     implements = extends
 
@@ -142,9 +150,10 @@ class Parser(object):
         graph.edge_property("edge_type")[id] = edge_type
 
     def universal_node(self, type_name, **kwds):
-        assert type_name in self._types, (type_name, self._types)
-        if self._types[type_name]:
-            geometric_method = self._types[type_name][0]
+        _types = self._graph._types
+        assert type_name in _types, (type_name, _types)
+        if _types[type_name]:
+            geometric_method = _types[type_name][0]
             return self.__getattribute__(geometric_method)(**kwds)
 
     def scenegraph(self):
@@ -246,8 +255,8 @@ class Dumper(object):
         
     def universal_node(self):
         # test
-        _types = {}
-        _types['Boid']=['sphere']
+        _types = self._graph._types
+        #_types['Boid']=['sphere']
         attrib = {}
         if _types:
             for t, extends in _types.iteritems():
