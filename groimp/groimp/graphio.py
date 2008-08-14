@@ -16,10 +16,14 @@ class Parser(object):
     geometries = ['sphere', 'box', 'cone', 'cylinder']
 
     def parse(self, fn):
+        self._graph = None
+        self._scene = None
+
         doc = xml.parse(fn)
         root = doc.getroot()
         self.dispatch(root)
-        return self._graph
+        self.scenegraph()
+        return self._graph, self._scene
 
     def dispatch(self, elt):
         return self.__getattribute__(elt.tag)(elt.getchildren(), **elt.attrib)
@@ -145,6 +149,8 @@ class Parser(object):
     def scenegraph(self):
         # traverse the graph
         g = self._graph
+        if self._scene:
+            return self._scene
 
         self._graph.add_vertex_property('final_geometry')
         final_geometry = g.vertex_property("final_geometry")
@@ -153,8 +159,8 @@ class Parser(object):
         
         list(self.traverse(g.root, transfos))
 
-        scene = pgl.Scene(final_geometry.values())
-        return scene
+        self._scene = pgl.Scene(final_geometry.values())
+        return self._scene
     
     def traverse(self, vid, transfos):
         
@@ -214,7 +220,7 @@ class Dumper(object):
     def dump(self, graph):
         self._graph = graph
         self.graph()
-        print xml.tostring(self.doc)
+        return xml.tostring(self.doc)
 
     def SubElement(self, *args, **kwds):
         elt = xml.SubElement(*args, **kwds)
