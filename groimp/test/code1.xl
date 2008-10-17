@@ -1,0 +1,4 @@
+public void run() {
+    String t = "Foo " + super.toString();
+}
+

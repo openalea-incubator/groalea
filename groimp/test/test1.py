@@ -40,3 +40,22 @@ def test2():
     assert len(g) == len(g1)
     assert len(scene) == len(scene2)
 
+def test3():
+    fn = 'gi_graph.xeg'
+    parser = Parser()
+    g, scene = parser.parse(fn)
+
+    assert len(g) == 3
+    assert g.nb_edges() == 2
+
+def __test4():
+    fn = 'sample.xeg'
+    parser = Parser()
+    g, scene = parser.parse(fn)
+
+def test5():
+    # Test read colors
+    fn = 'test_color.xeg'
+    parser = Parser()
+    g, scene = parser.parse(fn)
+

@@ -49,17 +49,25 @@ class Parser(object):
         A graph is a set of nades and edges.
         """ 
         graph = self._graph = RootedGraph()
+        self._edges = {}
         graph._types = {}
 
         graph.add_vertex_property("name")
         graph.add_vertex_property("type")
         graph.add_vertex_property("parameters")
+        graph.add_vertex_property("color")
         graph.add_vertex_property("geometry")
-        graph.add_vertex_property("transformation")
+        graph.add_vertex_property("transform")
         graph.add_edge_property("edge_type")
         
         for elt in elements:
             self.dispatch(elt)
+
+        # add the edges to the graph, when all the nodes have been added.
+        if graph.root not in graph:
+            graph.add_vertex(graph.root)
+
+        self._add_edges()
 
     def type(self, elts, name):
         # Add this to the graph...
@@ -92,9 +100,11 @@ class Parser(object):
         # Hack to separate transformation (without value) 
         # from other properties (with value)
         transfos = [p for p in properties \
-                      if p.attrib['name'] == 'transformation']
+                      if p.attrib['name'] == 'transform']
+        colors = [p for p in properties \
+                      if p.attrib['name'] == 'color']
         properties = [p for p in properties \
-                      if p.attrib['name'] != 'transformation']
+                      if p.attrib['name'] not in ('transform', 'color')]
 
         args = self._get_args(properties)
         graph.vertex_property('parameters')[id] = args
@@ -109,11 +119,17 @@ class Parser(object):
         if transfos:
             assert transfo is None
             transfo = self.transform(transfos[0].getchildren())
+
+        color = None
+        if colors:
+            color = self.color(colors[0].getchildren())
             
         if shape:
             graph.vertex_property('geometry')[id] = shape
         if transfo:
-            graph.vertex_property('transformation')[id] = transfo 
+            graph.vertex_property('transform')[id] = transfo 
+        if color:
+            graph.vertex_property('color')[id] = color
 
     def sphere(self, radius=0, **kwds):
         return pgl.Sphere(radius=float(radius)), None
@@ -142,12 +158,29 @@ class Parser(object):
         m4 = m4.transpose()
         return m4
 
+    def color(self, elements, **kwds):
+        rgb = elements[0]
+        assert rgb.tag == 'rgb'
+        color = pgl.Color3(*( int(float(x)*255) for x in rgb.text.strip().split()) )
+        return color
+
     def edge(self, elements, src_id, dest_id, type, id=None):
-        graph = self._graph
+        # we add the edges at the end of the process
+        edges = self._edges
+
         if id: id = int(id)
-        graph.add_edge(edge=(int(src_id),int(dest_id)), eid=id)
         edge_type = self.edge_type_name.get(type,type)
-        graph.edge_property("edge_type")[id] = edge_type
+
+        edges[id] = (int(src_id),int(dest_id))
+        self._graph.edge_property("edge_type")[id] = edge_type
+        #graph.add_edge(edge=(int(src_id),int(dest_id)), eid=id)
+
+    def _add_edges(self):
+        edges = self._edges
+        graph = self._graph
+        
+        for eid, edge in edges.iteritems():
+            graph.add_edge(edge=edge, eid=eid)
 
     def universal_node(self, type_name, **kwds):
         _types = self._graph._types
@@ -176,7 +209,7 @@ class Parser(object):
         
         g = self._graph
         edge_type = g.edge_property("edge_type")
-        transform = g.vertex_property("transformation")
+        transform = g.vertex_property("transform")
 
         m = transfos[-1]
         assert vid in g
@@ -197,10 +230,16 @@ class Parser(object):
     def _local2global(self, vid, matrix):
         g = self._graph
         geometry = g.vertex_property("geometry")
+        colors = g.vertex_property("color")
         final_geometry = g.vertex_property("final_geometry")
         shape = geometry.get(vid)
+        color = colors.get(vid)
         if shape:
-            shape = transform4(matrix, shape)
+            if color:
+                shape = pgl.Shape(transform4(matrix, shape), pgl.Material(color))
+            else: 
+                shape = pgl.Shape(transform4(matrix, shape))
+            shape.id = vid
             final_geometry[vid] = shape
 
     def _get_args( self, properties ):
@@ -242,7 +281,8 @@ class Dumper(object):
         self.doc.tail = '\n'
         self.doc.text = '\n\t'
         # add root
-        self.SubElement(self.doc, 'root', dict(root_id='1'))
+        root = self._graph.root
+        self.SubElement(self.doc, 'root', dict(root_id=str(root)))
         # universal types
         self.universal_node()
 
@@ -273,17 +313,22 @@ class Dumper(object):
         ptype = g.vertex_property('type')
         properties = g.vertex_property('parameters')
 
+        if vid == g.root and vid not in pname:
+            # The root node has been only declared
+            # by <root root_id="1"/>
+            return
+
         attrib = {}
         attrib['id'] = str(vid)
         attrib['name'] = pname[vid]
         attrib['type'] = ptype[vid]
         node = self.SubElement(self.doc, 'node', attrib)
         if not g.vertex_property('geometry').get(vid):
-            t = g.vertex_property('transformation').get(vid)
+            t = g.vertex_property('transform').get(vid)
             if t:
                 transfo = self.SubElement(node, 
                     'property', 
-                    {'name':'transformation'})
+                    {'name':'transform'})
                 matrix = self.SubElement(transfo, 'matrix')
                 s='\n'
                 for i in range(4):
@@ -328,3 +373,4 @@ def xml2graph(xml_graph):
 def graph2xml(graph):
     dump = Dumper()
     return dump.dump(graph)
+

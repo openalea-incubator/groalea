@@ -1,5 +1,5 @@
 
-# This file has been generated at Thu Aug 14 18:33:33 2008
+# This file has been generated at Fri Oct 17 16:41:04 2008
 
 from openalea.core import *
 
@@ -17,25 +17,18 @@ __institutes__ = 'INRIA/CIRAD/University of Cottbus'
 __icon__ = ''
  
 
-__all__ = ['_89494736', '_89494800', '_47288272']
+__all__ = ['_92198224', '_92198288', '_92198256']
 
 
-_89494736 = DataFactory(name='code1.xl', 
+_92198224 = DataFactory(name='code1.xl', 
                     description='XL code used in the 1st example.', 
                     editors=None,
                     includes=None,
                     )
 
 
-_89494800 = DataFactory(name='graph1.xml', 
-                    description='XML graph description', 
-                    editors=None,
-                    includes=None,
-                    )
 
-
-
-_47288272 = CompositeNodeFactory(name='1. Simple Tree', 
+_92198288 = CompositeNodeFactory(name='1. Simple Tree', 
                              description='', 
                              category='Unclassified',
                              doc='',
@@ -46,23 +39,25 @@ _47288272 = CompositeNodeFactory(name='1. Simple Tree',
    4: ('groimp.example', 'code1.xl'),
    5: ('groimp.example', 'graph1.xml'),
    7: ('groimp', 'xml2graph'),
+   9: ('openalea.data structure.string', 'string'),
    10: ('vplants.plantgl.visualization', 'plot3D'),
    11: ('openalea.file', 'read'),
    12: ('openalea.file', 'read')},
-                             elt_connections={  9791800: (12, 0, 3, 1),
-   9791812: (5, 0, 12, 0),
-   9791824: (2, 0, 3, 3),
-   9791860: (11, 0, 3, 0),
-   9791872: (3, 0, 7, 0),
-   9791884: (7, 1, 10, 0),
-   9791896: (4, 0, 11, 0)},
+                             elt_connections={  9793280: (9, 0, 3, 2),
+   9793292: (12, 0, 3, 1),
+   9793304: (11, 0, 3, 0),
+   9793316: (4, 0, 11, 0),
+   9793328: (2, 0, 3, 3),
+   9793340: (7, 1, 10, 0),
+   9793352: (5, 0, 12, 0),
+   9793364: (3, 0, 7, 0)},
                              elt_data={  2: {  'block': False,
          'caption': 'http connexion',
          'hide': True,
          'lazy': True,
          'port_hide_changed': set([]),
-         'posx': 437.37309968370568,
-         'posy': 86.529180695847373,
+         'posx': 521.12309968370573,
+         'posy': 81.529180695847373,
          'priority': 0,
          'user_application': None},
    3: {  'block': False,
@@ -99,6 +94,15 @@ _47288272 = CompositeNodeFactory(name='1. Simple Tree',
          'port_hide_changed': set([]),
          'posx': 340.79953576165707,
          'posy': 211.33251709009289,
+         'priority': 0,
+         'user_application': None},
+   9: {  'block': False,
+         'caption': 'string',
+         'hide': True,
+         'lazy': True,
+         'port_hide_changed': set([]),
+         'posx': 435.0,
+         'posy': 80.0,
          'priority': 0,
          'user_application': None},
    10: {  'block': False,
@@ -146,13 +150,14 @@ _47288272 = CompositeNodeFactory(name='1. Simple Tree',
                  'posy': 250.0,
                  'priority': 0,
                  'user_application': None}},
-                             elt_value={  2: [(0, "'localhost'"), (1, "'4711'")],
-   3: [(2, "''")],
+                             elt_value={  2: [(0, "'localhost'"), (1, "'58070'")],
+   3: [],
    4: [(0, 'PackageData(groimp.example, code1.xl)'), (1, 'None'), (2, 'None')],
    5: [  (0, 'PackageData(groimp.example, graph1.xml)'),
          (1, 'None'),
          (2, 'None')],
    7: [],
+   9: [(0, "'run'")],
    10: [],
    11: [],
    12: [],
@@ -161,6 +166,13 @@ _47288272 = CompositeNodeFactory(name='1. Simple Tree',
                              lazy=True,
                              )
 
+
+
+_92198256 = DataFactory(name='graph1.xml', 
+                    description='XML graph description', 
+                    editors=None,
+                    includes=None,
+                    )
 
 
 

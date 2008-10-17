@@ -1,0 +1,90 @@
+<graph>
+  <root root_id="1"/>
+  <node id="6" name="C6" type="cylinder">
+    <property name="radius" value="0.2"/>
+    <property name="height" value="1.0"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.10196079313755035 0.9019608497619629 0.20000001788139343</rgb>
+    </property>
+  </node>
+  <edge id="8" src_id="9" dest_id="6" type="successor"/>
+  <node id="8" name="T8" type="node">
+    <property name="transform">
+      <matrix>1.0 0.0 0.0 0.0 0.0 0.866 0.5 0.0 0.0 -0.5 0.866 0.0 0.0 0.0 0.0 1.0</matrix>
+    </property>
+    <property name="color">
+      <rgb>0.10196079313755035 0.9019608497619629 0.20000001788139343</rgb>
+    </property>
+  </node>
+  <edge id="4" src_id="2" dest_id="8" type="branch"/>
+  <node id="7" name="T7" type="node">
+    <property name="transform">
+      <matrix>1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 1.0 0.0 0.0 0.0 1.0</matrix>
+    </property>
+    <property name="color">
+      <rgb>0.10196079313755035 0.9019608497619629 0.20000001788139343</rgb>
+    </property>
+  </node>
+  <edge id="3" src_id="3" dest_id="7" type="successor"/>
+  <node id="5" name="C5" type="cylinder">
+    <property name="radius" value="0.2"/>
+    <property name="height" value="1.0"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.10196079313755035 0.9019608497619629 0.20000001788139343</rgb>
+    </property>
+  </node>
+  <edge id="7" src_id="8" dest_id="5" type="successor"/>
+  <type name="Boid">
+    <extends name="sphere"/>
+  </type>
+  <node id="4" name="S4" type="Boid">
+    <property name="radius" value="0.2"/>
+    <property name="color">
+      <rgb>0.10196079313755035 0.9019608497619629 0.20000001788139343</rgb>
+    </property>
+  </node>
+  <edge id="6" src_id="7" dest_id="4" type="successor"/>
+  <node id="10" name="C2" type="cylinder">
+    <property name="radius" value="0.2"/>
+    <property name="height" value="1.0"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.10196079313755035 0.9019608497619629 0.20000001788139343</rgb>
+    </property>
+  </node>
+  <edge id="9" src_id="2" dest_id="10" type="successor"/>
+  <node id="9" name="T9" type="node">
+    <property name="transform">
+      <matrix>1.0 0.0 0.0 0.0 0.0 0.866 -0.5 0.0 0.0 0.5 0.866 0.0 0.0 0.0 0.0 1.0</matrix>
+    </property>
+    <property name="color">
+      <rgb>0.10196079313755035 0.9019608497619629 0.20000001788139343</rgb>
+    </property>
+  </node>
+  <edge id="5" src_id="2" dest_id="9" type="branch"/>
+  <node id="3" name="C3" type="cylinder">
+    <property name="radius" value="0.2"/>
+    <property name="height" value="1.0"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.10196079313755035 0.9019608497619629 0.20000001788139343</rgb>
+    </property>
+  </node>
+  <edge id="2" src_id="10" dest_id="3" type="successor"/>
+  <node id="2" name="C1" type="cylinder">
+    <property name="radius" value="0.2"/>
+    <property name="height" value="1.0"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.10196079313755035 0.9019608497619629 0.20000001788139343</rgb>
+    </property>
+  </node>
+  <edge id="1" src_id="1" dest_id="2" type="successor"/>
+</graph>

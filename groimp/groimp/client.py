@@ -13,7 +13,7 @@ class GroIMPClient(object):
       - receive an xml file containing Graph and geometry, 
       - export this file into PlantGL scene graph.
     """
-    def __init__( self, host='localhost', port = '58090'):
+    def __init__( self, host='localhost', port = '58070'):
         """
         `host` is the remote address of the server.
         `port` is the same port used by the server.
@@ -30,7 +30,7 @@ class GroIMPClient(object):
         response = conn.getresponse()
         data = response.read()
         conn.close()
-        
+
         # We receive the whole web page.
         # Just extract the graph only...
         start = re.search('<graph', data).start()
@@ -68,13 +68,10 @@ def connexion(host, port):
     return GroIMPClient(host, port)
 
 if __name__ == '__main__':
-    conn = connexion('localhost', '4711')
+    conn = connexion('localhost', '58070')
     xlcode = """
-import de.grogra.imp3d.objects.*;
-public class MyBox extends Box {
-    public String toString() {
-        return "Foo " + super.toString();
-    }
+public String toString() {
+   return "Foo " + super.toString();
 }
 """
     xml_graph = """

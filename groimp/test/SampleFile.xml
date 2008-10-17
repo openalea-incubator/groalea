@@ -23,7 +23,7 @@
     <property name="radius" value="0.2" />
   </node>
   <node id="7" name="T7" type="node">
-    	<property name="transformation">
+    	<property name="transform">
             <matrix>
 			1 0 0 0
 			0 1 0 0
@@ -41,7 +41,7 @@
     <property name="radius" value="0.2" />
   </node>
   <node id="8" name="T8" type="node">
-    <property name="transformation">
+    <property name="transform">
     	<matrix>
 			1 0 0 0
 			0 0.866 0.5 0
@@ -51,7 +51,7 @@
     </property>
   </node>
   <node id="9" name="T9" type="node">
-    <property name="transformation">
+    <property name="transform">
     	<matrix>
 			1 0 0 0
 			0 0.866 -0.5 0
