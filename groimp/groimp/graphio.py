@@ -73,12 +73,13 @@ class Parser(object):
         # Add this to the graph...
         self._graph._types[name] = []
         for elt in elts:
-            elt.attrib['type_name'] = name
-            self.dispatch(elt)
+            print elt.tag
+            if elt.tag == 'extends':
+                elt.attrib['type_name'] = name
+                self.dispatch(elt)
 
     def extends(self, elts, name, type_name):
-        if name in self.geometries:
-            self._graph._types[type_name].append(name)
+        self._graph._types[type_name].append(name)
 
     implements = extends
 
@@ -113,6 +114,7 @@ class Parser(object):
             # special case.
             shape, transfo = None, None
         else:
+            print 
             shape, transfo = self.dispatch2(type, args) 
         
         assert len(transfos) <= 1
@@ -185,9 +187,16 @@ class Parser(object):
     def universal_node(self, type_name, **kwds):
         _types = self._graph._types
         assert type_name in _types, (type_name, _types)
-        if _types[type_name]:
-            geometric_method = _types[type_name][0]
-            return self.__getattribute__(geometric_method)(**kwds)
+        print 'universal %s'%type_name, _types[type_name]
+
+        # look for the first geometric methods.
+        types = [type_name]
+        for method in types:
+            if method in self.geometries:
+                return self.__getattribute__(method)(**kwds)
+            else:
+                types.extend(_types.get(method,[]))
+           
 
     def scenegraph(self):
         # traverse the graph

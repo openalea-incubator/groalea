@@ -48,7 +48,7 @@ def test3():
     assert len(g) == 3
     assert g.nb_edges() == 2
 
-def __test4():
+def test4():
     fn = 'sample.xeg'
     parser = Parser()
     g, scene = parser.parse(fn)
