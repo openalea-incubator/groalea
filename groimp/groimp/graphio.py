@@ -6,10 +6,13 @@
 # 5. Compute properties when it is possible (sphere, ...)
 # 6. 2D draw of the graph
 
+from StringIO import StringIO
+from math import radians
+
 import xml.etree.ElementTree as xml
+
 from openalea.core.graph.property_graph import PropertyGraph
 import openalea.plantgl.all as pgl
-from StringIO import StringIO
 
 class RootedGraph(PropertyGraph):
     def _set_root(self, root):
@@ -22,7 +25,7 @@ class RootedGraph(PropertyGraph):
 
 class Parser(object):
     edge_type_name = {'successor':'<', 'branch':'+'}
-    geometries = ['sphere', 'box', 'cone', 'cylinder']
+    geometries = ['sphere', 'box', 'cone', 'cylinder', 'frustum']
 
     def parse(self, fn):
         self._graph = None
@@ -50,7 +53,7 @@ class Parser(object):
         """ 
         graph = self._graph = RootedGraph()
         self._edges = {}
-        graph._types = {}
+        graph._types = {'Axiom':[]}
 
         graph.add_vertex_property("name")
         graph.add_vertex_property("type")
@@ -110,7 +113,7 @@ class Parser(object):
         args = self._get_args(properties)
         graph.vertex_property('parameters')[id] = args
         
-        if type == 'node':
+        if type in ['node', 'Axiom']:
             # special case.
             shape, transfo = None, None
         else:
@@ -151,6 +154,40 @@ class Parser(object):
         radius, height = float(radius), float(height)
         return (pgl.Cylinder(radius=radius, height=height),
                pgl.Matrix4.translation(pgl.Vector3(0,0,height)))
+
+    def frustum(self, radius=1., height=1., taper=0.5, **kwds):
+        radius, height, taper = float(radius), float(height), float(taper)
+        bottom_open = kwds.get('bottom_open', False)
+        top_open = kwds.get('bottom_open', False)
+        solid = not(bool(bottom_open) and bool(top_open))
+
+        return (pgl.Frustrum(radius=radius, height=height, taper=taper, solid=solid),
+                pgl.Matrix4.translation(pgl.Vector3(0,0,height)))
+
+    # Turtle implementation:
+    # F0, M, M0, RV, RG, AdjustLU
+    def F(self, length, diameter, **kwds):
+        radius, height = float(diameter)/2., float(length)
+        return (pgl.Cylinder(radius=radius, height=height),
+               pgl.Matrix4.translation(pgl.Vector3(0,0,height)))
+
+    def RL(self, angle, **kwds):
+        # Rotation around the x axis
+        angle = radians(float(angle))
+        matrix = pgl.Matrix3.axisRotation(Vector3(1,0,0), angle)
+        return (None, pgl.Matrix4(matrix))
+
+    def RU(self, angle, **kwds):
+        # Rotation around negative y axis
+        angle = radians(float(angle))
+        matrix = pgl.Matrix3.axisRotation(Vector3(0,-1,0), angle)
+        return (None, pgl.Matrix4(matrix))
+
+    def RH(self, angle, **kwds):
+        # Rotation around the z axis
+        angle = radians(float(angle))
+        matrix = pgl.Matrix3.axisRotation(Vector3(0,0,1), angle)
+        return (None, pgl.Matrix4(matrix))
 
     def transform(self, elements, **kwds):
         matrix = elements[0]

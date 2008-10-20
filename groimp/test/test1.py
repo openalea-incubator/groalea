@@ -59,3 +59,9 @@ def test5():
     parser = Parser()
     g, scene = parser.parse(fn)
 
+def test6():
+    # Test read colors
+    fn = 'axiom.xeg'
+    parser = Parser()
+    g, scene = parser.parse(fn)
+
