@@ -1,5 +1,5 @@
 
-# This file has been generated at Fri Oct 17 17:01:21 2008
+# This file has been generated at Fri Dec 12 09:12:40 2008
 
 from openalea.core import *
 
@@ -17,20 +17,13 @@ __institutes__ = 'INRIA/CIRAD/University of Cottbus'
 __icon__ = ''
  
 
-__all__ = ['_92198320', '_92198288', '_92198256']
-
-
-_92198320 = DataFactory(name='graph1.xml', 
-                    description='XML graph description', 
-                    editors=None,
-                    includes=None,
-                    )
+__all__ = ['_154932172', '_154932140', '_154932236']
 
 
 
-_92198288 = CompositeNodeFactory(name='1. Simple Tree', 
+_154932172 = CompositeNodeFactory(name='1. Simple Tree', 
                              description='', 
-                             category='Unclassified',
+                             category='composite',
                              doc='',
                              inputs=[],
                              outputs=[],
@@ -217,7 +210,14 @@ _92198288 = CompositeNodeFactory(name='1. Simple Tree',
 
 
 
-_92198256 = DataFactory(name='code1.xl', 
+_154932140 = DataFactory(name='graph1.xml', 
+                    description='XML graph description', 
+                    editors=None,
+                    includes=None,
+                    )
+
+
+_154932236 = DataFactory(name='code1.xl', 
                     description='XL code used in the 1st example.', 
                     editors=None,
                     includes=None,
