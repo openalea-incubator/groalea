@@ -1,0 +1,152 @@
+
+Specification Details
+---------------------
+
+- node types
+
+
+	node type	properties	property type (range)		standard value		notes
+	-------------------------------------------------------------------------------------------------------
+	Node		transform 	<matrix> - 16 floats		identity matrix
+			color		<rgb> - 3 floats (0.0 - 1.0)	0.0, 0.0, 0.0
+	
+	Sphere 		transform 	<matrix> - 16 floats		identity matrix
+			color		<rgb> - 3 floats (0.0 - 1.0)	0.0, 0.0, 0.0
+			radius		float				1.0
+	
+	Box		transform 	<matrix> - 16 floats		identity matrix
+			color		<rgb> - 3 floats (0.0 - 1.0)	0.0, 0.0, 0.0
+			width		float				1.0
+			depth		float				1.0
+			height		float				1.0
+	
+	Cone		transform 	<matrix> - 16 floats		identity matrix
+			color		<rgb> - 3 floats (0.0 - 1.0)	0.0, 0.0, 0.0
+			radius		float				1.0
+			height		float				1.0
+			bottom_open	boolean				false
+	
+	Cylinder	transform 	<matrix> - 16 floats		identity matrix
+			color		<rgb> - 3 floats (0.0 - 1.0)	0.0, 0.0, 0.0
+			radius		float				1.0
+			height		float				1.0
+			bottom_open	boolean				false
+			top_open	boolean				false
+	
+	Frustum		transform 	<matrix> - 16 floats		identity matrix
+			color		<rgb> - 3 floats (0.0 - 1.0)	0.0, 0.0, 0.0
+			radius		float				1.0			bottom_radius = radius
+			height		float				1.0
+			taper		float				0.5			top_radius = radius * taper
+			bottom_open	boolean				false
+			top_open	boolean				false
+
+
+
+- new node types
+
+
+	Mesh		transform 	<matrix> - 16 floats		identity matrix
+			color		<rgb> - 3 floats (0.0 - 1.0)	0.0, 0.0, 0.0
+			indices		<list_of_int>			[]
+			coords		<list_of_float>			[]
+			normals		<list_of_float>			[]
+			texcoords	<list_of_float>			[]
+			
+	 	- coords is a set of 3D coordinates
+	 	- normals is a set of 3D normal vectors at the vertices
+	 	- texcoords is set of 2D texture coordinates (at the vertices)
+	 	- index field references the coords, normals and texcoords
+	 	- a mesh consists of triangles, so every three indices describes a polygon
+	 	- a index n references as follows:
+	 		- the vertices in the coords field 3*n+0, 3*n+1, 3*n+2
+	 		- the normals in the normals field 3*n+0, 3*n+1, 3*n+2
+	 		- the texture coordinates in the texcoords field 2*n+0, 2*n+1
+	 	- the coords field shall contain three times as many vertices as indices are given
+	 	- the normals field shall contain three times as many normals as indices are given
+	 	- the texcoords field shall contain two times as many texture coordinates as indices are given
+	 	- the ordering of the vertex coordinates shall be counterclockwise
+	 	- a mesh is not solid, so each polygon shall be visible regardless of the viewing direction
+	
+	Axiom		-		-				-
+	
+		- no properties
+	
+	F		transform 	<matrix> - 16 floats		identity matrix
+			color		<rgb> - 3 floats (0.0 - 1.0)	0.0, 0.0, 0.0
+			length		float				1
+			diameter	float				-1
+			turtle_color	int (0 - 15)			-1
+		
+		- it is always the length property used
+		- if the diameter is not given or -1, then the turtle state is used (e.g. set with D(x))
+		- if the color is not given or -1, then the turtle state is used (e.g. set with P(x))
+	
+	F0		transform 	<matrix> - 16 floats		identity matrix
+			color		<rgb> - 3 floats (0.0 - 1.0)	0.0, 0.0, 0.0
+
+		- the turtle state is used to set the appearance (length, diameter, color)
+	
+	M		transform 	<matrix> - 16 floats		identity matrix
+			length		float				1
+	
+		- movement
+		
+	M0		transform 	<matrix> - 16 floats		identity matrix
+
+		- the turtle state is used to set the length of movement
+		
+	RL		angle		float				0
+	
+		- a rotation about the x-axis specified in degrees
+	
+	RU		angle		float				0
+	
+		- a rotation about the negative y-axis specified in degrees
+	
+	RH		angle		float				0
+	
+		- a rotation about the z-axis specified in degrees
+		
+	RV		strength	float				0
+	
+		- gravitropism
+		
+	RG		-		-				-
+	
+		- no properties
+		- maximal gravitropism such that local z-direction points downwards
+		
+	AdjustLU	-		-				-
+	
+		- no properties
+		- rotate around local z-acis such that local y-axis points upwards as far as possible
+		
+	L		length		float				1
+	
+		- set the turtle state to the given length
+	
+	D		diameter	float				0.1
+	
+		- set the turtle state to the given diameter
+		
+	P		color		int (0 - 15)			14
+	
+		- set the turtle state to the given color
+		- the color field specifies the color index in the palette of the EGA graphics standard
+			0	black
+			1	blue
+			2	green
+			3	cyan
+			4	red
+			5	magenta
+			6	brown
+			7	light gray
+			8	dark gray
+			9	bright blue
+			10	bright green
+			11	bright cyan
+			12	bright red
+			13	bright magenta
+			14	yellow
+			15	white

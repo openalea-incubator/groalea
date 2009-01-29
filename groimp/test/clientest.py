@@ -10,6 +10,9 @@ fn_code = 'sample.xl'
 fn_graph = 'graph1.xml'
 fn_code = 'code1.xl'
 
+fn_graph = 'axiom.xeg'
+fn_code = 'axiom.xl'
+
 f=open(fn_graph)
 xml_graph = f.read()
 f.close()

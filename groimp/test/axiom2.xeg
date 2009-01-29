@@ -1,0 +1,38 @@
+<graph>
+  <type name="A">
+    <extends name="Sphere"/>
+  </type>
+  <root root_id="1"/>
+  <node id="4" name="" type="A">
+    <property name="radius" value="0.1"/>
+    <property name="color">
+      <rgb>0.0 1.0 0.0</rgb>
+    </property>
+  </node>
+  <node id="5" name="" type="RU">
+    <property name="angle" value="-30.0"/>
+  </node>
+  <node id="6" name="" type="A">
+    <property name="radius" value="0.1"/>
+    <property name="color">
+      <rgb>0.0 1.0 0.0</rgb>
+    </property>
+  </node>
+  <node id="7" name="" type="F">
+    <property name="length" value="1.0"/>
+    <property name="diameter" value="-1.0"/>
+    <property name="turtle_color" value="-1"/>
+    <property name="color">
+      <rgb>1.0 1.0 0.33333334</rgb>
+    </property>
+  </node>
+  <node id="8" name="" type="RU">
+    <property name="angle" value="30.0"/>
+  </node>
+  <edge id="6" src_id="1" dest_id="7" type="successor"/>
+  <edge id="5" src_id="8" dest_id="6" type="successor"/>
+  <edge id="4" src_id="7" dest_id="5" type="successor"/>
+  <edge id="3" src_id="5" dest_id="4" type="successor"/>
+  <edge id="7" src_id="7" dest_id="8" type="branch"/>
+</graph>
+

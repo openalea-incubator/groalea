@@ -1,0 +1,86 @@
+Description of OpenAlea-Interface in GroIMP
+-------------------------------------------
+
+- GroIMP provides an HTTP-server on a arbitrary port (standard: 58070)
+- data is transmitted via HTTP-POST
+- variables for POST are:
+	- "graph": the scene graph to operate on
+	- "xlcode": the xl program
+	- "command": the command(s) of the xl program to execute
+- response of the HTTP-request depends on the status code:
+	- status code 200 is transmitted when GroIMP run successfully
+		-> the response string is the new scene graph
+	- status code 400 is transmitted in an error case
+		-> the response string is an error message
+
+graph
+-----
+
+- based on a new scene graph language called xeg (xml exchange graph)
+- a xsd specification is avaiable
+- basic configuration:
+	<graph>
+		type definitions for unknown node types (not in the standard)
+		root node
+		nodes
+		edges
+	</graph>
+- type definition:
+	<type name="XY">
+		<extends name="Node">
+		<!-- every node must inherit in its hierarchy from a standard node type -->
+		<property name="z" type="float" />
+		<!-- defines an attribute "z" with type "float" -->
+	</type>
+- root node:
+	<root root_id="0" />
+	<!-- the root node must have its own and unique id -->
+- node:
+	<node id="1" name="anyName" type="XY">
+	<!-- id is unique, type is either a standard node type or a node type defined in this xeg string -->
+   		<property name="z" value="12.34" />
+   		<!-- same property as in definition with value -->
+	</node>
+- edge:
+	<edge id="0" src_id="0" dest_id="1" type="successor" />
+	<!-- an edge connects two nodes with a specific edge type -->
+	<!-- edge types are "successor" and "branch" or any own label -->
+- complete example:
+	<graph>
+	  <type name="XY">
+	    <extends name="Node"/>
+	    <property name="z" type="float" />
+	  </type>
+	  <root root_id="0" />
+	  <node id="1" name="" type="XY">
+	    <property name="z" value="12.34" />
+	  </node>
+	  <edge id="0" src_id="0" dest_id="1" type="successor" />
+	</graph>
+
+xlcode
+------
+
+- a standard xl program as used in GroIMP
+- to use own defined node types, use an equivalent definition as in xeg string
+- example:
+	module XY extends Node {	
+		float z;
+	}
+	
+	protected void init() [
+		Axiom ==> XY;
+	]
+	
+	public void run() [
+	    a:XY ==> a Cylinder;
+	]
+
+command
+-------
+
+- sequence of one ore more methods of the xl program
+- methods must be public (except the "init"-method, which can be protected) and without parameters
+- methods are separeted with semicolons
+- to execute one method repeatedly, declare a number in front of the method name
+- example: "init;3run" => execute one time the init-method, three times the run method 

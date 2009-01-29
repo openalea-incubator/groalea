@@ -1,10 +1,16 @@
 # TODO
-# 1. add a header
-# 2. separate graphe parsing and scenegraph generation
-# 3. Error management
-# 4. Documentation
-# 5. Compute properties when it is possible (sphere, ...)
-# 6. 2D draw of the graph
+
+# 1. Implement the full specification
+# 2. Test all the cases with several examples
+# 3. Implement a loop in OpenAlea
+# 4. Use the PlantGL turtle
+
+# 2.1. add a header
+# 2.2. separate graph parsing and scenegraph generation
+# 2.3. Error management
+# 2.4. Documentation
+# 2.5. Compute properties when it is possible (sphere, ...)
+# 2.6. 2D draw of the graph
 
 from StringIO import StringIO
 from math import radians
@@ -13,6 +19,7 @@ import xml.etree.ElementTree as xml
 
 from openalea.core.graph.property_graph import PropertyGraph
 import openalea.plantgl.all as pgl
+Vector3 = pgl.Vector3
 
 class RootedGraph(PropertyGraph):
     def _set_root(self, root):
@@ -25,20 +32,30 @@ class RootedGraph(PropertyGraph):
 
 class Parser(object):
     edge_type_name = {'successor':'<', 'branch':'+'}
-    geometries = ['sphere', 'box', 'cone', 'cylinder', 'frustum']
+    geometries = ['Sphere', 'Box', 'Cone', 'Cylinder', 'Frustum', 
+                  'sphere', 'box', 'cone', 'cylinder', 'frustum', 
+                  'F', 'RL', 'RU', 'RH']
 
     def parse(self, fn):
         self._graph = None
         self._scene = None
+        # Turtle intialisation
+        self._turtle_diameter = -1.
+        self._turtle_color = -1
 
         doc = xml.parse(fn)
         root = doc.getroot()
         self.dispatch(root)
         self.scenegraph()
+
         return self._graph, self._scene
 
     def dispatch(self, elt):
-        return self.__getattribute__(elt.tag)(elt.getchildren(), **elt.attrib)
+        #print 'Dispatch :', elt.tag, elt.attrib 
+        try:
+            return self.__getattribute__(elt.tag)(elt.getchildren(), **elt.attrib)
+        except Exception, e:
+            raise "Unvalid element %s"%elt.tag
 
     def dispatch2(self, method_name, args):
         try:
@@ -76,7 +93,7 @@ class Parser(object):
         # Add this to the graph...
         self._graph._types[name] = []
         for elt in elts:
-            print elt.tag
+            #print elt.tag
             if elt.tag == 'extends':
                 elt.attrib['type_name'] = name
                 self.dispatch(elt)
@@ -117,12 +134,10 @@ class Parser(object):
             # special case.
             shape, transfo = None, None
         else:
-            print 
             shape, transfo = self.dispatch2(type, args) 
         
         assert len(transfos) <= 1
         if transfos:
-            assert transfo is None
             transfo = self.transform(transfos[0].getchildren())
 
         color = None
@@ -136,40 +151,61 @@ class Parser(object):
         if color:
             graph.vertex_property('color')[id] = color
 
-    def sphere(self, radius=0, **kwds):
+    def Sphere(self, radius=1., **kwds):
         return pgl.Sphere(radius=float(radius)), None
 
-    def box(self, length, width, height, **kwds):
-        length, width, height= float(length), float(width), float(height)
-        size = pgl.Vector3(length/2, width/2, height/2)
+
+    def Box(self, depth=1., width=1., height=1., **kwds):
+        depth, width, height= float(depth), float(width), float(height)
+        size = pgl.Vector3(depth/2, width/2, height/2)
         return (pgl.Translated((0,0,height/2), pgl.Box(size)), 
                pgl.Matrix4.translation(pgl.Vector3(0,0,height)))
 
-    def cone(self, radius, height, **kwds):
+    def Cone(self, radius=1., height=1., bottom_open= False, **kwds):
+        # TODO: Implement bottom_open (bool)
         radius, height = float(radius), float(height)
-        return (pgl.Cone(radius=radius, height=height),
+        solid = not bottom_open
+        return (pgl.Cone(radius=radius, height=height, solid=solid),
                 pgl.Matrix4.translation(pgl.Vector3(0,0,height)))
 
-    def cylinder(self, radius, height, **kwds):
+    def Cylinder(self, radius=1., height=1., bottom_open=False, top_open=False, **kwds):
         radius, height = float(radius), float(height)
-        return (pgl.Cylinder(radius=radius, height=height),
+        solid = not(bool(bottom_open) and bool(top_open))
+        return (pgl.Cylinder(radius=radius, height=height, solid=solid),
                pgl.Matrix4.translation(pgl.Vector3(0,0,height)))
 
-    def frustum(self, radius=1., height=1., taper=0.5, **kwds):
+    def Frustum(self, radius=1., height=1., taper=0.5, **kwds):
         radius, height, taper = float(radius), float(height), float(taper)
         bottom_open = kwds.get('bottom_open', False)
-        top_open = kwds.get('bottom_open', False)
+        top_open = kwds.get('top_open', False)
         solid = not(bool(bottom_open) and bool(top_open))
 
         return (pgl.Frustrum(radius=radius, height=height, taper=taper, solid=solid),
                 pgl.Matrix4.translation(pgl.Vector3(0,0,height)))
 
+    sphere = Sphere
+    box = Box
+    cone = Cone
+    cylinder = Cylinder
+    frustrum = Frustum
+    
     # Turtle implementation:
     # F0, M, M0, RV, RG, AdjustLU
-    def F(self, length, diameter, **kwds):
-        radius, height = float(diameter)/2., float(length)
+    def F(self, length=1., diameter=-1., turtle_color=-1, **kwds):
+        height = float(length)
+        diameter = float(diameter)
+        if diameter == -1.:
+            diameter = self._turtle_diameter
+            if diameter == -1:
+                diameter = 0.1
+        radius = diameter/2.
+
         return (pgl.Cylinder(radius=radius, height=height),
                pgl.Matrix4.translation(pgl.Vector3(0,0,height)))
+
+    def F0(self, **kwds):
+        return (None, pgl.Matrix4())
+    M = M0 = F0
 
     def RL(self, angle, **kwds):
         # Rotation around the x axis
@@ -180,14 +216,50 @@ class Parser(object):
     def RU(self, angle, **kwds):
         # Rotation around negative y axis
         angle = radians(float(angle))
-        matrix = pgl.Matrix3.axisRotation(Vector3(0,-1,0), angle)
+        matrix = pgl.Matrix3.axisRotation(pgl.Vector3(0,-1,0), angle)
         return (None, pgl.Matrix4(matrix))
 
     def RH(self, angle, **kwds):
         # Rotation around the z axis
         angle = radians(float(angle))
-        matrix = pgl.Matrix3.axisRotation(Vector3(0,0,1), angle)
+        matrix = pgl.Matrix3.axisRotation(pgl.Vector3(0,0,1), angle)
         return (None, pgl.Matrix4(matrix))
+
+    def RV(self, strength, **kwds):
+        """ Gravitropism. """
+        # TODO: Implement this method
+        return (None, pgl.Matrix4())
+
+    def RG(self, **kwds):
+        """ Maximal gravitropism such that local z-direction points downwards. """
+        # TODO: Implement this method
+        return (None, pgl.Matrix4())
+
+    def AdjustLU(self, **kwds):
+        """ Rotate around local z-acis such that local y-axis points upwards as far as possible."""
+        # TODO: Implement this method
+        return (None, pgl.Matrix4())
+
+    def L(self, length=1., **kwds):
+        """ Set the turtle state to the given length. """
+        self._turtle_length = float(length)
+        return (None, None)
+
+    def D(self, diameter=0.1, **kwds):
+        """ Set the turtle state to the given diameter. """
+        self._turtle_diameter = float(diameter)
+        return (None, None)
+
+    def P(self, color = 14, **kwds):
+        """ Set the turtle state to the given color. """
+        self._turtle_color = int(color)
+        return (None, None)
+
+    def turtle_color(self, color):
+        color = int(color)
+        if 0 <= color <= 15:
+            color = 14
+        
 
     def transform(self, elements, **kwds):
         matrix = elements[0]
@@ -223,16 +295,23 @@ class Parser(object):
 
     def universal_node(self, type_name, **kwds):
         _types = self._graph._types
-        assert type_name in _types, (type_name, _types)
-        print 'universal %s'%type_name, _types[type_name]
+        #assert type_name in _types, (type_name, _types)
+        #print 'universal %s'%type_name, _types[type_name]
+        if type_name not in _types:
+            if type_name.title() not in _types:
+                raise "Unknow object type %s. Known objects are %s."%(type_name,
+                                                         sorted(_types.keys()))
+            else: 
+                type_name = type_name.title()
 
         # look for the first geometric methods.
-        types = [type_name]
+        types = _types[type_name]
         for method in types:
             if method in self.geometries:
                 return self.__getattribute__(method)(**kwds)
             else:
                 types.extend(_types.get(method,[]))
+        return None, None
            
 
     def scenegraph(self):
@@ -265,7 +344,7 @@ class Parser(object):
 
         local_t = transform.get(vid)
         if local_t:
-            m = local_t * m
+            m = m* local_t
 
         for eid in g.out_edges(vid):
             target_vid = g.target(eid)
