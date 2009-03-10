@@ -320,6 +320,8 @@ class Parser(object):
         if self._scene:
             return self._scene
 
+        self.visited = set()
+
         self._graph.add_vertex_property('final_geometry')
         final_geometry = g.vertex_property("final_geometry")
  
@@ -331,7 +333,9 @@ class Parser(object):
         return self._scene
     
     def traverse(self, vid, transfos):
-        
+        if vid in self.visited:
+            return
+
         g = self._graph
         edge_type = g.edge_property("edge_type")
         transform = g.vertex_property("transform")
@@ -345,6 +349,9 @@ class Parser(object):
         local_t = transform.get(vid)
         if local_t:
             m = m* local_t
+
+        # Do not traverse again this node
+        self.visited.add(vid)
 
         for eid in g.out_edges(vid):
             target_vid = g.target(eid)
