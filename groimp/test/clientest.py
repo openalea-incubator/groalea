@@ -13,6 +13,9 @@ fn_code = 'code1.xl'
 fn_graph = 'axiom.xeg'
 fn_code = 'axiom.xl'
 
+fn_graph = r'../groimp/example/beech.xeg'
+fn_code = r'../groimp/example/beech2.rgg'
+
 f=open(fn_graph)
 xml_graph = f.read()
 f.close()
@@ -25,7 +28,8 @@ f.close()
 #Viewer.display(s)
 
 conn = connexion('localhost', '58070')
-out_graph = simulation(xlcode, xml_graph, 'run', conn)
+cmd='init;3step'
+out_graph = simulation(xlcode, xml_graph, cmd, conn)
 
 f = open('test_color.xeg','w')
 f.write(out_graph)

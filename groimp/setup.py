@@ -44,7 +44,9 @@ setup(
     # python packages directory
     package_dir= {pkg_name : 'groimp'},
 
-                   
+    include_package_data = True,
+    package_data = {'' : ['*.png']},
+
     # Add package platform libraries if any
     zip_safe = False,
 

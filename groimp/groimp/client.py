@@ -25,18 +25,24 @@ class GroIMPClient(object):
         conn = httplib.HTTPConnection(self.host, self.port)
 
         params, headers = self.url_encode(xl_code, xml_graph, command)
-        conn.request("POST", "/test.html", params, headers)
 
+        conn.request("POST", "/test.html", params, headers)
         response = conn.getresponse()
+
         data = response.read()
         conn.close()
 
+        print 'received graph: ', data
+
         # We receive the whole web page.
         # Just extract the graph only...
-        start = re.search('<graph', data).start()
-        end = re.search('</graph>', data).end()
+        if data:
+            start = re.search('<graph', data).start()
+            end = re.search('</graph>', data).end()
         
-        return data[start:end]
+            return data[start:end]
+        else:
+            return data
 
     def url_encode(self, xl_code, xml_graph, command):
         """
@@ -44,7 +50,7 @@ class GroIMPClient(object):
         Returns the params and the headers, which are dict.
         """
         headers = {"Content-type": "application/x-www-form-urlencoded",
-                   "Accept": "text/plain"}
+                   }
         params = {}
         params['xlcode'] = xl_code
         params['graph'] = xml_graph
