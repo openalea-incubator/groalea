@@ -34,7 +34,7 @@ class Parser(object):
     edge_type_name = {'successor':'<', 'branch':'+'}
     geometries = ['Sphere', 'Box', 'Cone', 'Cylinder', 'Frustum', 
                   'sphere', 'box', 'cone', 'cylinder', 'frustum', 
-                  'F', 'RL', 'RU', 'RH']
+                  'F', 'RL', 'RU', 'RH', 'AdjustLU']
 
     def parse(self, fn):
         self._graph = None
@@ -45,6 +45,9 @@ class Parser(object):
 
         doc = xml.parse(fn)
         root = doc.getroot()
+        self.has_type = False
+        self.types(doc.findall('type'))
+
         self.dispatch(root)
         self.scenegraph()
 
@@ -52,10 +55,13 @@ class Parser(object):
 
     def dispatch(self, elt):
         #print 'Dispatch :', elt.tag, elt.attrib 
+        #return self.__getattribute__(elt.tag)(elt.getchildren(), **elt.attrib)
         try:
             return self.__getattribute__(elt.tag)(elt.getchildren(), **elt.attrib)
         except Exception, e:
-            raise "Unvalid element %s"%elt.tag
+            print e
+            raise Exception("Unvalid element %s"%elt.tag)
+            
 
     def dispatch2(self, method_name, args):
         try:
@@ -68,9 +74,10 @@ class Parser(object):
         """
         A graph is a set of nades and edges.
         """ 
+        
         graph = self._graph = RootedGraph()
         self._edges = {}
-        graph._types = {'Axiom':[]}
+        graph._types = self._types
 
         graph.add_vertex_property("name")
         graph.add_vertex_property("type")
@@ -89,9 +96,39 @@ class Parser(object):
 
         self._add_edges()
 
+    def types(self, elts):
+        """ Construct the entire hierarchy of types.
+        This is done before parsing the graph.
+        """
+        self._types = {'Axiom':[]}
+        for elt in elts:
+            self.type(elt.getchildren(), **elt.attrib)
+
+        self.has_type = True
+        # Look recursively to know what is the geometric type
+        def geom(name):
+            if name in self.geometries:
+                return name
+            else:
+                for ex_type in self._types.get(name,[]):
+                    n = geom(ex_type)
+                    if n is not None:
+                        return n
+            return
+
+        self._geoms = {}
+        for name in self._types:
+            n = geom(name)
+            if n is not None:
+                self._geoms[name] = geom(name)
+
+
     def type(self, elts, name):
         # Add this to the graph...
-        self._graph._types[name] = []
+        if self.has_type == True:
+            return
+
+        self._types[name] = []
         for elt in elts:
             #print elt.tag
             if elt.tag == 'extends':
@@ -99,12 +136,13 @@ class Parser(object):
                 self.dispatch(elt)
 
     def extends(self, elts, name, type_name):
-        self._graph._types[type_name].append(name)
+        self._types[type_name].append(name)
 
     implements = extends
 
     def root(self, elts, root_id):
         self._graph.root = int(root_id)
+
 
     def node(self, properties, id, type, name=None):
         id = int(id)
@@ -151,6 +189,8 @@ class Parser(object):
         if color:
             graph.vertex_property('color')[id] = color
 
+    Node = node
+
     def Sphere(self, radius=1., **kwds):
         return pgl.Sphere(radius=float(radius)), None
 
@@ -169,6 +209,7 @@ class Parser(object):
                 pgl.Matrix4.translation(pgl.Vector3(0,0,height)))
 
     def Cylinder(self, radius=1., height=1., bottom_open=False, top_open=False, **kwds):
+        #radius, height = float(radius)*10, float(height)*10
         radius, height = float(radius), float(height)
         solid = not(bool(bottom_open) and bool(top_open))
         return (pgl.Cylinder(radius=radius, height=height, solid=solid),
@@ -236,9 +277,9 @@ class Parser(object):
         return (None, pgl.Matrix4())
 
     def AdjustLU(self, **kwds):
-        """ Rotate around local z-acis such that local y-axis points upwards as far as possible."""
+        """ Rotate around local z-axis such that local y-axis points upwards as far as possible."""
         # TODO: Implement this method
-        return (None, pgl.Matrix4())
+        return (None, -1)
 
     def L(self, length=1., **kwds):
         """ Set the turtle state to the given length. """
@@ -286,6 +327,8 @@ class Parser(object):
         self._graph.edge_property("edge_type")[id] = edge_type
         #graph.add_edge(edge=(int(src_id),int(dest_id)), eid=id)
 
+    Edge = edge
+
     def _add_edges(self):
         edges = self._edges
         graph = self._graph
@@ -305,14 +348,13 @@ class Parser(object):
                 type_name = type_name.title()
 
         # look for the first geometric methods.
-        types = _types[type_name]
-        for method in types:
-            if method in self.geometries:
-                return self.__getattribute__(method)(**kwds)
-            else:
-                types.extend(_types.get(method,[]))
-        return None, None
-           
+        method = self._geoms.get(type_name)
+        if method:
+            return self.__getattribute__(method)(**kwds)
+        else:
+            #print '%s has no geometric object associated.'%(type_name,)
+            return None, None
+
 
     def scenegraph(self):
         # traverse the graph
@@ -327,11 +369,66 @@ class Parser(object):
  
         transfos = [pgl.Matrix4()]
         
-        list(self.traverse(g.root, transfos))
-
+        #list(self.traverse(g.root, transfos))
+        self.traverse2(g.root)
         self._scene = pgl.Scene(final_geometry.values())
         return self._scene
     
+    def traverse2(self, vid):
+        from openalea.container.traversal.graph import breadth_first_search
+        
+        g = self._graph
+        edge_type = g.edge_property("edge_type")
+        transform = g.vertex_property("transform")
+
+        transfos = {g.root : pgl.Matrix4()}
+        
+        def parent(vid):
+            for eid in g.in_edges(vid):
+                if edge_type[eid] in ['<', '+']:
+                    return g.source(eid)
+            return vid
+
+        l = list(breadth_first_search(g, vid))[:100]
+        print l
+
+        for v in breadth_first_search(g, vid):
+            if parent(v) == v and v != g.root:
+                print "ERRRORRRR"
+                print v
+                continue
+
+            m = transfos[parent(v)]
+            # Transform the current shape with the stack of transfos m from the root.
+            # Store the result in the graph.
+            self._local2global(v, m)
+            local_t = transform.get(v)
+
+            if local_t == -1:
+                #TODO : AdjustLU
+                t = m.getColumn(3)
+                t = Vector3(t.x, t.y, t.z)
+                
+                x, y, z = Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1)
+                X, Y, Z = m*Vector3(1,0,0), m*Vector3(0,1,0), m*Vector3(0,0,1)
+                new_x = z ^ Z
+                if pgl.normSquared(new_x) > 1e-3:
+                    new_y = Z ^ new_x
+                    new_x.normalize()
+                    new_y.normalize()
+                    m = pgl.Matrix4(pgl.BaseOrientation(new_x, new_y).getMatrix3())
+                    m.translation(t)
+                else:
+                    print 'AdjustLU: The two vectors are Colinear'
+            elif local_t:
+
+                m = m * local_t
+            else:
+                #print m
+                pass
+            transfos[v] = m
+
+        
     def traverse(self, vid, transfos):
         if vid in self.visited:
             return
@@ -356,7 +453,7 @@ class Parser(object):
         for eid in g.out_edges(vid):
             target_vid = g.target(eid)
             if edge_type[eid] in ['<', '+']:
-                for new_vid in self.traverse(target_vid, transfos+[m]):
+                for new_vid in self.traverse(target_vid, [m]):
                     yield new_vid
 
     def _local2global(self, vid, matrix):
@@ -366,6 +463,8 @@ class Parser(object):
         final_geometry = g.vertex_property("final_geometry")
         shape = geometry.get(vid)
         color = colors.get(vid)
+        edge_type = g.edge_property("edge_type")
+
         if shape:
             if color:
                 shape = pgl.Shape(transform4(matrix, shape), pgl.Material(color))

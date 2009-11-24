@@ -71,3 +71,15 @@ def test7():
     parser = Parser()
     g, scene = parser.parse(fn)
 
+def test8():
+    # Test read colors
+    fn = 'final_beech.xeg'
+    parser = Parser()
+    g, scene = parser.parse(fn)
+
+def test8():
+    # Test read colors
+    fn = 'beech_run100.xeg'
+    parser = Parser()
+    g, scene = parser.parse(fn)
+
