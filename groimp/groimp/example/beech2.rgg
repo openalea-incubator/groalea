@@ -1,0 +1,447 @@
+//import de.grogra.rgg.*;
+import static de.grogra.rgg.Library.*;
+import static de.grogra.xl.util.Operators.*;
+//import de.grogra.turtle.*;
+//import de.grogra.pf.data.*;
+//import de.grogra.imp3d.objects.*;
+//import de.grogra.imp3d.shading.*;
+import de.grogra.graph.impl.Node;
+import de.grogra.vecmath.geom.Cone;
+import de.grogra.annotation.Editable;
+
+	const boolean USE_RADIATION = false;
+
+	//const Shader leafShader = shader("Beech leaf");
+	//const Shader stemShader = shader("Beech stem");
+	//const Shader branchShader = shader("Beech branch");
+
+
+	const float DENSITY = 580; // kg/m�
+	
+	const float C_MASS = 0.0120107; // kg/mol
+	const float C_FRACTION = 0.48; // kg C/kg biomass
+
+	const float GROWTH_RESPIRATION_FRACTION = 0.7; // CO2/C
+	const float MAINTENANCE_RESPIRATION = 0.192e-6; // mol CO2/m�s
+	
+	const float PPFD = 5; // mol/m�d
+
+	const float DIST_EXPONENT = 0.5;
+
+	const LightModel radiation = new LightModel(1000000, 6, 0.001);
+
+	/**
+	 * A beech leaf.
+	 */
+	module BeechLeaf extends Parallelogram(normal(0.06f,0.015f),normal(0.043f,0.01f))
+	{
+		const float AREA = 0.002; // m�
+		const float EFFICIENCY = USE_RADIATION ? 0.07 : 0.02;
+		const float SPECIFIC_MASS = 0.035; // kg/m�
+		const float M = 0.9;
+		const float Pmax = 2; // mol/m�d
+
+		const float Copt = 0.02; // mol CO2
+
+		float producedCarbon;
+
+		{
+			setShader(RGBAShader.GREEN);
+			//setShader(leafShader);
+			setLayer(6);
+		}
+
+		public float produceCarbon() // mol CO2 in current year
+		{
+			float sh; // shading factor, 1: unshaded
+			if (USE_RADIATION)
+			{
+				sh = radiation.getAbsorbedPower(this).integrate() / (110 * AREA);
+			}
+			else
+			{
+				Cone c = cone(location(this),HEAD,60);
+				float dist = 0;
+				sh = 0.8 * AREA * sum(((* x:BeechLeaf, (((dist=distance(x,this)) > 0.02) && c.contains(x,false)) *), dist)**-2);
+				sh = Math.exp(-sh/6.3);
+			}
+			float ppfd = PPFD * sh;
+			float x = (ppfd + Pmax / EFFICIENCY) * (0.5 / M);
+			float y = (Pmax / (M * EFFICIENCY)) * ppfd;
+			float z = x - Math.sqrt(x * x - y);
+			float p = Math.max(0, EFFICIENCY*AREA*120 * z - SPECIFIC_MASS*AREA*C_FRACTION/C_MASS);
+			this[producedCarbon] = p;
+			return p;
+		}
+
+		float rate(Statistics stats)
+		{
+			float lambda = Math.log(0.5) / Math.log(stats.mean / stats.max);
+			float t = (producedCarbon / stats.max) ** lambda;
+			if (stats.max <= Copt)
+			{
+				t *= (stats.max / Copt) ** 0.2;
+			}
+			else
+			{
+				t = Math.max(t, Math.min(producedCarbon / Copt, 1));
+			}
+			return 2 * t - 1;
+		}
+	}
+
+	module Organ(super.length, int order) extends Cylinder(length, 0.0001)
+	{
+		float allocatedCarbon;
+		float producedCarbon;
+		float exportedCarbon;
+
+		//@Editable
+		public float preference = 1;
+
+		float volume()
+		{
+			return Math.PI * radius * radius * length;
+		}
+
+		float maintenanceRespiration() // mol CO2 in current year
+		{
+			return 3600 * 24 * 365 * MAINTENANCE_RESPIRATION * 2 * Math.PI
+				* radius * length;
+		}
+
+		void transportCarbon(float imported, float prod, float above)
+		{
+			imported += prod;
+			above += prod;
+			float q = radius / 0.0025;
+			float ex = imported * Math.exp(-0.7 * length * (1 + q) / q);
+			this[allocatedCarbon] = imported - ex;
+			this[exportedCarbon] = ex;
+			this[producedCarbon] = above;
+		}
+
+		void grow(float distributedCarbon)
+		{
+			float input = allocatedCarbon + distributedCarbon;
+			float mr = maintenanceRespiration();
+			float c = input - mr;
+			if (c >= 0)
+			{
+				float m = c * (GROWTH_RESPIRATION_FRACTION * C_MASS / C_FRACTION);
+				this[radius] = Math.sqrt(this[radius]**2 + m/(DENSITY*Math.PI*length));
+			}
+			this[mark] = (order > 0) && (c < 0);
+		}
+
+		float distributionWeight()
+		{
+			return (allocatedCarbon <= 0) ? 0
+				: allocatedCarbon * (maintenanceRespiration()/allocatedCarbon)**DIST_EXPONENT
+					* preference * (1+order)**-0.3;
+		}
+	}
+
+
+	/**
+	 * Root node for each beech individuum.
+	 */
+	module Beech extends Organ(0.01, 0).(setShader(RGBAShader.EGA_6),setLayer(8))
+	{
+		float totalMass;
+		float produced;
+
+		float angle(int order)
+		{
+			return (order == 0) ? normal(64, 15) : normal(50, 11);
+		}
+		
+		float axisAngle(int order)
+		{
+			return normal((order == 0) ? 0 : 15, (order == 0) ? 5 : 10);
+		}
+		
+		float twist(int order)
+		{
+			return normal(0, (order == 0) ? 20 : 10);
+		}
+	} ==> TextLabel(getId() + "\n" + totalMass + "   " + produced);
+
+	/**
+	 * An internode.
+	 */
+	module Internode(super.length, super.order) extends Organ.(setShader(RGBAShader.BLACK))
+		//.(setShader((order==0) ? stemShader : branchShader))
+	{
+		{setScaleV(true);setLayer(8);}
+	}
+
+	/**
+	 * A bud. The stem has order zero.
+	 */
+	module Bud(int order, float vitality, int sign,
+		Internode internode, BeechLeaf leaf, Beech beech)
+//		extends Cyl(0, 0, 0, 0.0045, 0.0045, false)
+	{
+//		{setLayer(7);setShader(RGBAShader.WHITE);}
+		
+		void updateVitality(float inodePref, float leafRating)
+		{
+			leafRating += 2 * (inodePref - 1);
+			if (leafRating > 0)
+			{
+				this[vitality] *= (VIT_MAX / this[vitality]) ** (0.5*leafRating);
+			}
+			else
+			{
+				this[vitality] *= (VIT_MIN / this[vitality]) ** (-0.5*leafRating);
+			}
+//			this[shader] = visualizeAsColor(leafRating);
+		}
+	}
+
+	protected boolean isMainRGG()
+	{
+//		return false;
+		return true;
+	}
+
+	protected void init()
+	{
+		createSingleTree ();
+//		setSeed(1);
+//		createBeechForest();
+	}
+
+	void growSingleTree ()
+	{
+		createSingleTree ();
+		for (apply(8)) step();
+	}
+
+	void createSingleTree ()
+	[
+		==>> ^ createTree;//, ^ Translate(0.2,0,0) createTree;
+	]
+
+	const float SIZE = 0.3;
+	//protected void createBeechForest ()
+	//{
+	//	for (int i = 0; i < 1; i++)
+	//	[
+	//		==>> ^ Translate(random(-SIZE,SIZE),random(-SIZE,SIZE),0) createTree;
+	//	]
+//		for (apply(8)) step ();
+	//}
+
+	public Node createTree ()
+	{
+		Beech b = new Beech();
+		[
+			==>> b Bud(0, 4.5, 1, null, null, b);
+		]
+		return b;
+	}
+
+	/**
+	 * Computes the distribution of lengths of internodes of a single
+	 * annual shoot. This is based on the diploma thesis of M. Steilmann.
+	 *
+	 * @param c number of internodes
+	 */
+	static float[] lengths (int c)
+	{
+		float[] a = new float[c];
+		float s = 0;
+		for (int i = 0; i < c; i++)
+		{
+			float t = ((c - i - 0.5) / c)**0.6;
+			t = t * (1 - t) * de.grogra.grogra.LSystem.uniform(0.9, 1.1);
+			a[i] = t;
+			s += t;
+		}
+		for (int i = 0; i < c; i++)
+		{
+			a[i] /= s;
+		}
+		return a;
+	}
+
+
+	const javax.vecmath.Vector3d sun = new javax.vecmath.Vector3d(-1, 0, 0.5);
+	
+	public void step ()
+	{
+		radiation.compute();
+		transportCarbon();
+		distributeCarbon();
+		[
+			o:Organ, (o[mark]) ==>> ;
+			BeechLeaf ==>> ;
+		]
+//		sun = direction(graph().getNodeForName("Sun"));
+		grow();
+	}
+	
+	public void run10()
+	{
+		for(apply(10))step();
+	}
+
+	static void transportCarbon()
+	[
+		(noninjective())
+		Beech -basipetal(Organ.class,children,BeechLeaf.class,leaves)-> x:Organ ::>
+			x.transportCarbon(sum(Math.max(0,((Organ)children[:])[exportedCarbon])),
+							  sum(((BeechLeaf)leaves[:]).produceCarbon()),
+							  sum(Math.max(0,((Organ)children[:])[producedCarbon])));
+	]
+
+	static void distributeCarbon()
+	{
+		rggGraph().allowNoninjectiveMatchesByDefault(true);
+		for (Beech b : (* Beech *))
+		{
+			println("Beech " + b.getId());
+			float distributed = 0.7 * b[exportedCarbon];
+			b[allocatedCarbon] += b[exportedCarbon] - distributed;
+			float totalAllocated = sum((* b -descendants-> Organ *)[allocatedCarbon]);
+			b[preference] = 1;
+			[
+				b -acropetal(Organ.class,children,BeechLeaf.class,leaves)-> x:Organ ::>
+				{
+//					float p = sum(((BeechLeaf) leaves[:])[producedCarbon]);
+//					float q = x[producedCarbon] - p;
+					float q =
+					max((Organ o = (Organ) children[:],
+					o[producedCarbon] * (4 + x[order] - o[order])));
+					q = (q < 1e-7) ? 0 : 1 / q;
+					for (Organ o : (Organ) children[:])
+					{
+						o[preference] = x[preference]
+						* (q * o[producedCarbon] * (4 + x[order] - o[order]))**0.4;
+					}
+				}
+			]
+			float f = distributed / sum((* b -descendants-> Organ *).distributionWeight());
+			(* b -descendants-> o:Organ *).grow(f * o.distributionWeight());
+			Statistics stats = statistics((* b -descendants-> BeechLeaf *)[producedCarbon]);
+			(* b -descendants-> Bud(,,,i,l,), (l != null) *).updateVitality(i[preference],l.rate(stats));
+/*			b.grow(f * b.distributionWeight(), 0);
+			[
+				b -acropetal(Organ.class,children,BeechLeaf.class,leaves)-> x:Organ ::>
+				{
+					float p = sum(((BeechLeaf) leaves[:])[producedCarbon]);
+					float d = x[demandedCarbon] - p;
+					float q = x[producedCarbon] - p;
+					q = (q < 1e-7) ? 0 : d / q;
+					for (Organ o : (Organ) children[:])
+					{
+						o.grow(f * o.distributionWeight(),
+							   q * o[producedCarbon]);
+					}
+				}
+			]*/
+			float v = sum((* b -descendants-> Organ *).volume());
+			b[totalMass] = DENSITY * (v + b.volume());
+			b[produced] = distributed + totalAllocated;
+			println("  Produced          : " + (distributed + totalAllocated));
+			println("  Directly allocated: " + totalAllocated);
+			println("  Distributed       : " + distributed);
+			println("  Above ground mass : " + DENSITY*v);
+			println("  Root mass         : " + DENSITY*b.volume());
+		}
+		rggGraph().allowNoninjectiveMatchesByDefault(false);
+	}
+
+	const float VIT_MAX = 8;
+	const float VIT_MIN = 2;
+
+	const float VIT_POWER_0 = 2;
+	const float VIT_SLOPE_1 = 3;
+
+	const float VIT_A = VIT_POWER_0 / VIT_SLOPE_1;
+	const float VIT_B = VIT_A - 1;
+
+	
+	protected void grow ()
+	[
+		b:Bud(o, v, s,,, t) ==>
+		{
+			int count;
+			boolean createShort = v < 2.2;
+			float len;
+			if (createShort)
+			{
+				count = 3;
+				len = 0.01;
+			}
+			else
+			{
+				count = (int) v;
+				if (probability(v - count))
+				{
+					count++;
+				}
+				len = Math.max((count - 2.28) / 28.7, 0.02);
+			}
+			int buds = count - Math.round(0.666f * (v - 0.875f));
+			float[] lenDist = lengths(count);
+		}
+			for (int i : (1 : count))
+			(
+			{
+				int sign = s * (1 - (i&1)*2);
+				boolean terminal = i == count;
+				float q = ((float) i / count) ** VIT_POWER_0;
+				float vit = Math.max(v * VIT_A * q  / (1 + VIT_B * q), VIT_MIN);
+			}
+				x:Internode(createShort ? 0.002 : lenDist[i-1]*len, o)
+
+				RU(sign * t.axisAngle(o))
+				RH(t.twist(o))
+				
+				if (terminal)
+				(
+					if (o == 0)
+					(
+						RD(HEAD, 0.5)
+					)
+					[RL(90) RD(sun,0.4) RL(-90) l:BeechLeaf]
+					Bud(o, vit, sign, x, l, t)
+				)
+				else
+				(
+					[
+						if (o == 0)
+						(
+							RL(sign * t.angle(o))
+						)
+						else
+						(
+							RU(-sign * t.angle(o))
+						)
+						AdjustLU
+						[RL(90) RD(sun,0.4) RL(-90) l:BeechLeaf]
+						if (!createShort && (i >= buds))
+						(
+							Bud(o + 1, vit, sign, x, l, t)
+						)
+					]
+				)
+			);
+	]
+
+	const DatasetRef stem = dataset("Stem Profile");
+
+	public void showStemProfile()
+	{
+		stem.clear().setColumnKey(0,"Radius");
+		[
+			Beech (-->)* i:Internode, (i[order]==0) ::>
+				stem.addRow().set(0, i[Location.Z], i[radius]);
+		]
+		chart(stem,de.grogra.pf.ui.ChartPanel.XY_PLOT);
+	}
+
+
