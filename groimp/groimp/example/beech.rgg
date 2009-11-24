@@ -285,7 +285,7 @@ import de.grogra.annotation.Editable;
 	
 	public void run10()
 	{
-		for(apply(100))step();
+		for(apply(10))step();
 	}
 
 	static void transportCarbon()

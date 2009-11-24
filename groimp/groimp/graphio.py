@@ -34,9 +34,11 @@ class Parser(object):
     edge_type_name = {'successor':'<', 'branch':'+'}
     geometries = ['Sphere', 'Box', 'Cone', 'Cylinder', 'Frustum', 
                   'sphere', 'box', 'cone', 'cylinder', 'frustum', 
+                  'parallelogram', 'Parallelogram',
                   'F', 'RL', 'RU', 'RH', 'AdjustLU']
 
     def parse(self, fn):
+        self.trash = []
         self._graph = None
         self._scene = None
         # Turtle intialisation
@@ -224,11 +226,18 @@ class Parser(object):
         return (pgl.Frustrum(radius=radius, height=height, taper=taper, solid=solid),
                 pgl.Matrix4.translation(pgl.Vector3(0,0,height)))
 
+    def Parallelogram(self,length, **kwds):
+        length = float(length) 
+        pts = [Vector3(0,0,0), Vector3(length,0,0),Vector3(length, length,0),Vector3(0,length, 0)]
+        index = [(0,1,2), (0,2,3)]
+        return (pgl.TriangleSet(pts, index), None)
+
     sphere = Sphere
     box = Box
     cone = Cone
     cylinder = Cylinder
     frustrum = Frustum
+    parallelogram = Parallelogram
     
     # Turtle implementation:
     # F0, M, M0, RV, RG, AdjustLU
@@ -278,7 +287,6 @@ class Parser(object):
 
     def AdjustLU(self, **kwds):
         """ Rotate around local z-axis such that local y-axis points upwards as far as possible."""
-        # TODO: Implement this method
         return (None, -1)
 
     def L(self, length=1., **kwds):
@@ -353,6 +361,8 @@ class Parser(object):
             return self.__getattribute__(method)(**kwds)
         else:
             #print '%s has no geometric object associated.'%(type_name,)
+            if type_name not in self.trash:
+                self.trash.append(type_name)
             return None, None
 
 
@@ -369,7 +379,6 @@ class Parser(object):
  
         transfos = [pgl.Matrix4()]
         
-        #list(self.traverse(g.root, transfos))
         self.traverse2(g.root)
         self._scene = pgl.Scene(final_geometry.values())
         return self._scene
@@ -389,8 +398,6 @@ class Parser(object):
                     return g.source(eid)
             return vid
 
-        l = list(breadth_first_search(g, vid))[:100]
-        print l
 
         for v in breadth_first_search(g, vid):
             if parent(v) == v and v != g.root:
