@@ -13,7 +13,7 @@ name = 'groimp'
 namespace = 'openalea'
 pkg_name = 'openalea.groimp'
 
-version= '0.0.1'
+version= '0.0.2'
 
 description= 'GroIMP' 
 long_description= ''' '''
