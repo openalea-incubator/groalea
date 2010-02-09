@@ -9,7 +9,7 @@ import de.grogra.graph.impl.Node;
 import de.grogra.vecmath.geom.Cone;
 import de.grogra.annotation.Editable;
 
-	const boolean USE_RADIATION = false;
+	const boolean USE_RADIATION = true;
 
 	//const Shader leafShader = shader("Beech leaf");
 	//const Shader stemShader = shader("Beech stem");
@@ -211,6 +211,7 @@ import de.grogra.annotation.Editable;
 		createSingleTree ();
 //		setSeed(1);
 //		createBeechForest();
+//		const LightModel radiation = new LightModel(1000000, 6, 0.001);
 	}
 
 	void growSingleTree ()

@@ -428,13 +428,21 @@ class Parser(object):
                 else:
                     print 'AdjustLU: The two vectors are Colinear'
             elif local_t:
-
-                m = m * local_t
+                if local_t.getColumn(3) != pgl.Vector4(0,0,0,1):
+                    print v
+                    print m
+                    m = m * local_t 
+                    print m
+                else:
+                    m = m * local_t 
+                    
             else:
                 #print m
                 pass
             transfos[v] = m
 
+            if parent(v) == 7295 and v == 181:
+                print m.getColumn(3)
         
     def traverse(self, vid, transfos):
         if vid in self.visited:
