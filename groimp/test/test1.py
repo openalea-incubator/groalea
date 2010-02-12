@@ -70,16 +70,18 @@ def test7():
     fn = 'axiom2.xeg'
     parser = Parser()
     g, scene = parser.parse(fn)
+    return g, scene
 
 def test8():
     # Test read colors
     fn = 'final_beech.xeg'
     parser = Parser()
     g, scene = parser.parse(fn)
+    return g, scene
 
 def test8():
     # Test read colors
     fn = 'beech_run100.xeg'
     parser = Parser()
     g, scene = parser.parse(fn)
-
+    return g, scene

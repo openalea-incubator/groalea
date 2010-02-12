@@ -371,6 +371,8 @@ class Parser(object):
         g = self._graph
         if self._scene:
             return self._scene
+        else:
+            self._scene = pgl.Scene()
 
         self.visited = set()
 
@@ -380,7 +382,7 @@ class Parser(object):
         transfos = [pgl.Matrix4()]
         
         self.traverse2(g.root)
-        self._scene = pgl.Scene(final_geometry.values())
+        self._scene.merge( pgl.Scene(final_geometry.values()))
         return self._scene
     
     def traverse2(self, vid):
@@ -413,26 +415,27 @@ class Parser(object):
 
             if local_t == -1:
                 #TODO : AdjustLU
+                #debug
+                frame(m, self._scene, color=1)
                 t = m.getColumn(3)
                 t = Vector3(t.x, t.y, t.z)
                 
                 x, y, z = Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1)
                 X, Y, Z = m*Vector3(1,0,0), m*Vector3(0,1,0), m*Vector3(0,0,1)
-                new_x = z ^ Z
-                if pgl.normSquared(new_x) > 1e-3:
+                new_y = Z ^ z
+                if pgl.normSquared(new_y) > 1e-3:
+                    new_x = new_y ^ Z
                     new_y = Z ^ new_x
                     new_x.normalize()
                     new_y.normalize()
                     m = pgl.Matrix4(pgl.BaseOrientation(new_x, new_y).getMatrix3())
-                    m.translation(t)
+                    m = m.translation(t)
+                    frame(m, self._scene, color=2)
                 else:
                     print 'AdjustLU: The two vectors are Colinear'
             elif local_t:
                 if local_t.getColumn(3) != pgl.Vector4(0,0,0,1):
-                    print v
-                    print m
                     m = m * local_t 
-                    print m
                 else:
                     m = m * local_t 
                     
@@ -505,6 +508,35 @@ def transform4(matrix, shape):
                                                          shape)))
     return shape
 
+
+##########################################################################
+# Debug utility
+
+def frame(matrix, scene, color=1):
+    """ Add a frame to the scene.
+    The frame is represented by the matrix.
+    :param color: allow to distinguish between to identical frames.
+    """
+    if color == 1:
+        r = pgl.Material(pgl.Color3(*(255,0,0)))
+        g = pgl.Material(pgl.Color3(*(0,255,0)))
+        b = pgl.Material(pgl.Color3(*(0,0,255)))
+    else:
+        r = pgl.Material(pgl.Color3(*(255,0,255)))
+        g = pgl.Material(pgl.Color3(*(255,255,0)))
+        b = pgl.Material(pgl.Color3(*(0,0,0)))
+        
+    cylinder = pgl.Cylinder(radius=0.005, height=1)
+    #x = pgl.AxisRotated(Vector3(0,1,0), radians(90), cylinder)
+    #y = pgl.AxisRotated(Vector3(1,0,0), radians(-90), cylinder)
+    z = cylinder
+
+    #geom_x = transform4(matrix, x)
+    #scene.add(pgl.Shape(geom_x, r))
+    #geom_y = transform4(matrix, y)
+    #scene.add(pgl.Shape(geom_y, g))
+    geom_z = transform4(matrix, z)
+    scene.add(pgl.Shape(geom_z, b))
 
 ##########################################################################
 
