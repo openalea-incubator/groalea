@@ -32,7 +32,7 @@ class GroIMPClient(object):
         data = response.read()
         conn.close()
 
-        print 'received graph: ', data
+        #print 'received graph: ', data
 
         # We receive the whole web page.
         # Just extract the graph only...

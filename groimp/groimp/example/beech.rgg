@@ -9,7 +9,7 @@ import de.grogra.graph.impl.Node;
 import de.grogra.vecmath.geom.Cone;
 import de.grogra.annotation.Editable;
 
-	const boolean USE_RADIATION = true;
+	const boolean USE_RADIATION = false;
 
 	//const Shader leafShader = shader("Beech leaf");
 	//const Shader stemShader = shader("Beech stem");

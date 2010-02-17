@@ -120,7 +120,7 @@ Specification Details
 	AdjustLU	-		-				-
 	
 		- no properties
-		- rotate around local z-acis such that local y-axis points upwards as far as possible
+		- rotate around local z-axis such that local y-axis points upwards as far as possible
 		
 	L		length		float				1
 	

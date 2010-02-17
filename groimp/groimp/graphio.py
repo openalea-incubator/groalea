@@ -416,21 +416,22 @@ class Parser(object):
             if local_t == -1:
                 #TODO : AdjustLU
                 #debug
-                frame(m, self._scene, color=1)
+                #frame(m, self._scene, color=1)
                 t = m.getColumn(3)
                 t = Vector3(t.x, t.y, t.z)
                 
+                m3 = pgl.Matrix3(m)
                 x, y, z = Vector3(1,0,0), Vector3(0,1,0), Vector3(0,0,1)
-                X, Y, Z = m*Vector3(1,0,0), m*Vector3(0,1,0), m*Vector3(0,0,1)
-                new_y = Z ^ z
-                if pgl.normSquared(new_y) > 1e-3:
-                    new_x = new_y ^ Z
+                X, Y, Z = m*pgl.Vector4(1,0,0,0), m*pgl.Vector4(0,1,0, 0), m*pgl.Vector4(0,0,1, 0)
+                Z = Vector3(Z.x, Z.y, Z.z)
+                new_x = z ^ Z 
+                if pgl.normSquared(new_x) > 1e-3:
                     new_y = Z ^ new_x
                     new_x.normalize()
                     new_y.normalize()
-                    m = pgl.Matrix4(pgl.BaseOrientation(new_x, new_y).getMatrix3())
-                    m = m.translation(t)
-                    frame(m, self._scene, color=2)
+                    m = pgl.BaseOrientation(new_x, new_y).getMatrix()
+                    m = m.translation(t) * m 
+                    #frame(m, self._scene, color=2)
                 else:
                     print 'AdjustLU: The two vectors are Colinear'
             elif local_t:
@@ -537,7 +538,6 @@ def frame(matrix, scene, color=1):
     #scene.add(pgl.Shape(geom_y, g))
     geom_z = transform4(matrix, z)
     scene.add(pgl.Shape(geom_z, b))
-
 ##########################################################################
 
 class Dumper(object):

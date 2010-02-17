@@ -1,5 +1,5 @@
 
-# This file has been generated at Mon Nov 23 16:47:37 2009
+# This file has been generated at Tue Feb 16 14:46:52 2010
 
 from openalea.core import *
 
@@ -17,11 +17,25 @@ __institutes__ = 'INRIA/CIRAD/University of Cottbus'
 __icon__ = ''
 
 
-__all__ = ['_75725680', '_75725776', '_75725936', '_75725744', '_75725840', '_75725904', '_75725648', '_75725968', '_75725808', '_75725872', '_75725712']
+__all__ = ['_250378444', '_175043180', '_175013068', '_175013740', '_175043948', '_175013676', '_175043052', '_175043884', '_175044012', '_175044140', '_175044076', '_175043116']
+
+
+_250378444 = DataFactory(name='beech2.rgg',
+                    description='',
+                    editors=None,
+                    includes=None,
+                    )
+
+
+_175043180 = DataFactory(name='code1.xl',
+                    description='XL code used in the 1st example.',
+                    editors=None,
+                    includes=None,
+                    )
 
 
 
-_75725680 = CompositeNodeFactory(name='Simple LSystem',
+_175013068 = CompositeNodeFactory(name='Simple LSystem',
                              description='',
                              category='Unclassified',
                              doc='',
@@ -251,13 +265,28 @@ _75725680 = CompositeNodeFactory(name='Simple LSystem',
    19: [(1, "'graph'"), (2, 'False'), (3, "<type 'str'>")],
    '__in__': [],
    '__out__': []},
+                             elt_ad_hoc={  },
                              lazy=True,
                              )
 
 
 
+_175013740 = DataFactory(name='axiom.xeg',
+                    description='GroIMP axiom',
+                    editors=None,
+                    includes=None,
+                    )
 
-_75725776 = CompositeNodeFactory(name='2. LSystem in a loop',
+
+_175043948 = DataFactory(name='beech.xeg',
+                    description='Beech Tree Axiom',
+                    editors=None,
+                    includes=None,
+                    )
+
+
+
+_175013676 = CompositeNodeFactory(name='2. LSystem in a loop',
                              description='',
                              category='Unclassified',
                              doc='',
@@ -443,20 +472,14 @@ _75725776 = CompositeNodeFactory(name='2. LSystem in a loop',
    27: [(0, "'x'")],
    '__in__': [],
    '__out__': []},
+                             elt_ad_hoc={  },
                              lazy=True,
                              )
 
 
 
-_75725936 = DataFactory(name='axiom.xeg',
-                    description='GroIMP axiom',
-                    editors=None,
-                    includes=None,
-                    )
 
-
-
-_75725744 = CompositeNodeFactory(name='1. Simple Tree',
+_175043052 = CompositeNodeFactory(name='1. Simple Tree',
                              description='',
                              category='composite',
                              doc='',
@@ -640,27 +663,14 @@ _75725744 = CompositeNodeFactory(name='1. Simple Tree',
           (2, 'None')],
    '__in__': [],
    '__out__': []},
+                             elt_ad_hoc={  },
                              lazy=True,
                              )
 
 
 
-_75725840 = DataFactory(name='beech.rgg',
-                    description='',
-                    editors=None,
-                    includes=None,
-                    )
 
-
-_75725904 = DataFactory(name='code1.xl',
-                    description='XL code used in the 1st example.',
-                    editors=None,
-                    includes=None,
-                    )
-
-
-
-_75725648 = CompositeNodeFactory(name='3. Beech model with light',
+_175043884 = CompositeNodeFactory(name='3. Beech model with light',
                              description='',
                              category='Unclassified',
                              doc='',
@@ -884,34 +894,35 @@ _75725648 = CompositeNodeFactory(name='3. Beech model with light',
    27: [(0, "'x'")],
    '__in__': [],
    '__out__': []},
+                             elt_ad_hoc={  },
                              lazy=True,
                              )
 
 
 
-_75725968 = DataFactory(name='beech.xeg',
-                    description='Beech Tree Axiom',
-                    editors=None,
-                    includes=None,
-                    )
-
-
-_75725808 = DataFactory(name='graph1.xml',
+_175044012 = DataFactory(name='graph1.xml',
                     description='XML graph description',
                     editors=None,
                     includes=None,
                     )
 
 
-_75725872 = DataFactory(name='beech.xl',
+_175044140 = DataFactory(name='axiom.xl',
+                    description='GroIMP LSystem',
+                    editors=None,
+                    includes=None,
+                    )
+
+
+_175044076 = DataFactory(name='beech.xl',
                     description='XL code for beech tree with light interception and carbon allocation',
                     editors=None,
                     includes=None,
                     )
 
 
-_75725712 = DataFactory(name='axiom.xl',
-                    description='GroIMP LSystem',
+_175043116 = DataFactory(name='beech.rgg',
+                    description='',
                     editors=None,
                     includes=None,
                     )
