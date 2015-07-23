@@ -181,9 +181,9 @@ import de.grogra.annotation.Editable;
 	 */
 	module Bud(int order, float vitality, int sign,
 		Internode internode, BeechLeaf leaf, Beech beech)
-		extends Cylinder(0, 0, 0, 0.0045, 0.0045, false)
+//		extends Cyl(0, 0, 0, 0.0045, 0.0045, false)
 	{
-		{setLayer(7);setShader(RGBAShader.WHITE);}
+//		{setLayer(7);setShader(RGBAShader.WHITE);}
 		
 		void updateVitality(float inodePref, float leafRating)
 		{

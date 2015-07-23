@@ -9,7 +9,7 @@ import de.grogra.graph.impl.Node;
 import de.grogra.vecmath.geom.Cone;
 import de.grogra.annotation.Editable;
 
-	const boolean USE_RADIATION = false;
+	const boolean USE_RADIATION = true;
 
 	//const Shader leafShader = shader("Beech leaf");
 	//const Shader stemShader = shader("Beech stem");
@@ -28,7 +28,6 @@ import de.grogra.annotation.Editable;
 
 	const float DIST_EXPONENT = 0.5;
 
-	const LightModel radiation = new LightModel(1000000, 6, 0.001);
 
 	/**
 	 * A beech leaf.
@@ -41,7 +40,7 @@ import de.grogra.annotation.Editable;
 		const float M = 0.9;
 		const float Pmax = 2; // mol/m�d
 
-		const float Copt = 0.02; // mol CO2
+            const float Copt = 0.02; // mol CO2
 
 		float producedCarbon;
 
@@ -181,9 +180,9 @@ import de.grogra.annotation.Editable;
 	 */
 	module Bud(int order, float vitality, int sign,
 		Internode internode, BeechLeaf leaf, Beech beech)
-		extends Cylinder(0, 0, 0, 0.0045, 0.0045, false)
+//		extends Cyl(0, 0, 0, 0.0045, 0.0045, false)
 	{
-		{setLayer(7);setShader(RGBAShader.WHITE);}
+//		{setLayer(7);setShader(RGBAShader.WHITE);}
 		
 		void updateVitality(float inodePref, float leafRating)
 		{
@@ -208,10 +207,10 @@ import de.grogra.annotation.Editable;
 
 	protected void init()
 	{
+//		const LightModel radiation = new LightModel(1000000, 6, 0.001);
 		createSingleTree ();
 //		setSeed(1);
 //		createBeechForest();
-//		const LightModel radiation = new LightModel(1000000, 6, 0.001);
 	}
 
 	void growSingleTree ()

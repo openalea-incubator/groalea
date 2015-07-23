@@ -1,30 +1,33 @@
-//import de.grogra.rgg.*;
+import de.grogra.rgg.*;
 import static de.grogra.rgg.Library.*;
 import static de.grogra.xl.util.Operators.*;
-//import de.grogra.turtle.*;
-//import de.grogra.pf.data.*;
-//import de.grogra.imp3d.objects.*;
-//import de.grogra.imp3d.shading.*;
+import de.grogra.turtle.*;
+import de.grogra.pf.data.*;
+import de.grogra.imp3d.objects.*;
+import de.grogra.imp3d.shading.*;
 import de.grogra.graph.impl.Node;
 import de.grogra.vecmath.geom.Cone;
-import de.grogra.annotation.Editable;
+//import de.grogra.annotation.Editable;
 
-	const boolean USE_RADIATION = false;
+@de.grogra.xl.lang.ImplicitDoubleToFloat
+public class BeechModel extends RGG// implements TreeModel
+{
+	const boolean USE_RADIATION = true;
 
 	//const Shader leafShader = shader("Beech leaf");
 	//const Shader stemShader = shader("Beech stem");
 	//const Shader branchShader = shader("Beech branch");
 
 
-	const float DENSITY = 580; // kg/mï¿½
+	const float DENSITY = 580; // kg/m³
 	
 	const float C_MASS = 0.0120107; // kg/mol
 	const float C_FRACTION = 0.48; // kg C/kg biomass
 
 	const float GROWTH_RESPIRATION_FRACTION = 0.7; // CO2/C
-	const float MAINTENANCE_RESPIRATION = 0.192e-6; // mol CO2/mï¿½s
+	const float MAINTENANCE_RESPIRATION = 0.192e-6; // mol CO2/m²s
 	
-	const float PPFD = 5; // mol/mï¿½d
+	const float PPFD = 5; // mol/m²d
 
 	const float DIST_EXPONENT = 0.5;
 
@@ -35,11 +38,11 @@ import de.grogra.annotation.Editable;
 	 */
 	module BeechLeaf extends Parallelogram(normal(0.06f,0.015f),normal(0.043f,0.01f))
 	{
-		const float AREA = 0.002; // mï¿½
+		const float AREA = 0.002; // m²
 		const float EFFICIENCY = USE_RADIATION ? 0.07 : 0.02;
-		const float SPECIFIC_MASS = 0.035; // kg/mï¿½
+		const float SPECIFIC_MASS = 0.035; // kg/m²
 		const float M = 0.9;
-		const float Pmax = 2; // mol/mï¿½d
+		const float Pmax = 2; // mol/m²d
 
 		const float Copt = 0.02; // mol CO2
 
@@ -181,9 +184,9 @@ import de.grogra.annotation.Editable;
 	 */
 	module Bud(int order, float vitality, int sign,
 		Internode internode, BeechLeaf leaf, Beech beech)
-		extends Cylinder(0, 0, 0, 0.0045, 0.0045, false)
+//		extends Cyl(0, 0, 0, 0.0045, 0.0045, false)
 	{
-		{setLayer(7);setShader(RGBAShader.WHITE);}
+//		{setLayer(7);setShader(RGBAShader.WHITE);}
 		
 		void updateVitality(float inodePref, float leafRating)
 		{
@@ -211,7 +214,6 @@ import de.grogra.annotation.Editable;
 		createSingleTree ();
 //		setSeed(1);
 //		createBeechForest();
-//		const LightModel radiation = new LightModel(1000000, 6, 0.001);
 	}
 
 	void growSingleTree ()
@@ -444,5 +446,6 @@ import de.grogra.annotation.Editable;
 		]
 		chart(stem,de.grogra.pf.ui.ChartPanel.XY_PLOT);
 	}
+}
 
 

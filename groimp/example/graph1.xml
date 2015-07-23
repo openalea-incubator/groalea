@@ -2,18 +2,18 @@
 <graph xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <type name="Boid">
-    <extends name="Sphere"/>
+    <extends name="sphere"/>
   </type>
 
-  <node id="2" name="C1" type="Cylinder">
+  <node id="2" name="C1" type="cylinder">
     <property name="height" value="1"/>
     <property name="radius" value="0.2" />
   </node>
-  <node id="10" name="C2" type="Cylinder">
+  <node id="10" name="C2" type="cylinder">
     <property name="height" value="1"/>
     <property name="radius" value="0.2" />
   </node>
-  <node id="3" name="C3" type="Cylinder">
+  <node id="3" name="C3" type="cylinder">
     <property name="height" value="1"/>
     <property name="radius" value="0.2" />
   </node>
@@ -30,12 +30,12 @@
     	    </matrix>
         </property>
   </node>
-  <node id="5" name="C5" type="Cylinder">
+  <node id="5" name="C5" type="cylinder">
     <property name="height" value="1"/>
     <property name="radius" value="0.2" />
     <property name="color"><rgb>0.1 0.9 0.2</rgb></property>
   </node>
-  <node id="6" name="C6" type="Cylinder">
+  <node id="6" name="C6" type="cylinder">
     <property name="height" value="1"/>
     <property name="radius" value="0.2" />
   </node>
