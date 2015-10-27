@@ -1,7 +1,7 @@
 # Author: C. Pradal
 # Licence : GPL
-from openalea.groimp.client import *
-import openalea.groimp.graphio as io
+from openalea.groalea.client import *
+import openalea.groalea.graphio as io
 from openalea.plantgl.all import Viewer
 
 fn_graph = 'sample.xeg'
@@ -13,8 +13,8 @@ fn_code = 'code1.xl'
 fn_graph = 'axiom.xeg'
 fn_code = 'axiom.xl'
 
-fn_graph = r'../groimp/example/beech.xeg'
-fn_code = r'../groimp/example/beech2.rgg'
+fn_graph = r'../groalea/example/beech.xeg'
+fn_code = r'../groalea/example/beech2.rgg'
 
 f=open(fn_graph)
 xml_graph = f.read()
