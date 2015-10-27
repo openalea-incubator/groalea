@@ -1,6 +1,6 @@
 # Author: C. Pradal
 # Licence : GPL
-from openalea.groimp.graphio import *
+from openalea.groalea.graphio import *
 from openalea.plantgl.all import *
 
 def test0():
