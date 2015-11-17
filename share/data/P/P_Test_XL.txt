@@ -1,0 +1,11 @@
+module A extends Sphere(0.2)
+{
+	{setShader(GREEN);}
+}
+
+
+public void run ()
+[
+	Axiom ==> A;
+	A ==> P(14) F(1) [RU(30) A] RU(-30) A;
+]

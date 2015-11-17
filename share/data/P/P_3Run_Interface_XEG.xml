@@ -1,0 +1,97 @@
+<graph>
+  <root root_id="1"/>
+  <type name="A">
+    <extends name="Sphere"/>
+  </type>
+  <node id="10" name="" type="A">
+    <property name="radius" value="0.2"/>
+    <property name="color">
+      <rgb>0.0 1.0 0.0</rgb>
+    </property>
+  </node>
+  <edge id="9" src_id="13" dest_id="10" type="successor"/>
+  <node id="4" name="" type="F">
+    <property name="length" value="1.0"/>
+    <property name="diameter" value="-1.0"/>
+    <property name="turtle_color" value="-1"/>
+    <property name="color">
+      <rgb>1.0 1.0 0.33333334</rgb>
+    </property>
+  </node>
+  <edge id="3" src_id="7" dest_id="4" type="successor"/>
+  <node id="11" name="" type="RU">
+    <property name="angle" value="-30.0"/>
+  </node>
+  <edge id="10" src_id="16" dest_id="11" type="successor"/>
+  <node id="12" name="" type="P">
+    <property name="color" value="14"/>
+  </node>
+  <edge id="11" src_id="9" dest_id="12" type="successor"/>
+  <node id="13" name="" type="RU">
+    <property name="angle" value="-30.0"/>
+  </node>
+  <edge id="12" src_id="19" dest_id="13" type="successor"/>
+  <node id="14" name="" type="RU">
+    <property name="angle" value="30.0"/>
+  </node>
+  <edge id="13" src_id="19" dest_id="14" type="branch"/>
+  <node id="15" name="" type="P">
+    <property name="color" value="14"/>
+  </node>
+  <edge id="14" src_id="5" dest_id="15" type="successor"/>
+  <node id="16" name="" type="F">
+    <property name="length" value="1.0"/>
+    <property name="diameter" value="-1.0"/>
+    <property name="turtle_color" value="-1"/>
+    <property name="color">
+      <rgb>1.0 1.0 0.33333334</rgb>
+    </property>
+  </node>
+  <edge id="15" src_id="15" dest_id="16" type="successor"/>
+  <node id="5" name="" type="RU">
+    <property name="angle" value="30.0"/>
+  </node>
+  <edge id="4" src_id="4" dest_id="5" type="branch"/>
+  <node id="17" name="" type="RU">
+    <property name="angle" value="30.0"/>
+  </node>
+  <edge id="16" src_id="16" dest_id="17" type="branch"/>
+  <node id="18" name="" type="A">
+    <property name="radius" value="0.2"/>
+    <property name="color">
+      <rgb>0.0 1.0 0.0</rgb>
+    </property>
+  </node>
+  <edge id="17" src_id="14" dest_id="18" type="successor"/>
+  <node id="19" name="" type="F">
+    <property name="length" value="1.0"/>
+    <property name="diameter" value="-1.0"/>
+    <property name="turtle_color" value="-1"/>
+    <property name="color">
+      <rgb>1.0 1.0 0.33333334</rgb>
+    </property>
+  </node>
+  <edge id="18" src_id="12" dest_id="19" type="successor"/>
+  <node id="20" name="" type="A">
+    <property name="radius" value="0.2"/>
+    <property name="color">
+      <rgb>0.0 1.0 0.0</rgb>
+    </property>
+  </node>
+  <edge id="19" src_id="11" dest_id="20" type="successor"/>
+  <node id="21" name="" type="A">
+    <property name="radius" value="0.2"/>
+    <property name="color">
+      <rgb>0.0 1.0 0.0</rgb>
+    </property>
+  </node>
+  <edge id="20" src_id="17" dest_id="21" type="successor"/>
+  <node id="7" name="" type="P">
+    <property name="color" value="14"/>
+  </node>
+  <edge id="6" src_id="1" dest_id="7" type="successor"/>
+  <node id="9" name="" type="RU">
+    <property name="angle" value="-30.0"/>
+  </node>
+  <edge id="8" src_id="4" dest_id="9" type="successor"/>
+</graph>

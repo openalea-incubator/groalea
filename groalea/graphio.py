@@ -12,22 +12,27 @@
 # 2.5. Compute properties when it is possible (sphere, ...)
 # 2.6. 2D draw of the graph
 
+
+# 3. Add enum like FUNCTIONAL
+
 from StringIO import StringIO
 from math import radians
 from math import sqrt
 from math import cos
 from math import sin
-
+from copy import deepcopy
 import xml.etree.ElementTree as xml
 
 from openalea.core.graph.property_graph import PropertyGraph
 import openalea.plantgl.all as pgl
+
 Vector3 = pgl.Vector3
 Vector4 = pgl.Vector4
 Color4Array = pgl.Color4Array
 
 
 class RootedGraph(PropertyGraph):
+    """ A general graph with a root vertex. """
 
     def _set_root(self, root):
         self._root = root
@@ -38,6 +43,111 @@ class RootedGraph(PropertyGraph):
     root = property(_get_root, _set_root)
 
 
+class TurtleState(object):
+    """ Store the turtle state of each vertex. """
+    DIAMETER = 0.1
+    def __init__(self):
+        self.diameter = -1
+        self.diameter_add = 0
+        self.diameter_mul = 1.
+        self.set_diameter = False
+        self.color = None
+        self.length = -1.
+        self.length_add = 0
+        self.length_mul = 1.
+        self.set_length = False
+
+        self.tropism = 0.
+        self.tropism_direction = None
+        self.tropism_target = None
+
+    def copy(self):
+        return deepcopy(self)
+
+    def combine(self, t):
+        if t.diameter != -1:
+            self.diameter = t.diameter
+        if t.diameter_add != 0:
+            if self.diameter == -1:
+                self.diameter = self.DIAMETER
+            self.diameter += t.diameter_add
+        if t.diameter_mul != 1:
+            if self.diameter == -1:
+                self.diameter = self.DIAMETER
+            self.diameter *= t.diameter_mul
+        if t.set_diameter:
+            if self.diameter == -1 and t.diameter == -1:
+                self.diameter = self.DIAMETER
+            elif self.diameter == -1:
+                self.diameter = t.diameter
+
+        self.color = t.color
+
+        if t.length != -1:
+            self.length = t.length
+        if t.length_add != 0:
+            if self.length == -1:
+                self.length = self.LENGTH
+            self.length += t.length_add
+        if t.length_mul != 1:
+            if self.length == -1:
+                self.length = self.LENGTH
+            self.length *= t.length_mul
+        if t.set_length:
+            if self.length == -1 and t.length == -1:
+                self.length = self.DIAMETER
+            elif self.length == -1:
+                self.length = t.length
+
+        self.tropism = t.tropism
+        self.tropism_direction = t.tropism_direction
+        self.tropism_target = t.tropism_target
+
+
+    def __eq__(self, other):
+        ok = ((self.diameter == other.diameter) and
+              (self.diameter_add == other.diameter_add) and
+              (self.diameter_mul == other.diameter_mul) and
+              (self.set_diameter == other.set_diameter)
+              (self.color == other.color) and
+              (self.length == other.length) and
+              (self.length_add == other.length_add) and
+              (self.length_mul == other.length_mul) and
+              (self.set_length == other.set_length) and
+              (self.tropism == other.tropism) and
+              (self.tropism_direction == other.tropism_direction) and
+              (self.tropism_target == other.tropism_target) and
+              (self.translation == other.translation)
+              )
+        return ok
+
+    def __nonzero__(self):
+        return not self.__eq__(TurtleState())
+
+class FunctionalGeometry(object):
+    def __init__(self, function):
+        self.function = function
+
+    def __call__(self, turtle_state):
+        return self.function(turtle_state)
+
+LUT_color = [(0, 0, 0),
+             (0, 0, 170),
+             (0, 170, 0),
+             (0, 170, 170),
+             (170, 0, 0),
+             (170, 0, 170),
+             (170, 85, 0),
+             (170, 170, 170),
+             (85, 85, 85),
+             (85, 85, 255),
+             (85, 255, 85),
+             (85, 255, 255),
+             (255, 85, 85),
+             (255, 85, 255),
+             (255, 255, 85),
+             (255, 255, 255), ]
+
 class Parser(object):
     edge_type_name = {'successor': '<', 'branch': '+', 'decomposition': '/'}
     geometries = ['Sphere', 'Box', 'Cone', 'Cylinder', 'Frustum',
@@ -47,20 +157,21 @@ class Parser(object):
                   'F', 'F0', 'M', 'M0', 'RL', 'RU', 'RH', 'V', 'RV', 'RV0', 'RG', 'RD', 'RO', 'RP', 'RN', 'AdjustLU',
                   'L', 'LAdd', 'LMul', 'D', 'DAdd', 'DMul', 'P', 'Translate', 'Scale', 'Rotate']
 
+    FUNCTIONAL = -10
+
     def parse(self, fn):
         self.trash = []
         self._graph = None
         self._scene = None
 
         # Turtle intialisation
-        self._turtle_diameter = -1.
-        self._turtle_color = []
-        self._turtle_color_setflag = False
-        self._turtle_length = -1.
-        self._turtle_tropism = 0.
-        self._tropism_drectionList = []
-        self._tropism_target = []
-        self._translateX = self._translateY = self._translateZ = 0.
+        # self._turtle_diameter = -1.
+        # self._turtle_color = []
+        # self._turtle_color_setflag = False
+        # self._turtle_length = -1.
+        # self._turtle_tropism = 0.
+        # self._tropism_drectionList = []
+        # self._tropism_target = []
 
         # print "pass parse intialisation"
         doc = xml.parse(fn)
@@ -68,8 +179,10 @@ class Parser(object):
 
         self.has_type = False
         self.types(doc.findall('type'))
+
         # self.guiding_edgelist_produce(doc.findall('edge'))
         # print "#####pass to dispatch(root)"
+
         self.dispatch(root)
         self.scenegraph()
 
@@ -106,18 +219,23 @@ class Parser(object):
         A graph is a set of nodes and edges.
         """
         print "pass graph(self, elements) function"
+
         graph = self._graph = RootedGraph()
+
         self._edges = {}
         graph._types = self._types
 
+        # Add initial properties
         graph.add_vertex_property("name")
         graph.add_vertex_property("type")
         graph.add_vertex_property("parameters")
         graph.add_vertex_property("color")
         graph.add_vertex_property("geometry")
         graph.add_vertex_property("transform")
+        graph.add_vertex_property("turtle_state")
         graph.add_edge_property("edge_type")
 
+        # Process / Parse all the xml nodes contains directly inside the <graph> node.
         for elt in elements:
             self.dispatch(elt)
 
@@ -175,7 +293,15 @@ class Parser(object):
         self._graph.root = int(root_id)
 
     def node(self, properties, id, type, name=None):
+        """
+        TODO: Write an exhaustive list of examples here
 
+        <node id="3" name="" type="L">
+            <property name="length" value="6.0"/>
+        </node>
+
+
+        """
         # print "node id, type, name = ", id, type, name
         # print "current turtle_length = ", self._turtle_length
 
@@ -184,6 +310,8 @@ class Parser(object):
             name = str(id)
 
         graph = self._graph
+
+        self._current_turtle = TurtleState()
 
         graph.add_vertex(id)
         if name:
@@ -199,9 +327,12 @@ class Parser(object):
         properties2 = [p for p in properties
                        if p.attrib['name'] not in ('transform', 'color')]
 
-        args = self._get_args(properties2)
+        # TODO : Improve the design
+
         if type in ['P', 'PointCloud']:
             args = self._get_args(properties)
+        else:
+            args = self._get_args(properties2)
 
         graph.vertex_property('parameters')[id] = args
 
@@ -211,18 +342,24 @@ class Parser(object):
         else:
             shape, transfo = self.dispatch2(type, args)
 
+        # End of TODO
+
         assert len(transfos) <= 1
+
         if transfos:
             transfo = self.transform(transfos[0].getchildren())
 
         color = None
+
+        # Store the turtle state for this node, ONLY
         if colors:
             if len(colors) > 0:
                 if len(colors[0].getchildren()) != 0:
                     color = self.color(colors[0].getchildren())
 
-                if self._turtle_color_setflag is True:
-                    color = self._turtle_color
+                self._current_turtle.color = color
+                #if self._turtle_color_setflag is True:
+                #    color = self._turtle_color
             else:
                 raise Exception("color is null!!!")
 
@@ -232,6 +369,12 @@ class Parser(object):
             graph.vertex_property('transform')[id] = transfo
         if color:
             graph.vertex_property('color')[id] = color
+
+        if self._current_turtle:
+            graph.vertex_property('turtle_state')[id] = self._current_turtle
+
+        self._current_turtle = None
+
 
     Node = node
 
@@ -427,55 +570,51 @@ class Parser(object):
     # Turtle implementation:
     # F0, M, M0, RV, RG, AdjustLU
     def F(self, length=1., diameter=-1., color=14, **kwds):
-        height = float(length)
-        self._turtle_length = height
+
+        def f(turtle):
+            height = turtle.length
+            radius = turtle.diameter /2.
+            color = turtle.color
+            return pgl.Cylinder(radius=radius, height=height),
+            pgl.Matrix4.translation(Vector3(0, 0, height))
+
+        length = float(length)
         diameter = float(diameter)
-        if diameter == -1.:
-            diameter = self._turtle_diameter
-            if diameter == -1:
-                diameter = self._turtle_diameter = 0.1
-        radius = diameter / 2.
-        ega_color = [(0, 0, 0),
-                     (0, 0, 170),
-                     (0, 170, 0),
-                     (0, 170, 170),
-                     (170, 0, 0),
-                     (170, 0, 170),
-                     (170, 85, 0),
-                     (170, 170, 170),
-                     (85, 85, 85),
-                     (85, 85, 255),
-                     (85, 255, 85),
-                     (85, 255, 255),
-                     (255, 85, 85),
-                     (255, 85, 255),
-                     (255, 255, 85),
-                     (255, 255, 255), ]
-        color3 = pgl.Color3(ega_color[int(color)])
-        self._turtle_color = color3
-        self._turtle_color_setflag = True
-        return (pgl.Cylinder(radius=radius, height=height),
-                pgl.Matrix4.translation(Vector3(0, 0, height)))
+        color3 = pgl.Color3(LUT_color[int(color)])
+
+        self._current_turtle.length = length
+        self._current_turtle.diameter = diameter
+        self._current_turtle.set_diameter = True
+        self._current_turtle.color = color3
+
+        return (FunctionalGeometry(f), self.FUNCTIONAL)
 
     def F0(self, **kwds):
-        height = self._turtle_length
-        if self._turtle_diameter == -1:
-            self._turtle_diameter = 0.1
-        radius = self._turtle_diameter / 2.
-        if height <= 0:
-            height = 1.
-        return (pgl.Cylinder(radius=radius, height=height),
-                pgl.Matrix4.translation(Vector3(0, 0, height)))
+        def f(turtle):
+            height = turtle.length
+            radius = turtle.diameter /2.
+            color = turtle.color
+            return (pgl.Cylinder(radius=radius, height=height),
+                    pgl.Matrix4.translation(Vector3(0, 0, height)))
+
+        self._current_turtle.set_diameter = True
+        self._current_turtle.set_length = True
+
+        return (FunctionalGeometry(f), self.FUNCTIONAL)
 
     def M(self, length=1., **kwds):
         height = float(length)
         return (None, pgl.Matrix4.translation(Vector3(0, 0, height)))
 
     def M0(self, **kwds):
-        height = self._turtle_length
-        if height <= 0:
-            height = 1.
-        return (None, pgl.Matrix4.translation(Vector3(0, 0, height)))
+
+        def f(turtle):
+            height = turtle.length
+            return (None,
+                    pgl.Matrix4.translation(Vector3(0, 0, height)))
+
+        self._current_turtle.set_length = True
+        return (FunctionalGeometry(f), self.FUNCTIONAL)
 
     def RL(self, angle, **kwds):
         # Rotation around the x axis
@@ -496,12 +635,12 @@ class Parser(object):
         return (None, pgl.Matrix4(matrix))
 
     def V(self, argument=0., **kwds):
-        self._turtle_tropism = float(argument)
+        self._current_turtle.tropism = float(argument)
         return (None, None)
 
     def RV(self, argument=1., **kwds):
         """ Gravitropism. """
-        self._turtle_tropism = float(argument)
+        self._current_turtle.tropism = float(argument)
         return (None, -2)
 
     def RV0(self, **kwds):
@@ -509,32 +648,26 @@ class Parser(object):
 
     def RG(self, **kwds):
         """ Maximal gravitropism such that local z-direction points downwards. """
-        self._turtle_tropism = 1e10
+        self._current_turtle.tropism = 1e10
         return (None, -2)
 
     def RD(self, direction, strength, **kwds):
-        self._turtle_tropism = float(strength)
+        self._current_turtle.tropism = float(strength)
         direction = str(direction)
-        self._tropism_drectionList = [float(num) for num in direction.split(",")]
+        self._current_turtle.direction = tuple([float(num) for num in direction.split(",")])
         return (None, -3)
 
     def RO(self, direction, strength, **kwds):
-        self._turtle_tropism = float(strength)
-        direction = str(direction)
-        self._tropism_drectionList = [float(num) for num in direction.split(",")]
+        self.RD(direction, strength, **kwds)
         return (None, -4)
 
     def RP(self, target, strength, **kwds):
-        self._turtle_tropism = float(strength)
+        self._current_turtle.tropism = float(strength)
         target = str(target)
-        self._tropism_target = [float(num) for num in target.split(",")]
+        self._current_turtle.tropism_target = tuple([float(num) for num in target.split(",")])
         return (None, -5)
 
-    def RN(self, target, strength, **kwds):
-        self._turtle_tropism = float(strength)
-        t = str(target)
-        self._tropism_target = [float(num) for num in t.split(",")]
-        return (None, -5)
+    RN = RP
 
     def AdjustLU(self, **kwds):
         """ Rotate around local z-axis such that local y-axis points upwards as far as possible."""
@@ -542,53 +675,34 @@ class Parser(object):
 
     def L(self, length=1., **kwds):
         """ Set the turtle state to the given length. """
-        self._turtle_length = float(length)
+        self._current_turtle.length = float(length)
         return (None, None)
 
     def LAdd(self, argument=1., **kwds):
-        self._turtle_length += float(argument)
+        self._current_turtle.length_add = float(argument)
         return (None, None)
 
     def LMul(self, argument=1., **kwds):
-        self._turtle_length *= float(argument)
+        self._current_turtle.length_mul = float(argument)
         return (None, None)
 
     def D(self, diameter=0.1, **kwds):
         """ Set the turtle state to the given diameter. """
-        self._turtle_diameter = float(diameter)
+        self._current_turtle.diameter = float(diameter)
         return (None, None)
 
     def DAdd(self, argument=1., **kwds):
-        self._turtle_diameter += float(argument)
+        self._current_turtle.diameter_add = float(argument)
         return (None, None)
 
     def DMul(self, argument=1., **kwds):
-        self._turtle_diameter *= float(argument)
+        self._current_turtle.diameter_mul = float(argument)
         return (None, None)
 
     def P(self, color=14, **kwds):
         """ Set the turtle state to the given color. """
-        ega_color = [(0, 0, 0),
-                     (0, 0, 170),
-                     (0, 170, 0),
-                     (0, 170, 170),
-                     (170, 0, 0),
-                     (170, 0, 170),
-                     (170, 85, 0),
-                     (170, 170, 170),
-                     (85, 85, 85),
-                     (85, 85, 255),
-                     (85, 255, 85),
-                     (85, 255, 255),
-                     (255, 85, 85),
-                     (255, 85, 255),
-                     (255, 255, 85),
-                     (255, 255, 255), ]
-        color3 = pgl.Color3(ega_color[int(color)])
-        self._turtle_color = color3
-        self._turtle_color_setflag = True
-        #Parser.turtle_color = color3
-        #Parser.turtle_color_setflag = True
+        color3 = pgl.Color3(LUT_color[int(color)])
+        self._current_turtle.color = color3
         return (None, None)
 
     def Translate(self, translateX=0., translateY=0., translateZ=0., **kwds):
