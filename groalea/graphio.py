@@ -258,10 +258,6 @@ class Parser(object):
             if len(colors) > 0:
                 if len(colors[0].getchildren()) != 0:
                     color = self.color(colors[0].getchildren())
-
-                self._current_turtle.color = color
-                # if self._turtle_color_setflag is True:
-                #    color = self._turtle_color
             else:
                 raise Exception("color is null!!!")
 
@@ -565,7 +561,7 @@ class Parser(object):
         rgb = elements[0]
         assert rgb.tag == 'rgb'
         color = pgl.Color3(*(int(float(x) * 255) for x in rgb.text.strip().split()))
-
+        self._current_turtle.color = color
         return color
 
     def edge(self, elements, src_id, dest_id, type, id=None):
@@ -670,8 +666,7 @@ class Parser(object):
 
             # CPL
             ts = turtles.get(pid, TurtleState())
-            gt =global_turtle = update_turtle(v, ts)
-
+            gt = global_turtle = update_turtle(v, ts)
             local_t = transform.get(v)
             if local_t == self.FUNCTIONAL:
                 # Get the functional shape to compute the transformation and geometry
@@ -885,13 +880,9 @@ def xml2graph(xml_graph):
     parser = Parser()
     g, scene = parser.parse(f)
     f.close()
-    print "g====", g
-    print "scene====", scene
     return g, scene
 
 
 def graph2xml(graph):
     dump = Dumper()
-    print "dump===", dump
-    print "dump.dump(graph)====", dump.dump(graph)
     return dump.dump(graph)
