@@ -46,6 +46,8 @@ class RootedGraph(PropertyGraph):
 class TurtleState(object):
     """ Store the turtle state of each vertex. """
     DIAMETER = 0.1
+    LENGTH = 0.1
+
     def __init__(self):
         self.diameter = -1
         self.diameter_add = 0
@@ -65,50 +67,53 @@ class TurtleState(object):
         return deepcopy(self)
 
     def combine(self, t):
+        # copy to avoid side-effect
+        cself = self.copy()
         if t.diameter != -1:
-            self.diameter = t.diameter
+            cself.diameter = t.diameter
         if t.diameter_add != 0:
-            if self.diameter == -1:
-                self.diameter = self.DIAMETER
-            self.diameter += t.diameter_add
+            if cself.diameter == -1:
+                cself.diameter = self.DIAMETER
+            cself.diameter += t.diameter_add
         if t.diameter_mul != 1:
-            if self.diameter == -1:
-                self.diameter = self.DIAMETER
-            self.diameter *= t.diameter_mul
+            if cself.diameter == -1:
+                cself.diameter = self.DIAMETER
+            cself.diameter *= t.diameter_mul
         if t.set_diameter:
-            if self.diameter == -1 and t.diameter == -1:
-                self.diameter = self.DIAMETER
-            elif self.diameter == -1:
-                self.diameter = t.diameter
+            if cself.diameter == -1 and t.diameter == -1:
+                cself.diameter = self.DIAMETER
+            elif cself.diameter == -1:
+                cself.diameter = t.diameter
 
         self.color = t.color
 
         if t.length != -1:
-            self.length = t.length
+            cself.length = t.length
         if t.length_add != 0:
-            if self.length == -1:
-                self.length = self.LENGTH
-            self.length += t.length_add
+            if cself.length == -1:
+                cself.length = self.LENGTH
+            cself.length += t.length_add
         if t.length_mul != 1:
-            if self.length == -1:
-                self.length = self.LENGTH
-            self.length *= t.length_mul
+            if cself.length == -1:
+                cself.length = self.LENGTH
+            cself.length *= t.length_mul
         if t.set_length:
-            if self.length == -1 and t.length == -1:
-                self.length = self.DIAMETER
-            elif self.length == -1:
-                self.length = t.length
+            if cself.length == -1 and t.length == -1:
+                cself.length = self.DIAMETER
+            elif cself.length == -1:
+                cself.length = t.length
 
-        self.tropism = t.tropism
-        self.tropism_direction = t.tropism_direction
-        self.tropism_target = t.tropism_target
+        cself.tropism = t.tropism
+        cself.tropism_direction = t.tropism_direction
+        cself.tropism_target = t.tropism_target
 
-
+        return cself
     def __eq__(self, other):
+        """ Test for == operator """
         ok = ((self.diameter == other.diameter) and
               (self.diameter_add == other.diameter_add) and
               (self.diameter_mul == other.diameter_mul) and
-              (self.set_diameter == other.set_diameter)
+              (self.set_diameter == other.set_diameter) and
               (self.color == other.color) and
               (self.length == other.length) and
               (self.length_add == other.length_add) and
@@ -116,13 +121,13 @@ class TurtleState(object):
               (self.set_length == other.set_length) and
               (self.tropism == other.tropism) and
               (self.tropism_direction == other.tropism_direction) and
-              (self.tropism_target == other.tropism_target) and
-              (self.translation == other.translation)
+              (self.tropism_target == other.tropism_target)
               )
         return ok
 
     def __nonzero__(self):
         return not self.__eq__(TurtleState())
+
 
 class FunctionalGeometry(object):
     def __init__(self, function):
@@ -147,6 +152,7 @@ LUT_color = [(0, 0, 0),
              (255, 85, 255),
              (255, 255, 85),
              (255, 255, 255), ]
+
 
 class Parser(object):
     edge_type_name = {'successor': '<', 'branch': '+', 'decomposition': '/'}
@@ -201,11 +207,11 @@ class Parser(object):
             list(elt)
         # print 'Dispatch get **', elt.getchildren()
         # return self.__getattribute__(elt.tag)(elt.getchildren(), **elt.attrib)
-        try:
-            return self.__getattribute__(elt.tag)(list(elt), **elt.attrib)
-        except Exception, e:
-            print e
-            raise Exception("Invalid element %s" % elt.tag)
+        #try:
+        return self.__getattribute__(elt.tag)(list(elt), **elt.attrib)
+#        except Exception, e:
+#            print e
+#            raise Exception("Invalid element %s" % elt.tag)
 
     def dispatch2(self, method_name, args):
         try:
@@ -358,7 +364,7 @@ class Parser(object):
                     color = self.color(colors[0].getchildren())
 
                 self._current_turtle.color = color
-                #if self._turtle_color_setflag is True:
+                # if self._turtle_color_setflag is True:
                 #    color = self._turtle_color
             else:
                 raise Exception("color is null!!!")
@@ -374,7 +380,6 @@ class Parser(object):
             graph.vertex_property('turtle_state')[id] = self._current_turtle
 
         self._current_turtle = None
-
 
     Node = node
 
@@ -575,8 +580,8 @@ class Parser(object):
             height = turtle.length
             radius = turtle.diameter /2.
             color = turtle.color
-            return pgl.Cylinder(radius=radius, height=height),
-            pgl.Matrix4.translation(Vector3(0, 0, height))
+            return (pgl.Cylinder(radius=radius, height=height),
+            pgl.Matrix4.translation(Vector3(0, 0, height)))
 
         length = float(length)
         diameter = float(diameter)
@@ -815,8 +820,12 @@ class Parser(object):
 
         edge_type = g.edge_property("edge_type")
         transform = g.vertex_property("transform")
+        local_turtles = g.vertex_property("turtle_state")
 
         transfos = {g.root: pgl.Matrix4()}
+
+        # CPL
+        turtles = {g.root: TurtleState()}
 
         def parent(vid):
             for eid in g.in_edges(vid):
@@ -875,6 +884,8 @@ class Parser(object):
         def invTransformVector(t, v):
             x = v[0]
             y = v[1]
+
+            v= Vector3()
             m00 = t.getRow(0).x
             m01 = t.getRow(0).y
             m02 = t.getRow(0).z
@@ -891,7 +902,7 @@ class Parser(object):
             v[0] = d0 * d * x + (m21 * m02 - m01 * m22) * d * y + (m01 * m12 - m02 * m11) * d * v[2]
             v[1] = d1 * d * x + (m00 * m22 - m02 * m20) * d * y + (m10 * m02 - m00 * m12) * d * v[2]
             v[2] = d2 * d * x + (m20 * m01 - m00 * m21) * d * y + (m00 * m11 - m01 * m10) * d * v[2]
-            return
+            return v
 
         def setFromAxisAngle(x, y, z, angle):
             n = sqrt(x * x + y * y + z * z)
@@ -933,7 +944,7 @@ class Parser(object):
             vec3 = Vector3(x, y, z)
             angle = strength * sqrt((x * x + y * y + z * z) / (t.x * t.x + t.y * t.y + t.z * t.z))
             if (angle * angle) >= 1e-20:
-                invTransformVector(m, vec3)
+                vec3 = invTransformVector(m, vec3)
                 return setFromAxisAngle(vec3.x, vec3.y, vec3.z, angle)
             else:
                 vec1 = Vector4(1, 0, 0, 0)
@@ -983,8 +994,15 @@ class Parser(object):
                 vec4 = Vector4(0, 0, 0, 1)
                 return pgl.Matrix4(vec1, vec2, vec3, vec4)
 
+        def update_turtle(v, ts):
+            local_turtle = local_turtles.get(v, TurtleState())
+            global_turtle = ts.combine(local_turtle)
+            return global_turtle
+
         for v in breadth_first_search(g, vid):
-            if parent(v) == v and v != g.root:
+            pid = parent(v)
+
+            if pid == v and v != g.root:
                 print "ERRRORRRR"
                 print v
                 continue
@@ -992,13 +1010,25 @@ class Parser(object):
             # print "parent(v)", parent(v)
             # print "transfos", transfos
             #m = transfos[parent(v)]
-            m = transfos.get(parent(v))
+            m = transfos.get(pid)
+
+            # CPL
+            ts = turtles.get(pid, TurtleState())
+            global_turtle = update_turtle(v, ts)
+
+            local_t = transform.get(v)
+            if local_t == self.FUNCTIONAL:
+                # Get the functional shape to compute the transformation and geometry
+                # with the turtle state
+                local_t = self.f_shape(v, global_turtle)
+
 
             # print "every m : ", m
             # Transform the current shape with the stack of transfos m from the root.
             # Store the result in the graph.
             self._local2global(v, m)
-            local_t = transform.get(v)
+
+
 
             # print "local_t : ", local_t
             if local_t == -1:
@@ -1046,7 +1076,9 @@ class Parser(object):
             else:
                 # print m
                 pass
+
             transfos[v] = m
+            turtles[v] = global_turtle
 
             if parent(v) == 7295 and v == 181:
                 print m.getColumn(3)
@@ -1077,6 +1109,18 @@ class Parser(object):
             if edge_type[eid] in ['<', '+', '/']:
                 for new_vid in self.traverse(target_vid, [m]):
                     yield new_vid
+
+    def f_shape(self, vid, t):
+        g = self._graph
+        geometry = g.vertex_property("geometry")
+        transform = g.vertex_property("transform")
+
+        shape = geometry.get(vid)
+        geom, transfo = shape(t)
+
+        geometry[vid] = geom
+        transform[vid] = transfo
+        return transfo
 
     def _local2global(self, vid, matrix):
         g = self._graph
