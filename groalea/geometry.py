@@ -234,53 +234,64 @@ def no_interior(p1, p2, p3, v, poly_or):
 
 ##########################################################################
 
-def grotation(m, strength):
-    t = m.getColumn(2)
-    v0 = t.x
-    v1 = t.y
-    v2 = t.z
-    q = 1 / sqrt(t.x * t.x + t.y * t.y + t.z * t.z)
-    v0 *= q
-    v1 *= q
-    v2 *= q
-    v02 = v0 * v0
-    v12 = v1 * v1
-    q = v02 + v12
-    m00 = m11 = m22 = m10 = m20 = m01 = m21 = m02 = m12 = 0
-    local_m = 0
-    if (q < 1e-10) or (v2 * v2 > 0.99999):
-        if v2 * (v2 - strength) < 0:
-            m00 = m.getRow(0).x
-            m10 = -m.getRow(1).x
-            m20 = -m.getRow(2).x
-            m01 = m.getRow(0).y
-            m11 = -m.getRow(1).y
-            m21 = -m.getRow(2).y
-            m02 = m.getRow(0).z
-            m12 = -m.getRow(1).z
-            m22 = -m.getRow(2).z
+class Frame(object):
+    def __init__(self, matrix4):
+        self.m = matrix4
+
+    def grotation(self, strength):
+        """ Doc """
+        m = self.m
+        t = m.getColumn(2)
+        v0 = t.x
+        v1 = t.y
+        v2 = t.z
+        q = 1 / sqrt(t.x * t.x + t.y * t.y + t.z * t.z)
+        v0 *= q
+        v1 *= q
+        v2 *= q
+        v02 = v0 * v0
+        v12 = v1 * v1
+        q = v02 + v12
+        m00 = m11 = m22 = m10 = m20 = m01 = m21 = m02 = m12 = 0
+        local_m = 0
+        if (q < 1e-10) or (v2 * v2 > 0.99999):
+            if v2 * (v2 - strength) < 0:
+                m00 = m.getRow(0).x
+                m10 = -m.getRow(1).x
+                m20 = -m.getRow(2).x
+                m01 = m.getRow(0).y
+                m11 = -m.getRow(1).y
+                m21 = -m.getRow(2).y
+                m02 = m.getRow(0).z
+                m12 = -m.getRow(1).z
+                m22 = -m.getRow(2).z
+            else:
+                m00 = m11 = m22 = 1
+                m10 = m20 = m01 = m21 = m02 = m12 = 0
         else:
-            m00 = m11 = m22 = 1
-            m10 = m20 = m01 = m21 = m02 = m12 = 0
-    else:
-        n = 1 / sqrt(1 - 2 * strength * v2 + strength * strength)
-        m22 = (1 - strength * v2) * n
-        m02 = strength * v0 * n
-        m20 = -m02
-        m12 = strength * v1 * n
-        m21 = -m12
+            n = 1 / sqrt(1 - 2 * strength * v2 + strength * strength)
+            m22 = (1 - strength * v2) * n
+            m02 = strength * v0 * n
+            m20 = -m02
+            m12 = strength * v1 * n
+            m21 = -m12
 
-        q = 1 / q
-        m00 = (v12 + v02 * m22) * q
-        m11 = (v02 + v12 * m22) * q
-        m01 = m10 = v0 * v1 * (m22 - 1) * q
+            q = 1 / q
+            m00 = (v12 + v02 * m22) * q
+            m11 = (v02 + v12 * m22) * q
+            m01 = m10 = v0 * v1 * (m22 - 1) * q
 
-    vec1 = Vector4(m00, m10, m20, 0)
-    vec2 = Vector4(m01, m11, m21, 0)
-    vec3 = Vector4(m02, m12, m22, 0)
-    vec4 = Vector4(0, 0, 0, 1)
-    local_m = pgl.Matrix4(vec1, vec2, vec3, vec4)
-    return local_m
+        vec1 = Vector4(m00, m10, m20, 0)
+        vec2 = Vector4(m01, m11, m21, 0)
+        vec3 = Vector4(m02, m12, m22, 0)
+        vec4 = Vector4(0, 0, 0, 1)
+        local_m = pgl.Matrix4(vec1, vec2, vec3, vec4)
+        return local_m
+
+
+def grotation(m, strength):
+    frame = Frame(m)
+    return frame.grotation(strength)
 
 def invTransformVector(t, v):
     x = v[0]
