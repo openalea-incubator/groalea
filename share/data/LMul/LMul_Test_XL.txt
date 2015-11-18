@@ -1,7 +1,0 @@
-module A;
-
-public void run ()
-[
-	Axiom ==> L(10) F0 A;
-	A ==>  LMul(0.5) [RU(90) F0] F0 RH(180) A;
-]

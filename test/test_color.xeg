@@ -1,2081 +1,1044 @@
-<graph>
-
-  <root root_id="1"/>
-
-  <type name="Internode">
-
-    <extends name="Organ"/>
-
-  </type>
-
-  <type name="Organ">
-
-    <extends name="Cylinder"/>
-
-    <property name="order" type="int"/>
-
-    <property name="allocatedCarbon" type="float"/>
-
-    <property name="producedCarbon" type="float"/>
-
-    <property name="exportedCarbon" type="float"/>
-
-    <property name="preference" type="float"/>
-
-  </type>
-
-  <node id="2" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="1"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="0.0"/>
-
-  </node>
-
-  <edge id="1" src_id="99" dest_id="2" type="successor"/>
-
-  <node id="3" name="" type="RU">
-
-    <property name="angle" value="-2.7180672"/>
-
-  </node>
-
-  <edge id="2" src_id="40" dest_id="3" type="successor"/>
-
-  <node id="4" name="" type="RH">
-
-    <property name="angle" value="-2.0690293"/>
-
-  </node>
-
-  <edge id="3" src_id="144" dest_id="4" type="successor"/>
-
-  <node id="5" name="" type="RU">
-
-    <property name="angle" value="2.3138943"/>
-
-  </node>
-
-  <edge id="4" src_id="24" dest_id="5" type="successor"/>
-
-  <node id="6" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="5" src_id="53" dest_id="6" type="successor"/>
-
-  <node id="7" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="6" src_id="123" dest_id="7" type="branch"/>
-
-  <node id="8" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="7" src_id="161" dest_id="8" type="successor"/>
-
-  <node id="9" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="8" src_id="153" dest_id="9" type="branch"/>
-
-  <node id="10" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="9" src_id="159" dest_id="10" type="successor"/>
-
-  <node id="11" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="0"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="0.0"/>
-
-  </node>
-
-  <edge id="10" src_id="62" dest_id="11" type="successor"/>
-
-  <node id="12" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="11" src_id="167" dest_id="12" type="successor"/>
-
-  <type name="Tropism">
-
-    <extends name="Node"/>
-
-    <property name="strength" type="bounded"/>
-
-  </type>
-
-  <node id="13" name="" type="RG"/>
-
-  <edge id="12" src_id="129" dest_id="13" type="successor"/>
-
-  <node id="14" name="" type="AdjustLU"/>
-
-  <edge id="13" src_id="124" dest_id="14" type="successor"/>
-
-  <node id="15" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="1"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="1.0"/>
-
-  </node>
-
-  <edge id="14" src_id="98" dest_id="15" type="successor"/>
-
-  <node id="16" name="" type="RU">
-
-    <property name="angle" value="-43.361435"/>
-
-  </node>
-
-  <edge id="15" src_id="99" dest_id="16" type="branch"/>
-
-  <node id="17" name="" type="RH">
-
-    <property name="angle" value="32.679237"/>
-
-  </node>
-
-  <edge id="16" src_id="132" dest_id="17" type="successor"/>
-
-  <type name="BeechLeaf">
-
-    <extends name="Parallelogram"/>
-
-    <property name="producedCarbon" type="float"/>
-
-  </type>
-
-  <type name="Parallelogram">
-
-    <extends name="Axis"/>
-
-  </type>
-
-  <type name="Axis">
-
-    <extends name="AxisBase"/>
-
-    <property name="length" type="float"/>
-
-    <property name="startPosition" type="float"/>
-
-    <property name="endPosition" type="float"/>
-
-  </type>
-
-  <type name="AxisBase">
-
-    <extends name="Node"/>
-
-    <property name="scaleV" type="boolean"/>
-
-  </type>
-
-  <node id="18" name="" type="BeechLeaf">
-
-    <property name="color">
-
-      <rgb>0.0 1.0 0.0</rgb>
-
-    </property>
-
-    <property name="scaleV" value="false"/>
-
-    <property name="length" value="0.05039082"/>
-
-    <property name="startPosition" value="0.0"/>
-
-    <property name="endPosition" value="1.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-  </node>
-
-  <edge id="17" src_id="69" dest_id="18" type="successor"/>
-
-  <type name="Bud">
-
-    <extends name="Node"/>
-
-    <property name="order" type="int"/>
-
-    <property name="vitality" type="float"/>
-
-    <property name="sign" type="int"/>
-
-  </type>
-
-  <node id="19" name="" type="Bud">
-
-    <property name="order" value="1"/>
-
-    <property name="vitality" value="2.0"/>
-
-    <property name="sign" value="-1"/>
-
-  </node>
-
-  <edge id="18" src_id="114" dest_id="19" type="successor"/>
-
-  <type name="Beech">
-
-    <extends name="Organ"/>
-
-    <property name="totalMass" type="float"/>
-
-    <property name="produced" type="float"/>
-
-  </type>
-
-  <node id="20" name="" type="Beech">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.01"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.6666667 0.33333334 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="0"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="1.0"/>
-
-    <property name="totalMass" value="2.4192982E-6"/>
-
-    <property name="produced" value="0.0"/>
-
-  </node>
-
-  <edge id="19" src_id="1" dest_id="20" type="successor"/>
-
-  <node id="21" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="20" src_id="154" dest_id="21" type="successor"/>
-
-  <node id="22" name="" type="RH">
-
-    <property name="angle" value="10.316505"/>
-
-  </node>
-
-  <edge id="21" src_id="113" dest_id="22" type="successor"/>
-
-  <node id="23" name="" type="AdjustLU"/>
-
-  <edge id="22" src_id="43" dest_id="23" type="successor"/>
-
-  <node id="24" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.005781757"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="0"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="0.0"/>
-
-  </node>
-
-  <edge id="23" src_id="20" dest_id="24" type="successor"/>
-
-  <node id="25" name="" type="RG"/>
-
-  <edge id="24" src_id="36" dest_id="25" type="successor"/>
-
-  <node id="26" name="" type="Bud">
-
-    <property name="order" value="0"/>
-
-    <property name="vitality" value="2.0"/>
-
-    <property name="sign" value="-1"/>
-
-  </node>
-
-  <edge id="25" src_id="162" dest_id="26" type="successor"/>
-
-  <node id="27" name="" type="RL">
-
-    <property name="angle" value="67.3484"/>
-
-  </node>
-
-  <edge id="26" src_id="108" dest_id="27" type="branch"/>
-
-  <node id="28" name="" type="BeechLeaf">
-
-    <property name="color">
-
-      <rgb>0.0 1.0 0.0</rgb>
-
-    </property>
-
-    <property name="scaleV" value="false"/>
-
-    <property name="length" value="0.047437392"/>
-
-    <property name="startPosition" value="0.0"/>
-
-    <property name="endPosition" value="1.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-  </node>
-
-  <edge id="27" src_id="166" dest_id="28" type="successor"/>
-
-  <node id="29" name="" type="RU">
-
-    <property name="angle" value="0.7792492"/>
-
-  </node>
-
-  <edge id="28" src_id="67" dest_id="29" type="successor"/>
-
-  <node id="30" name="" type="RH">
-
-    <property name="angle" value="-3.8309913"/>
-
-  </node>
-
-  <edge id="29" src_id="185" dest_id="30" type="successor"/>
-
-  <node id="31" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="1"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="1.0"/>
-
-  </node>
-
-  <edge id="30" src_id="184" dest_id="31" type="successor"/>
-
-  <node id="32" name="" type="AdjustLU"/>
-
-  <edge id="31" src_id="130" dest_id="32" type="successor"/>
-
-  <node id="33" name="" type="RU">
-
-    <property name="angle" value="16.041142"/>
-
-  </node>
-
-  <edge id="32" src_id="88" dest_id="33" type="successor"/>
-
-  <node id="34" name="" type="RG"/>
-
-  <edge id="33" src_id="7" dest_id="34" type="successor"/>
-
-  <node id="35" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="34" src_id="180" dest_id="35" type="successor"/>
-
-  <node id="36" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="35" src_id="44" dest_id="36" type="branch"/>
-
-  <node id="37" name="" type="RG"/>
-
-  <edge id="36" src_id="56" dest_id="37" type="successor"/>
-
-  <node id="38" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="37" src_id="138" dest_id="38" type="branch"/>
-
-  <node id="39" name="" type="RH">
-
-    <property name="angle" value="-6.2734194"/>
-
-  </node>
-
-  <edge id="38" src_id="81" dest_id="39" type="successor"/>
-
-  <node id="40" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.015512161"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="0"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="0.0"/>
-
-  </node>
-
-  <edge id="39" src_id="60" dest_id="40" type="successor"/>
-
-  <node id="41" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="0"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="0.0"/>
-
-  </node>
-
-  <edge id="40" src_id="48" dest_id="41" type="successor"/>
-
-  <node id="42" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="0"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="1.0"/>
-
-  </node>
-
-  <edge id="41" src_id="108" dest_id="42" type="successor"/>
-
-  <node id="43" name="" type="RL">
-
-    <property name="angle" value="-61.624912"/>
-
-  </node>
-
-  <edge id="42" src_id="62" dest_id="43" type="branch"/>
-
-  <node id="44" name="" type="AdjustLU"/>
-
-  <edge id="43" src_id="102" dest_id="44" type="successor"/>
-
-  <node id="45" name="" type="RU">
-
-    <property name="angle" value="56.746346"/>
-
-  </node>
-
-  <edge id="44" src_id="30" dest_id="45" type="branch"/>
-
-  <node id="46" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="45" src_id="100" dest_id="46" type="successor"/>
-
-  <node id="47" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="46" src_id="135" dest_id="47" type="successor"/>
-
-  <node id="48" name="" type="RH">
-
-    <property name="angle" value="-29.261463"/>
-
-  </node>
-
-  <edge id="47" src_id="29" dest_id="48" type="successor"/>
-
-  <node id="49" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="48" src_id="23" dest_id="49" type="branch"/>
-
-  <node id="50" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="49" src_id="136" dest_id="50" type="branch"/>
-
-  <node id="51" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="50" src_id="80" dest_id="51" type="branch"/>
-
-  <node id="52" name="" type="RU">
-
-    <property name="angle" value="7.1420794"/>
-
-  </node>
-
-  <edge id="51" src_id="119" dest_id="52" type="successor"/>
-
-  <node id="53" name="" type="RG"/>
-
-  <edge id="52" src_id="141" dest_id="53" type="successor"/>
-
-  <node id="54" name="" type="RG"/>
-
-  <edge id="53" src_id="50" dest_id="54" type="successor"/>
-
-  <node id="55" name="" type="AdjustLU"/>
-
-  <edge id="54" src_id="70" dest_id="55" type="successor"/>
-
-  <node id="56" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="55" src_id="114" dest_id="56" type="branch"/>
-
-  <node id="57" name="" type="AdjustLU"/>
-
-  <edge id="56" src_id="90" dest_id="57" type="successor"/>
-
-  <node id="58" name="" type="RU">
-
-    <property name="angle" value="1.6543202"/>
-
-  </node>
-
-  <edge id="57" src_id="11" dest_id="58" type="successor"/>
-
-  <node id="59" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="1"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="0.0"/>
-
-  </node>
-
-  <edge id="58" src_id="4" dest_id="59" type="successor"/>
-
-  <node id="60" name="" type="RH">
-
-    <property name="angle" value="54.0493"/>
-
-  </node>
-
-  <edge id="59" src_id="5" dest_id="60" type="successor"/>
-
-  <node id="61" name="" type="RU">
-
-    <property name="angle" value="-1.8824742"/>
-
-  </node>
-
-  <edge id="60" src_id="134" dest_id="61" type="successor"/>
-
-  <node id="62" name="" type="RH">
-
-    <property name="angle" value="-24.69516"/>
-
-  </node>
-
-  <edge id="61" src_id="125" dest_id="62" type="successor"/>
-
-  <node id="63" name="" type="RL">
-
-    <property name="angle" value="65.88193"/>
-
-  </node>
-
-  <edge id="62" src_id="48" dest_id="63" type="branch"/>
-
-  <node id="64" name="" type="RU">
-
-    <property name="angle" value="-46.271236"/>
-
-  </node>
-
-  <edge id="63" src_id="4" dest_id="64" type="branch"/>
-
-  <node id="65" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.021302605"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="0"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="0.0"/>
-
-  </node>
-
-  <edge id="64" src_id="116" dest_id="65" type="successor"/>
-
-  <node id="66" name="" type="BeechLeaf">
-
-    <property name="color">
-
-      <rgb>0.0 1.0 0.0</rgb>
-
-    </property>
-
-    <property name="scaleV" value="false"/>
-
-    <property name="length" value="0.055902097"/>
-
-    <property name="startPosition" value="0.0"/>
-
-    <property name="endPosition" value="1.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-  </node>
-
-  <edge id="65" src_id="91" dest_id="66" type="successor"/>
-
-  <node id="67" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="0"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="0.0"/>
-
-  </node>
-
-  <edge id="66" src_id="148" dest_id="67" type="successor"/>
-
-  <node id="68" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="1"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="0.0"/>
-
-  </node>
-
-  <edge id="67" src_id="95" dest_id="68" type="successor"/>
-
-  <node id="69" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="68" src_id="176" dest_id="69" type="successor"/>
-
-  <node id="70" name="" type="RU">
-
-    <property name="angle" value="39.102165"/>
-
-  </node>
-
-  <edge id="69" src_id="98" dest_id="70" type="branch"/>
-
-  <node id="71" name="" type="RU">
-
-    <property name="angle" value="-10.716475"/>
-
-  </node>
-
-  <edge id="70" src_id="105" dest_id="71" type="successor"/>
-
-  <node id="72" name="" type="BeechLeaf">
-
-    <property name="color">
-
-      <rgb>0.0 1.0 0.0</rgb>
-
-    </property>
-
-    <property name="scaleV" value="false"/>
-
-    <property name="length" value="0.073382795"/>
-
-    <property name="startPosition" value="0.0"/>
-
-    <property name="endPosition" value="1.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-  </node>
-
-  <edge id="71" src_id="183" dest_id="72" type="successor"/>
-
-  <node id="73" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="72" src_id="151" dest_id="73" type="successor"/>
-
-  <node id="74" name="" type="BeechLeaf">
-
-    <property name="color">
-
-      <rgb>0.0 1.0 0.0</rgb>
-
-    </property>
-
-    <property name="scaleV" value="false"/>
-
-    <property name="length" value="0.082398385"/>
-
-    <property name="startPosition" value="0.0"/>
-
-    <property name="endPosition" value="1.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-  </node>
-
-  <edge id="73" src_id="170" dest_id="74" type="successor"/>
-
-  <node id="75" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="74" src_id="158" dest_id="75" type="successor"/>
-
-  <node id="76" name="" type="RH">
-
-    <property name="angle" value="2.9950085"/>
-
-  </node>
-
-  <edge id="75" src_id="61" dest_id="76" type="successor"/>
-
-  <node id="77" name="" type="RG"/>
-
-  <edge id="76" src_id="128" dest_id="77" type="successor"/>
-
-  <node id="78" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="1"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="1.0"/>
-
-  </node>
-
-  <edge id="77" src_id="22" dest_id="78" type="successor"/>
-
-  <node id="79" name="" type="RG"/>
-
-  <edge id="78" src_id="9" dest_id="79" type="successor"/>
-
-  <node id="80" name="" type="AdjustLU"/>
-
-  <edge id="79" src_id="16" dest_id="80" type="successor"/>
-
-  <node id="81" name="" type="RU">
-
-    <property name="angle" value="17.552374"/>
-
-  </node>
-
-  <edge id="80" src_id="181" dest_id="81" type="successor"/>
-
-  <node id="82" name="" type="RL">
-
-    <property name="angle" value="-74.79625"/>
-
-  </node>
-
-  <edge id="81" src_id="76" dest_id="82" type="branch"/>
-
-  <node id="83" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="82" src_id="162" dest_id="83" type="branch"/>
-
-  <node id="84" name="" type="RU">
-
-    <property name="angle" value="-2.3243542"/>
-
-  </node>
-
-  <edge id="83" src_id="59" dest_id="84" type="successor"/>
-
-  <node id="85" name="" type="RU">
-
-    <property name="angle" value="75.50954"/>
-
-  </node>
-
-  <edge id="84" src_id="95" dest_id="85" type="branch"/>
-
-  <node id="86" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="85" src_id="140" dest_id="86" type="branch"/>
-
-  <node id="87" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="0"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="1.0"/>
-
-  </node>
-
-  <edge id="86" src_id="76" dest_id="87" type="successor"/>
-
-  <node id="88" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="1"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="0.0"/>
-
-  </node>
-
-  <edge id="87" src_id="147" dest_id="88" type="successor"/>
-
-  <node id="89" name="" type="RU">
-
-    <property name="angle" value="-4.33847"/>
-
-  </node>
-
-  <edge id="88" src_id="42" dest_id="89" type="successor"/>
-
-  <node id="90" name="" type="RU">
-
-    <property name="angle" value="38.928658"/>
-
-  </node>
-
-  <edge id="89" src_id="147" dest_id="90" type="branch"/>
-
-  <node id="91" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="90" src_id="101" dest_id="91" type="successor"/>
-
-  <node id="92" name="" type="RG"/>
-
-  <edge id="91" src_id="178" dest_id="92" type="successor"/>
-
-  <node id="93" name="" type="RG"/>
-
-  <edge id="92" src_id="156" dest_id="93" type="successor"/>
-
-  <node id="94" name="" type="RU">
-
-    <property name="angle" value="4.265996"/>
-
-  </node>
-
-  <edge id="93" src_id="97" dest_id="94" type="successor"/>
-
-  <node id="95" name="" type="RH">
-
-    <property name="angle" value="3.177915"/>
-
-  </node>
-
-  <edge id="94" src_id="84" dest_id="95" type="successor"/>
-
-  <node id="96" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="95" src_id="57" dest_id="96" type="branch"/>
-
-  <node id="97" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.025195438"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="0"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="0.0"/>
-
-  </node>
-
-  <edge id="96" src_id="155" dest_id="97" type="successor"/>
-
-  <node id="98" name="" type="RH">
-
-    <property name="angle" value="7.26376"/>
-
-  </node>
-
-  <edge id="97" src_id="122" dest_id="98" type="successor"/>
-
-  <node id="99" name="" type="RH">
-
-    <property name="angle" value="11.537287"/>
-
-  </node>
-
-  <edge id="98" src_id="33" dest_id="99" type="successor"/>
-
-  <node id="100" name="" type="RG"/>
-
-  <edge id="99" src_id="86" dest_id="100" type="successor"/>
-
-  <node id="101" name="" type="RG"/>
-
-  <edge id="100" src_id="38" dest_id="101" type="successor"/>
-
-  <node id="102" name="" type="RU">
-
-    <property name="angle" value="-64.13043"/>
-
-  </node>
-
-  <edge id="101" src_id="168" dest_id="102" type="branch"/>
-
-  <node id="103" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="102" src_id="93" dest_id="103" type="successor"/>
-
-  <node id="104" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="103" src_id="77" dest_id="104" type="successor"/>
-
-  <node id="105" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="1"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="0.0"/>
-
-  </node>
-
-  <edge id="104" src_id="153" dest_id="105" type="successor"/>
-
-  <node id="106" name="" type="RH">
-
-    <property name="angle" value="8.926163"/>
-
-  </node>
-
-  <edge id="105" src_id="89" dest_id="106" type="successor"/>
-
-  <node id="107" name="" type="AdjustLU"/>
-
-  <edge id="106" src_id="27" dest_id="107" type="successor"/>
-
-  <node id="108" name="" type="RH">
-
-    <property name="angle" value="14.377017"/>
-
-  </node>
-
-  <edge id="107" src_id="126" dest_id="108" type="successor"/>
-
-  <node id="109" name="" type="AdjustLU"/>
-
-  <edge id="108" src_id="45" dest_id="109" type="successor"/>
-
-  <node id="110" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="109" src_id="109" dest_id="110" type="branch"/>
-
-  <node id="111" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="110" src_id="121" dest_id="111" type="branch"/>
-
-  <node id="112" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="111" src_id="32" dest_id="112" type="branch"/>
-
-  <node id="113" name="" type="RU">
-
-    <property name="angle" value="20.47044"/>
-
-  </node>
-
-  <edge id="112" src_id="68" dest_id="113" type="successor"/>
-
-  <node id="114" name="" type="RH">
-
-    <property name="angle" value="-3.400825"/>
-
-  </node>
-
-  <edge id="113" src_id="175" dest_id="114" type="successor"/>
-
-  <node id="115" name="" type="BeechLeaf">
-
-    <property name="color">
-
-      <rgb>0.0 1.0 0.0</rgb>
-
-    </property>
-
-    <property name="scaleV" value="false"/>
-
-    <property name="length" value="0.0337452"/>
-
-    <property name="startPosition" value="0.0"/>
-
-    <property name="endPosition" value="1.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-  </node>
-
-  <edge id="114" src_id="6" dest_id="115" type="successor"/>
-
-  <node id="116" name="" type="RH">
-
-    <property name="angle" value="3.7922695"/>
-
-  </node>
-
-  <edge id="115" src_id="52" dest_id="116" type="successor"/>
-
-  <node id="117" name="" type="RG"/>
-
-  <edge id="116" src_id="112" dest_id="117" type="successor"/>
-
-  <node id="118" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="117" src_id="172" dest_id="118" type="successor"/>
-
-  <node id="119" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.026981557"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="0"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="0.0"/>
-
-  </node>
-
-  <edge id="118" src_id="150" dest_id="119" type="successor"/>
-
-  <node id="120" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="119" src_id="55" dest_id="120" type="branch"/>
-
-  <node id="121" name="" type="AdjustLU"/>
-
-  <edge id="120" src_id="85" dest_id="121" type="successor"/>
-
-  <node id="122" name="" type="RU">
-
-    <property name="angle" value="-32.688503"/>
-
-  </node>
-
-  <edge id="121" src_id="78" dest_id="122" type="successor"/>
-
-  <node id="123" name="" type="AdjustLU"/>
-
-  <edge id="122" src_id="63" dest_id="123" type="successor"/>
-
-  <node id="124" name="" type="RU">
-
-    <property name="angle" value="-48.63836"/>
-
-  </node>
-
-  <edge id="123" src_id="179" dest_id="124" type="branch"/>
-
-  <node id="125" name="" type="RU">
-
-    <property name="angle" value="-0.21783693"/>
-
-  </node>
-
-  <edge id="124" src_id="41" dest_id="125" type="successor"/>
-
-  <node id="126" name="" type="RU">
-
-    <property name="angle" value="-6.34727"/>
-
-  </node>
-
-  <edge id="125" src_id="87" dest_id="126" type="successor"/>
-
-  <node id="127" name="" type="BeechLeaf">
-
-    <property name="color">
-
-      <rgb>0.0 1.0 0.0</rgb>
-
-    </property>
-
-    <property name="scaleV" value="false"/>
-
-    <property name="length" value="0.082985245"/>
-
-    <property name="startPosition" value="0.0"/>
-
-    <property name="endPosition" value="1.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-  </node>
-
-  <edge id="126" src_id="104" dest_id="127" type="successor"/>
-
-  <node id="128" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="127" src_id="14" dest_id="128" type="branch"/>
-
-  <node id="129" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="128" src_id="22" dest_id="129" type="branch"/>
-
-  <node id="130" name="" type="RL">
-
-    <property name="angle" value="-81.83873"/>
-
-  </node>
-
-  <edge id="129" src_id="150" dest_id="130" type="branch"/>
-
-  <node id="131" name="" type="AdjustLU"/>
-
-  <edge id="130" src_id="157" dest_id="131" type="successor"/>
-
-  <node id="132" name="" type="RU">
-
-    <property name="angle" value="9.222645"/>
-
-  </node>
-
-  <edge id="131" src_id="65" dest_id="132" type="successor"/>
-
-  <node id="133" name="" type="RU">
-
-    <property name="angle" value="11.6631365"/>
-
-  </node>
-
-  <edge id="132" src_id="31" dest_id="133" type="successor"/>
-
-  <node id="134" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="0"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="1.0"/>
-
-  </node>
-
-  <edge id="133" src_id="92" dest_id="134" type="successor"/>
-
-  <node id="135" name="" type="RG"/>
-
-  <edge id="134" src_id="49" dest_id="135" type="successor"/>
-
-  <node id="136" name="" type="AdjustLU"/>
-
-  <edge id="135" src_id="64" dest_id="136" type="successor"/>
-
-  <node id="137" name="" type="BeechLeaf">
-
-    <property name="color">
-
-      <rgb>0.0 1.0 0.0</rgb>
-
-    </property>
-
-    <property name="scaleV" value="false"/>
-
-    <property name="length" value="0.05374551"/>
-
-    <property name="startPosition" value="0.0"/>
-
-    <property name="endPosition" value="1.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-  </node>
-
-  <edge id="136" src_id="35" dest_id="137" type="successor"/>
-
-  <node id="138" name="" type="AdjustLU"/>
-
-  <edge id="137" src_id="82" dest_id="138" type="successor"/>
-
-  <node id="139" name="" type="RL">
-
-    <property name="angle" value="-67.72137"/>
-
-  </node>
-
-  <edge id="138" src_id="60" dest_id="139" type="branch"/>
-
-  <node id="140" name="" type="AdjustLU"/>
-
-  <edge id="139" src_id="139" dest_id="140" type="successor"/>
-
-  <node id="141" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="140" src_id="107" dest_id="141" type="branch"/>
-
-  <node id="142" name="" type="BeechLeaf">
-
-    <property name="color">
-
-      <rgb>0.0 1.0 0.0</rgb>
-
-    </property>
-
-    <property name="scaleV" value="false"/>
-
-    <property name="length" value="0.04657997"/>
-
-    <property name="startPosition" value="0.0"/>
-
-    <property name="endPosition" value="1.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-  </node>
-
-  <edge id="141" src_id="12" dest_id="142" type="successor"/>
-
-  <node id="143" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="142" src_id="131" dest_id="143" type="branch"/>
-
-  <node id="144" name="" type="RU">
-
-    <property name="angle" value="20.331697"/>
-
-  </node>
-
-  <edge id="143" src_id="177" dest_id="144" type="successor"/>
-
-  <node id="145" name="" type="Bud">
-
-    <property name="order" value="1"/>
-
-    <property name="vitality" value="2.0"/>
-
-    <property name="sign" value="1"/>
-
-  </node>
-
-  <edge id="144" src_id="39" dest_id="145" type="successor"/>
-
-  <node id="146" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="145" src_id="34" dest_id="146" type="successor"/>
-
-  <node id="147" name="" type="RH">
-
-    <property name="angle" value="0.037719764"/>
-
-  </node>
-
-  <edge id="146" src_id="71" dest_id="147" type="successor"/>
-
-  <node id="148" name="" type="RG"/>
-
-  <edge id="147" src_id="17" dest_id="148" type="successor"/>
-
-  <node id="149" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="148" src_id="39" dest_id="149" type="branch"/>
-
-  <node id="150" name="" type="RH">
-
-    <property name="angle" value="12.469435"/>
-
-  </node>
-
-  <edge id="149" src_id="94" dest_id="150" type="successor"/>
-
-  <node id="151" name="" type="RG"/>
-
-  <edge id="150" src_id="143" dest_id="151" type="successor"/>
-
-  <node id="152" name="" type="RU">
-
-    <property name="angle" value="-8.387871"/>
-
-  </node>
-
-  <edge id="151" src_id="15" dest_id="152" type="successor"/>
-
-  <node id="153" name="" type="AdjustLU"/>
-
-  <edge id="152" src_id="171" dest_id="153" type="successor"/>
-
-  <node id="154" name="" type="RG"/>
-
-  <edge id="153" src_id="51" dest_id="154" type="successor"/>
-
-  <node id="155" name="" type="RH">
-
-    <property name="angle" value="26.281298"/>
-
-  </node>
-
-  <edge id="154" src_id="3" dest_id="155" type="successor"/>
-
-  <node id="156" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="155" src_id="148" dest_id="156" type="branch"/>
-
-  <node id="157" name="" type="RL">
-
-    <property name="angle" value="86.54079"/>
-
-  </node>
-
-  <edge id="156" src_id="155" dest_id="157" type="branch"/>
-
-  <node id="158" name="" type="RG"/>
-
-  <edge id="157" src_id="111" dest_id="158" type="successor"/>
-
-  <node id="159" name="" type="RG"/>
-
-  <edge id="158" src_id="96" dest_id="159" type="successor"/>
-
-  <node id="160" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="159" src_id="184" dest_id="160" type="branch"/>
-
-  <node id="161" name="" type="RG"/>
-
-  <edge id="160" src_id="160" dest_id="161" type="successor"/>
-
-  <node id="162" name="" type="RG"/>
-
-  <edge id="161" src_id="106" dest_id="162" type="successor"/>
-
-  <node id="163" name="" type="RU">
-
-    <property name="angle" value="-14.010791"/>
-
-  </node>
-
-  <edge id="162" src_id="2" dest_id="163" type="successor"/>
-
-  <node id="164" name="" type="RG"/>
-
-  <edge id="163" src_id="83" dest_id="164" type="successor"/>
-
-  <node id="165" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="164" src_id="79" dest_id="165" type="successor"/>
-
-  <node id="166" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="165" src_id="25" dest_id="166" type="successor"/>
-
-  <node id="167" name="" type="RG"/>
-
-  <edge id="166" src_id="120" dest_id="167" type="successor"/>
-
-  <node id="168" name="" type="RH">
-
-    <property name="angle" value="-11.375466"/>
-
-  </node>
-
-  <edge id="167" src_id="152" dest_id="168" type="successor"/>
-
-  <node id="169" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="1"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="1.0"/>
-
-  </node>
-
-  <edge id="168" src_id="168" dest_id="169" type="successor"/>
-
-  <node id="170" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="169" src_id="37" dest_id="170" type="successor"/>
-
-  <node id="171" name="" type="RL">
-
-    <property name="angle" value="56.00366"/>
-
-  </node>
-
-  <edge id="170" src_id="116" dest_id="171" type="branch"/>
-
-  <node id="172" name="" type="RG"/>
-
-  <edge id="171" src_id="186" dest_id="172" type="successor"/>
-
-  <node id="173" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="172" src_id="54" dest_id="173" type="successor"/>
-
-  <node id="174" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="173" src_id="117" dest_id="174" type="successor"/>
-
-  <node id="175" name="" type="RU">
-
-    <property name="angle" value="-12.8482895"/>
-
-  </node>
-
-  <edge id="174" src_id="169" dest_id="175" type="successor"/>
-
-  <node id="176" name="" type="RG"/>
-
-  <edge id="175" src_id="149" dest_id="176" type="successor"/>
-
-  <node id="177" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="1"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="0.0"/>
-
-  </node>
-
-  <edge id="176" src_id="32" dest_id="177" type="successor"/>
-
-  <node id="178" name="" type="RH">
-
-    <property name="angle" value="-3.3540401"/>
-
-  </node>
-
-  <edge id="177" src_id="58" dest_id="178" type="successor"/>
-
-  <node id="179" name="" type="RH">
-
-    <property name="angle" value="-9.342269"/>
-
-  </node>
-
-  <edge id="178" src_id="133" dest_id="179" type="successor"/>
-
-  <node id="180" name="" type="RG"/>
-
-  <edge id="179" src_id="110" dest_id="180" type="successor"/>
-
-  <node id="181" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="1"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="1.0"/>
-
-  </node>
-
-  <edge id="180" src_id="30" dest_id="181" type="successor"/>
-
-  <node id="182" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="181" src_id="13" dest_id="182" type="successor"/>
-
-  <node id="183" name="" type="RL">
-
-    <property name="angle" value="-90.0"/>
-
-  </node>
-
-  <edge id="182" src_id="164" dest_id="183" type="successor"/>
-
-  <node id="184" name="" type="RH">
-
-    <property name="angle" value="20.929892"/>
-
-  </node>
-
-  <edge id="183" src_id="163" dest_id="184" type="successor"/>
-
-  <node id="185" name="" type="RU">
-
-    <property name="angle" value="-21.45578"/>
-
-  </node>
-
-  <edge id="184" src_id="187" dest_id="185" type="successor"/>
-
-  <node id="186" name="" type="RL">
-
-    <property name="angle" value="90.0"/>
-
-  </node>
-
-  <edge id="185" src_id="92" dest_id="186" type="branch"/>
-
-  <node id="187" name="" type="Internode">
-
-    <property name="radius" value="1.0E-4"/>
-
-    <property name="height" value="0.0020"/>
-
-    <property name="top_open" value="false"/>
-
-    <property name="bottom_open" value="false"/>
-
-    <property name="color">
-
-      <rgb>0.0 0.0 0.0</rgb>
-
-    </property>
-
-    <property name="order" value="1"/>
-
-    <property name="allocatedCarbon" value="0.0"/>
-
-    <property name="producedCarbon" value="0.0"/>
-
-    <property name="exportedCarbon" value="0.0"/>
-
-    <property name="preference" value="1.0"/>
-
-  </node>
-
-  <edge id="186" src_id="179" dest_id="187" type="successor"/>
-
+<graph>
+  <root root_id="1"/>
+  <type name="Internode">
+    <extends name="Organ"/>
+  </type>
+  <type name="Organ">
+    <extends name="Cylinder"/>
+    <property name="order" type="int"/>
+    <property name="allocatedCarbon" type="float"/>
+    <property name="producedCarbon" type="float"/>
+    <property name="exportedCarbon" type="float"/>
+    <property name="preference" type="float"/>
+  </type>
+  <node id="2" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="1"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="0.0"/>
+  </node>
+  <edge id="1" src_id="99" dest_id="2" type="successor"/>
+  <node id="3" name="" type="RU">
+    <property name="angle" value="-2.7180672"/>
+  </node>
+  <edge id="2" src_id="40" dest_id="3" type="successor"/>
+  <node id="4" name="" type="RH">
+    <property name="angle" value="-2.0690293"/>
+  </node>
+  <edge id="3" src_id="144" dest_id="4" type="successor"/>
+  <node id="5" name="" type="RU">
+    <property name="angle" value="2.3138943"/>
+  </node>
+  <edge id="4" src_id="24" dest_id="5" type="successor"/>
+  <node id="6" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="5" src_id="53" dest_id="6" type="successor"/>
+  <node id="7" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="6" src_id="123" dest_id="7" type="branch"/>
+  <node id="8" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="7" src_id="161" dest_id="8" type="successor"/>
+  <node id="9" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="8" src_id="153" dest_id="9" type="branch"/>
+  <node id="10" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="9" src_id="159" dest_id="10" type="successor"/>
+  <node id="11" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="0"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="0.0"/>
+  </node>
+  <edge id="10" src_id="62" dest_id="11" type="successor"/>
+  <node id="12" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="11" src_id="167" dest_id="12" type="successor"/>
+  <type name="RD">
+    <extends name="Tropism"/>
+  </type>
+  <type name="Tropism">
+    <extends name="Node"/>
+    <property name="strength" type="bounded"/>
+  </type>
+  <node id="13" name="" type="RD"/>
+  <edge id="12" src_id="129" dest_id="13" type="successor"/>
+  <node id="14" name="" type="AdjustLU"/>
+  <edge id="13" src_id="124" dest_id="14" type="successor"/>
+  <node id="15" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="1"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="1.0"/>
+  </node>
+  <edge id="14" src_id="98" dest_id="15" type="successor"/>
+  <node id="16" name="" type="RU">
+    <property name="angle" value="-43.361435"/>
+  </node>
+  <edge id="15" src_id="99" dest_id="16" type="branch"/>
+  <node id="17" name="" type="RH">
+    <property name="angle" value="32.679237"/>
+  </node>
+  <edge id="16" src_id="132" dest_id="17" type="successor"/>
+  <type name="BeechLeaf">
+    <extends name="Parallelogram"/>
+    <property name="producedCarbon" type="float"/>
+  </type>
+  <type name="Parallelogram">
+    <extends name="Axis"/>
+  </type>
+  <type name="Axis">
+    <extends name="AxisBase"/>
+    <property name="length" type="float"/>
+    <property name="startPosition" type="float"/>
+    <property name="endPosition" type="float"/>
+  </type>
+  <type name="AxisBase">
+    <extends name="Node"/>
+    <property name="scaleV" type="boolean"/>
+  </type>
+  <node id="18" name="" type="BeechLeaf">
+    <property name="color">
+      <rgb>0.0 1.0 0.0</rgb>
+    </property>
+    <property name="scaleV" value="false"/>
+    <property name="length" value="0.05039082"/>
+    <property name="startPosition" value="0.0"/>
+    <property name="endPosition" value="1.0"/>
+    <property name="producedCarbon" value="0.0"/>
+  </node>
+  <edge id="17" src_id="69" dest_id="18" type="successor"/>
+  <type name="Bud">
+    <extends name="Node"/>
+    <property name="order" type="int"/>
+    <property name="vitality" type="float"/>
+    <property name="sign" type="int"/>
+  </type>
+  <node id="19" name="" type="Bud">
+    <property name="order" value="1"/>
+    <property name="vitality" value="2.0"/>
+    <property name="sign" value="-1"/>
+  </node>
+  <edge id="18" src_id="114" dest_id="19" type="successor"/>
+  <type name="Beech">
+    <extends name="Organ"/>
+    <property name="totalMass" type="float"/>
+    <property name="produced" type="float"/>
+  </type>
+  <node id="20" name="" type="Beech">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.01"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.6666667 0.33333334 0.0</rgb>
+    </property>
+    <property name="order" value="0"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="1.0"/>
+    <property name="totalMass" value="2.4192982E-6"/>
+    <property name="produced" value="0.0"/>
+  </node>
+  <edge id="19" src_id="1" dest_id="20" type="successor"/>
+  <node id="21" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="20" src_id="154" dest_id="21" type="successor"/>
+  <node id="22" name="" type="RH">
+    <property name="angle" value="10.316505"/>
+  </node>
+  <edge id="21" src_id="113" dest_id="22" type="successor"/>
+  <node id="23" name="" type="AdjustLU"/>
+  <edge id="22" src_id="43" dest_id="23" type="successor"/>
+  <node id="24" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.005781757"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="0"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="0.0"/>
+  </node>
+  <edge id="23" src_id="20" dest_id="24" type="successor"/>
+  <node id="25" name="" type="RD"/>
+  <edge id="24" src_id="36" dest_id="25" type="successor"/>
+  <node id="26" name="" type="Bud">
+    <property name="order" value="0"/>
+    <property name="vitality" value="2.0"/>
+    <property name="sign" value="-1"/>
+  </node>
+  <edge id="25" src_id="162" dest_id="26" type="successor"/>
+  <node id="27" name="" type="RL">
+    <property name="angle" value="67.3484"/>
+  </node>
+  <edge id="26" src_id="108" dest_id="27" type="branch"/>
+  <node id="28" name="" type="BeechLeaf">
+    <property name="color">
+      <rgb>0.0 1.0 0.0</rgb>
+    </property>
+    <property name="scaleV" value="false"/>
+    <property name="length" value="0.047437392"/>
+    <property name="startPosition" value="0.0"/>
+    <property name="endPosition" value="1.0"/>
+    <property name="producedCarbon" value="0.0"/>
+  </node>
+  <edge id="27" src_id="166" dest_id="28" type="successor"/>
+  <node id="29" name="" type="RU">
+    <property name="angle" value="0.7792492"/>
+  </node>
+  <edge id="28" src_id="67" dest_id="29" type="successor"/>
+  <node id="30" name="" type="RH">
+    <property name="angle" value="-3.8309913"/>
+  </node>
+  <edge id="29" src_id="185" dest_id="30" type="successor"/>
+  <node id="31" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="1"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="1.0"/>
+  </node>
+  <edge id="30" src_id="184" dest_id="31" type="successor"/>
+  <node id="32" name="" type="AdjustLU"/>
+  <edge id="31" src_id="130" dest_id="32" type="successor"/>
+  <node id="33" name="" type="RU">
+    <property name="angle" value="16.041142"/>
+  </node>
+  <edge id="32" src_id="88" dest_id="33" type="successor"/>
+  <node id="34" name="" type="RD"/>
+  <edge id="33" src_id="7" dest_id="34" type="successor"/>
+  <node id="35" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="34" src_id="180" dest_id="35" type="successor"/>
+  <node id="36" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="35" src_id="44" dest_id="36" type="branch"/>
+  <node id="37" name="" type="RD"/>
+  <edge id="36" src_id="56" dest_id="37" type="successor"/>
+  <node id="38" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="37" src_id="138" dest_id="38" type="branch"/>
+  <node id="39" name="" type="RH">
+    <property name="angle" value="-6.2734194"/>
+  </node>
+  <edge id="38" src_id="81" dest_id="39" type="successor"/>
+  <node id="40" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.015512161"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="0"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="0.0"/>
+  </node>
+  <edge id="39" src_id="60" dest_id="40" type="successor"/>
+  <node id="41" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="0"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="0.0"/>
+  </node>
+  <edge id="40" src_id="48" dest_id="41" type="successor"/>
+  <node id="42" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="0"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="1.0"/>
+  </node>
+  <edge id="41" src_id="108" dest_id="42" type="successor"/>
+  <node id="43" name="" type="RL">
+    <property name="angle" value="-61.624912"/>
+  </node>
+  <edge id="42" src_id="62" dest_id="43" type="branch"/>
+  <node id="44" name="" type="AdjustLU"/>
+  <edge id="43" src_id="102" dest_id="44" type="successor"/>
+  <node id="45" name="" type="RU">
+    <property name="angle" value="56.746346"/>
+  </node>
+  <edge id="44" src_id="30" dest_id="45" type="branch"/>
+  <node id="46" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="45" src_id="100" dest_id="46" type="successor"/>
+  <node id="47" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="46" src_id="135" dest_id="47" type="successor"/>
+  <node id="48" name="" type="RH">
+    <property name="angle" value="-29.261463"/>
+  </node>
+  <edge id="47" src_id="29" dest_id="48" type="successor"/>
+  <node id="49" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="48" src_id="23" dest_id="49" type="branch"/>
+  <node id="50" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="49" src_id="136" dest_id="50" type="branch"/>
+  <node id="51" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="50" src_id="80" dest_id="51" type="branch"/>
+  <node id="52" name="" type="RU">
+    <property name="angle" value="7.1420794"/>
+  </node>
+  <edge id="51" src_id="119" dest_id="52" type="successor"/>
+  <node id="53" name="" type="RD"/>
+  <edge id="52" src_id="141" dest_id="53" type="successor"/>
+  <node id="54" name="" type="RD"/>
+  <edge id="53" src_id="50" dest_id="54" type="successor"/>
+  <node id="55" name="" type="AdjustLU"/>
+  <edge id="54" src_id="70" dest_id="55" type="successor"/>
+  <node id="56" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="55" src_id="114" dest_id="56" type="branch"/>
+  <node id="57" name="" type="AdjustLU"/>
+  <edge id="56" src_id="90" dest_id="57" type="successor"/>
+  <node id="58" name="" type="RU">
+    <property name="angle" value="1.6543202"/>
+  </node>
+  <edge id="57" src_id="11" dest_id="58" type="successor"/>
+  <node id="59" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="1"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="0.0"/>
+  </node>
+  <edge id="58" src_id="4" dest_id="59" type="successor"/>
+  <node id="60" name="" type="RH">
+    <property name="angle" value="54.0493"/>
+  </node>
+  <edge id="59" src_id="5" dest_id="60" type="successor"/>
+  <node id="61" name="" type="RU">
+    <property name="angle" value="-1.8824742"/>
+  </node>
+  <edge id="60" src_id="134" dest_id="61" type="successor"/>
+  <node id="62" name="" type="RH">
+    <property name="angle" value="-24.69516"/>
+  </node>
+  <edge id="61" src_id="125" dest_id="62" type="successor"/>
+  <node id="63" name="" type="RL">
+    <property name="angle" value="65.88193"/>
+  </node>
+  <edge id="62" src_id="48" dest_id="63" type="branch"/>
+  <node id="64" name="" type="RU">
+    <property name="angle" value="-46.271236"/>
+  </node>
+  <edge id="63" src_id="4" dest_id="64" type="branch"/>
+  <node id="65" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.021302605"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="0"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="0.0"/>
+  </node>
+  <edge id="64" src_id="116" dest_id="65" type="successor"/>
+  <node id="66" name="" type="BeechLeaf">
+    <property name="color">
+      <rgb>0.0 1.0 0.0</rgb>
+    </property>
+    <property name="scaleV" value="false"/>
+    <property name="length" value="0.055902097"/>
+    <property name="startPosition" value="0.0"/>
+    <property name="endPosition" value="1.0"/>
+    <property name="producedCarbon" value="0.0"/>
+  </node>
+  <edge id="65" src_id="91" dest_id="66" type="successor"/>
+  <node id="67" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="0"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="0.0"/>
+  </node>
+  <edge id="66" src_id="148" dest_id="67" type="successor"/>
+  <node id="68" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="1"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="0.0"/>
+  </node>
+  <edge id="67" src_id="95" dest_id="68" type="successor"/>
+  <node id="69" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="68" src_id="176" dest_id="69" type="successor"/>
+  <node id="70" name="" type="RU">
+    <property name="angle" value="39.102165"/>
+  </node>
+  <edge id="69" src_id="98" dest_id="70" type="branch"/>
+  <node id="71" name="" type="RU">
+    <property name="angle" value="-10.716475"/>
+  </node>
+  <edge id="70" src_id="105" dest_id="71" type="successor"/>
+  <node id="72" name="" type="BeechLeaf">
+    <property name="color">
+      <rgb>0.0 1.0 0.0</rgb>
+    </property>
+    <property name="scaleV" value="false"/>
+    <property name="length" value="0.073382795"/>
+    <property name="startPosition" value="0.0"/>
+    <property name="endPosition" value="1.0"/>
+    <property name="producedCarbon" value="0.0"/>
+  </node>
+  <edge id="71" src_id="183" dest_id="72" type="successor"/>
+  <node id="73" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="72" src_id="151" dest_id="73" type="successor"/>
+  <node id="74" name="" type="BeechLeaf">
+    <property name="color">
+      <rgb>0.0 1.0 0.0</rgb>
+    </property>
+    <property name="scaleV" value="false"/>
+    <property name="length" value="0.082398385"/>
+    <property name="startPosition" value="0.0"/>
+    <property name="endPosition" value="1.0"/>
+    <property name="producedCarbon" value="0.0"/>
+  </node>
+  <edge id="73" src_id="170" dest_id="74" type="successor"/>
+  <node id="75" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="74" src_id="158" dest_id="75" type="successor"/>
+  <node id="76" name="" type="RH">
+    <property name="angle" value="2.9950085"/>
+  </node>
+  <edge id="75" src_id="61" dest_id="76" type="successor"/>
+  <node id="77" name="" type="RD"/>
+  <edge id="76" src_id="128" dest_id="77" type="successor"/>
+  <node id="78" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="1"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="1.0"/>
+  </node>
+  <edge id="77" src_id="22" dest_id="78" type="successor"/>
+  <node id="79" name="" type="RD"/>
+  <edge id="78" src_id="9" dest_id="79" type="successor"/>
+  <node id="80" name="" type="AdjustLU"/>
+  <edge id="79" src_id="16" dest_id="80" type="successor"/>
+  <node id="81" name="" type="RU">
+    <property name="angle" value="17.552374"/>
+  </node>
+  <edge id="80" src_id="181" dest_id="81" type="successor"/>
+  <node id="82" name="" type="RL">
+    <property name="angle" value="-74.79625"/>
+  </node>
+  <edge id="81" src_id="76" dest_id="82" type="branch"/>
+  <node id="83" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="82" src_id="162" dest_id="83" type="branch"/>
+  <node id="84" name="" type="RU">
+    <property name="angle" value="-2.3243542"/>
+  </node>
+  <edge id="83" src_id="59" dest_id="84" type="successor"/>
+  <node id="85" name="" type="RU">
+    <property name="angle" value="75.50954"/>
+  </node>
+  <edge id="84" src_id="95" dest_id="85" type="branch"/>
+  <node id="86" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="85" src_id="140" dest_id="86" type="branch"/>
+  <node id="87" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="0"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="1.0"/>
+  </node>
+  <edge id="86" src_id="76" dest_id="87" type="successor"/>
+  <node id="88" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="1"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="0.0"/>
+  </node>
+  <edge id="87" src_id="147" dest_id="88" type="successor"/>
+  <node id="89" name="" type="RU">
+    <property name="angle" value="-4.33847"/>
+  </node>
+  <edge id="88" src_id="42" dest_id="89" type="successor"/>
+  <node id="90" name="" type="RU">
+    <property name="angle" value="38.928658"/>
+  </node>
+  <edge id="89" src_id="147" dest_id="90" type="branch"/>
+  <node id="91" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="90" src_id="101" dest_id="91" type="successor"/>
+  <node id="92" name="" type="RD"/>
+  <edge id="91" src_id="178" dest_id="92" type="successor"/>
+  <node id="93" name="" type="RD"/>
+  <edge id="92" src_id="156" dest_id="93" type="successor"/>
+  <node id="94" name="" type="RU">
+    <property name="angle" value="4.265996"/>
+  </node>
+  <edge id="93" src_id="97" dest_id="94" type="successor"/>
+  <node id="95" name="" type="RH">
+    <property name="angle" value="3.177915"/>
+  </node>
+  <edge id="94" src_id="84" dest_id="95" type="successor"/>
+  <node id="96" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="95" src_id="57" dest_id="96" type="branch"/>
+  <node id="97" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.025195438"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="0"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="0.0"/>
+  </node>
+  <edge id="96" src_id="155" dest_id="97" type="successor"/>
+  <node id="98" name="" type="RH">
+    <property name="angle" value="7.26376"/>
+  </node>
+  <edge id="97" src_id="122" dest_id="98" type="successor"/>
+  <node id="99" name="" type="RH">
+    <property name="angle" value="11.537287"/>
+  </node>
+  <edge id="98" src_id="33" dest_id="99" type="successor"/>
+  <node id="100" name="" type="RD"/>
+  <edge id="99" src_id="86" dest_id="100" type="successor"/>
+  <node id="101" name="" type="RD"/>
+  <edge id="100" src_id="38" dest_id="101" type="successor"/>
+  <node id="102" name="" type="RU">
+    <property name="angle" value="-64.13043"/>
+  </node>
+  <edge id="101" src_id="168" dest_id="102" type="branch"/>
+  <node id="103" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="102" src_id="93" dest_id="103" type="successor"/>
+  <node id="104" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="103" src_id="77" dest_id="104" type="successor"/>
+  <node id="105" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="1"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="0.0"/>
+  </node>
+  <edge id="104" src_id="153" dest_id="105" type="successor"/>
+  <node id="106" name="" type="RH">
+    <property name="angle" value="8.926163"/>
+  </node>
+  <edge id="105" src_id="89" dest_id="106" type="successor"/>
+  <node id="107" name="" type="AdjustLU"/>
+  <edge id="106" src_id="27" dest_id="107" type="successor"/>
+  <node id="108" name="" type="RH">
+    <property name="angle" value="14.377017"/>
+  </node>
+  <edge id="107" src_id="126" dest_id="108" type="successor"/>
+  <node id="109" name="" type="AdjustLU"/>
+  <edge id="108" src_id="45" dest_id="109" type="successor"/>
+  <node id="110" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="109" src_id="109" dest_id="110" type="branch"/>
+  <node id="111" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="110" src_id="121" dest_id="111" type="branch"/>
+  <node id="112" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="111" src_id="32" dest_id="112" type="branch"/>
+  <node id="113" name="" type="RU">
+    <property name="angle" value="20.47044"/>
+  </node>
+  <edge id="112" src_id="68" dest_id="113" type="successor"/>
+  <node id="114" name="" type="RH">
+    <property name="angle" value="-3.400825"/>
+  </node>
+  <edge id="113" src_id="175" dest_id="114" type="successor"/>
+  <node id="115" name="" type="BeechLeaf">
+    <property name="color">
+      <rgb>0.0 1.0 0.0</rgb>
+    </property>
+    <property name="scaleV" value="false"/>
+    <property name="length" value="0.0337452"/>
+    <property name="startPosition" value="0.0"/>
+    <property name="endPosition" value="1.0"/>
+    <property name="producedCarbon" value="0.0"/>
+  </node>
+  <edge id="114" src_id="6" dest_id="115" type="successor"/>
+  <node id="116" name="" type="RH">
+    <property name="angle" value="3.7922695"/>
+  </node>
+  <edge id="115" src_id="52" dest_id="116" type="successor"/>
+  <node id="117" name="" type="RD"/>
+  <edge id="116" src_id="112" dest_id="117" type="successor"/>
+  <node id="118" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="117" src_id="172" dest_id="118" type="successor"/>
+  <node id="119" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.026981557"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="0"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="0.0"/>
+  </node>
+  <edge id="118" src_id="150" dest_id="119" type="successor"/>
+  <node id="120" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="119" src_id="55" dest_id="120" type="branch"/>
+  <node id="121" name="" type="AdjustLU"/>
+  <edge id="120" src_id="85" dest_id="121" type="successor"/>
+  <node id="122" name="" type="RU">
+    <property name="angle" value="-32.688503"/>
+  </node>
+  <edge id="121" src_id="78" dest_id="122" type="successor"/>
+  <node id="123" name="" type="AdjustLU"/>
+  <edge id="122" src_id="63" dest_id="123" type="successor"/>
+  <node id="124" name="" type="RU">
+    <property name="angle" value="-48.63836"/>
+  </node>
+  <edge id="123" src_id="179" dest_id="124" type="branch"/>
+  <node id="125" name="" type="RU">
+    <property name="angle" value="-0.21783693"/>
+  </node>
+  <edge id="124" src_id="41" dest_id="125" type="successor"/>
+  <node id="126" name="" type="RU">
+    <property name="angle" value="-6.34727"/>
+  </node>
+  <edge id="125" src_id="87" dest_id="126" type="successor"/>
+  <node id="127" name="" type="BeechLeaf">
+    <property name="color">
+      <rgb>0.0 1.0 0.0</rgb>
+    </property>
+    <property name="scaleV" value="false"/>
+    <property name="length" value="0.082985245"/>
+    <property name="startPosition" value="0.0"/>
+    <property name="endPosition" value="1.0"/>
+    <property name="producedCarbon" value="0.0"/>
+  </node>
+  <edge id="126" src_id="104" dest_id="127" type="successor"/>
+  <node id="128" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="127" src_id="14" dest_id="128" type="branch"/>
+  <node id="129" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="128" src_id="22" dest_id="129" type="branch"/>
+  <node id="130" name="" type="RL">
+    <property name="angle" value="-81.83873"/>
+  </node>
+  <edge id="129" src_id="150" dest_id="130" type="branch"/>
+  <node id="131" name="" type="AdjustLU"/>
+  <edge id="130" src_id="157" dest_id="131" type="successor"/>
+  <node id="132" name="" type="RU">
+    <property name="angle" value="9.222645"/>
+  </node>
+  <edge id="131" src_id="65" dest_id="132" type="successor"/>
+  <node id="133" name="" type="RU">
+    <property name="angle" value="11.6631365"/>
+  </node>
+  <edge id="132" src_id="31" dest_id="133" type="successor"/>
+  <node id="134" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="0"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="1.0"/>
+  </node>
+  <edge id="133" src_id="92" dest_id="134" type="successor"/>
+  <node id="135" name="" type="RD"/>
+  <edge id="134" src_id="49" dest_id="135" type="successor"/>
+  <node id="136" name="" type="AdjustLU"/>
+  <edge id="135" src_id="64" dest_id="136" type="successor"/>
+  <node id="137" name="" type="BeechLeaf">
+    <property name="color">
+      <rgb>0.0 1.0 0.0</rgb>
+    </property>
+    <property name="scaleV" value="false"/>
+    <property name="length" value="0.05374551"/>
+    <property name="startPosition" value="0.0"/>
+    <property name="endPosition" value="1.0"/>
+    <property name="producedCarbon" value="0.0"/>
+  </node>
+  <edge id="136" src_id="35" dest_id="137" type="successor"/>
+  <node id="138" name="" type="AdjustLU"/>
+  <edge id="137" src_id="82" dest_id="138" type="successor"/>
+  <node id="139" name="" type="RL">
+    <property name="angle" value="-67.72137"/>
+  </node>
+  <edge id="138" src_id="60" dest_id="139" type="branch"/>
+  <node id="140" name="" type="AdjustLU"/>
+  <edge id="139" src_id="139" dest_id="140" type="successor"/>
+  <node id="141" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="140" src_id="107" dest_id="141" type="branch"/>
+  <node id="142" name="" type="BeechLeaf">
+    <property name="color">
+      <rgb>0.0 1.0 0.0</rgb>
+    </property>
+    <property name="scaleV" value="false"/>
+    <property name="length" value="0.04657997"/>
+    <property name="startPosition" value="0.0"/>
+    <property name="endPosition" value="1.0"/>
+    <property name="producedCarbon" value="0.0"/>
+  </node>
+  <edge id="141" src_id="12" dest_id="142" type="successor"/>
+  <node id="143" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="142" src_id="131" dest_id="143" type="branch"/>
+  <node id="144" name="" type="RU">
+    <property name="angle" value="20.331697"/>
+  </node>
+  <edge id="143" src_id="177" dest_id="144" type="successor"/>
+  <node id="145" name="" type="Bud">
+    <property name="order" value="1"/>
+    <property name="vitality" value="2.0"/>
+    <property name="sign" value="1"/>
+  </node>
+  <edge id="144" src_id="39" dest_id="145" type="successor"/>
+  <node id="146" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="145" src_id="34" dest_id="146" type="successor"/>
+  <node id="147" name="" type="RH">
+    <property name="angle" value="0.037719764"/>
+  </node>
+  <edge id="146" src_id="71" dest_id="147" type="successor"/>
+  <node id="148" name="" type="RD"/>
+  <edge id="147" src_id="17" dest_id="148" type="successor"/>
+  <node id="149" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="148" src_id="39" dest_id="149" type="branch"/>
+  <node id="150" name="" type="RH">
+    <property name="angle" value="12.469435"/>
+  </node>
+  <edge id="149" src_id="94" dest_id="150" type="successor"/>
+  <node id="151" name="" type="RD"/>
+  <edge id="150" src_id="143" dest_id="151" type="successor"/>
+  <node id="152" name="" type="RU">
+    <property name="angle" value="-8.387871"/>
+  </node>
+  <edge id="151" src_id="15" dest_id="152" type="successor"/>
+  <node id="153" name="" type="AdjustLU"/>
+  <edge id="152" src_id="171" dest_id="153" type="successor"/>
+  <node id="154" name="" type="RD"/>
+  <edge id="153" src_id="51" dest_id="154" type="successor"/>
+  <node id="155" name="" type="RH">
+    <property name="angle" value="26.281298"/>
+  </node>
+  <edge id="154" src_id="3" dest_id="155" type="successor"/>
+  <node id="156" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="155" src_id="148" dest_id="156" type="branch"/>
+  <node id="157" name="" type="RL">
+    <property name="angle" value="86.54079"/>
+  </node>
+  <edge id="156" src_id="155" dest_id="157" type="branch"/>
+  <node id="158" name="" type="RD"/>
+  <edge id="157" src_id="111" dest_id="158" type="successor"/>
+  <node id="159" name="" type="RD"/>
+  <edge id="158" src_id="96" dest_id="159" type="successor"/>
+  <node id="160" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="159" src_id="184" dest_id="160" type="branch"/>
+  <node id="161" name="" type="RD"/>
+  <edge id="160" src_id="160" dest_id="161" type="successor"/>
+  <node id="162" name="" type="RD"/>
+  <edge id="161" src_id="106" dest_id="162" type="successor"/>
+  <node id="163" name="" type="RU">
+    <property name="angle" value="-14.010791"/>
+  </node>
+  <edge id="162" src_id="2" dest_id="163" type="successor"/>
+  <node id="164" name="" type="RD"/>
+  <edge id="163" src_id="83" dest_id="164" type="successor"/>
+  <node id="165" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="164" src_id="79" dest_id="165" type="successor"/>
+  <node id="166" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="165" src_id="25" dest_id="166" type="successor"/>
+  <node id="167" name="" type="RD"/>
+  <edge id="166" src_id="120" dest_id="167" type="successor"/>
+  <node id="168" name="" type="RH">
+    <property name="angle" value="-11.375466"/>
+  </node>
+  <edge id="167" src_id="152" dest_id="168" type="successor"/>
+  <node id="169" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="1"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="1.0"/>
+  </node>
+  <edge id="168" src_id="168" dest_id="169" type="successor"/>
+  <node id="170" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="169" src_id="37" dest_id="170" type="successor"/>
+  <node id="171" name="" type="RL">
+    <property name="angle" value="56.00366"/>
+  </node>
+  <edge id="170" src_id="116" dest_id="171" type="branch"/>
+  <node id="172" name="" type="RD"/>
+  <edge id="171" src_id="186" dest_id="172" type="successor"/>
+  <node id="173" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="172" src_id="54" dest_id="173" type="successor"/>
+  <node id="174" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="173" src_id="117" dest_id="174" type="successor"/>
+  <node id="175" name="" type="RU">
+    <property name="angle" value="-12.8482895"/>
+  </node>
+  <edge id="174" src_id="169" dest_id="175" type="successor"/>
+  <node id="176" name="" type="RD"/>
+  <edge id="175" src_id="149" dest_id="176" type="successor"/>
+  <node id="177" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="1"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="0.0"/>
+  </node>
+  <edge id="176" src_id="32" dest_id="177" type="successor"/>
+  <node id="178" name="" type="RH">
+    <property name="angle" value="-3.3540401"/>
+  </node>
+  <edge id="177" src_id="58" dest_id="178" type="successor"/>
+  <node id="179" name="" type="RH">
+    <property name="angle" value="-9.342269"/>
+  </node>
+  <edge id="178" src_id="133" dest_id="179" type="successor"/>
+  <node id="180" name="" type="RD"/>
+  <edge id="179" src_id="110" dest_id="180" type="successor"/>
+  <node id="181" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="1"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="1.0"/>
+  </node>
+  <edge id="180" src_id="30" dest_id="181" type="successor"/>
+  <node id="182" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="181" src_id="13" dest_id="182" type="successor"/>
+  <node id="183" name="" type="RL">
+    <property name="angle" value="-90.0"/>
+  </node>
+  <edge id="182" src_id="164" dest_id="183" type="successor"/>
+  <node id="184" name="" type="RH">
+    <property name="angle" value="20.929892"/>
+  </node>
+  <edge id="183" src_id="163" dest_id="184" type="successor"/>
+  <node id="185" name="" type="RU">
+    <property name="angle" value="-21.45578"/>
+  </node>
+  <edge id="184" src_id="187" dest_id="185" type="successor"/>
+  <node id="186" name="" type="RL">
+    <property name="angle" value="90.0"/>
+  </node>
+  <edge id="185" src_id="92" dest_id="186" type="branch"/>
+  <node id="187" name="" type="Internode">
+    <property name="radius" value="1.0E-4"/>
+    <property name="height" value="0.0020"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+    <property name="color">
+      <rgb>0.0 0.0 0.0</rgb>
+    </property>
+    <property name="order" value="1"/>
+    <property name="allocatedCarbon" value="0.0"/>
+    <property name="producedCarbon" value="0.0"/>
+    <property name="exportedCarbon" value="0.0"/>
+    <property name="preference" value="1.0"/>
+  </node>
+  <edge id="186" src_id="179" dest_id="187" type="successor"/>
 </graph>

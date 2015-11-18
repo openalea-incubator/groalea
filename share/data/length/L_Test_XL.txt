@@ -1,4 +1,0 @@
-public void run ()
-[
-	Axiom ==> L(6)F0;
-]
