@@ -1,10 +1,12 @@
 # Author: C. Pradal
 # Licence : GPL
-import openalea.groalea
-from openalea.groalea.graphio import *
+
 from openalea.plantgl.all import *
 from openalea.deploy.shared_data import shared_data
 
+import openalea.groalea
+from openalea.groalea.graphio import *
+from openalea.groalea import topology as topo
 
 data = None
 
@@ -24,7 +26,9 @@ def test_length():
     f = data / 'length' / 'L_XEG_r.xml'
     parser = Parser()
     g, scene = parser.parse(f)
-    return g, scene
+
+    mtg = topo.spanning_mtg(g)
+    return g, mtg
 
 
 def test_DMul_branch():

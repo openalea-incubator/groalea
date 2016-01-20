@@ -57,7 +57,7 @@ def spanning_mtg(graph):
         pass
 
     _scales = scales(g)
-    mtg._scales = _scales
+    mtg._scale = _scales
     _edge_type = _build_edge_type(g, mtg)
     _children_and_parent(g, mtg)
     _complex_and_components(g, mtg)
@@ -206,7 +206,7 @@ def _complex_and_components(g, mtg):
             complex[target] = source
             components.setdefault(source, []).append(target)
 
-            assert scales[source] == scales[target] - 1
+            #assert scales[source] == scales[target] - 1
 
     print complex, components
     mtg._complex = complex
