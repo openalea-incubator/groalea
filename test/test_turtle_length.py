@@ -79,3 +79,15 @@ def test_p():
         assert c3s1[i] != c3s1[4]
 
 
+def test_p():
+    data = shared_data(openalea.groalea)
+    f1 = data/'L'/'L.xml'
+
+    parser = Parser()
+    g1, scene1 = parser.parse(f1)	
+
+    c3s1 = color3s(g1)
+    for i in [20, 21, 10, 18]:
+        assert c3s1[i] != c3s1[4]
+
+

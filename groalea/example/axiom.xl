@@ -1,11 +1,114 @@
-module A extends Sphere(0.1)
+module Stem(super.length, float diameter)
+extends Cylinder(length, diameter/2);
+
+module Leaf(float length, float width)
+extends Parallelogram(length, width)
 {
 	{setShader(GREEN);}
-}
+};
+module Bract(float length, float width)
+extends Parallelogram(length, width)
+{
+	{setShader(RED);}
+};
+module FlowerBase(super.length, float diameter)
+extends Cone(length, diameter/2);
+
+module Flowerw (float length, float diameter)
+extends Cylinder(length, diameter/2);
+
+const int YELLOW = 14;
+const int WHITE = 15;
+
+
+
+const float leafAngle = 50;
+const float bractAngle = 75;
+const float whiteFlowerAngle = 80;
+const float yellowFlowerAngle = 80;
+
+
+
+
 
 public void run ()
 [
-	Axiom ==> A;
-	A ==> F [RU(30)RH(30) A] RU(-30)RH(30) A;
+	Axiom ==>
+		// create rosette of 7 leaves, diameter half of the length
+		for (int i:(1:7))
+		(
+			[
+			RH(i * 137.5)
+			M((i-1)/2)
+			RU(leafAngle)
+			RH(90) 
+			{ double r = 50 - i * 5; }
+			Leaf(r, r*0.5)
+			]
+		)
+	
+		// create the stem, 70 mm long, diameter 2 mm
+		P(14 ) F(70,1)
+		//Stem(70, 2)
+	
+		// create 13 bracts, each 9 mm long, 2 mm in width
+		for (int i:(1:13))
+		(
+			[
+			M(-2)
+			RH(360 * i / 13)
+			RU(bractAngle)
+			RH(90)
+			Bract(9, 2)
+			]
+		)
+		
+		// create flower base, length 6 mm, diameter 5 mm
+		{
+			float k = 5.0 / (2.0*6.0);
+			float alpha = Math.atan2(6, 5) * R2D;
+		}
+		FlowerBase(6, 5)
+		
+		// create white flowers around flower base
+		for (int i:(1:50))
+		(
+			[
+			M(-6 + i * 0.02)
+			RH(i * 13.7)
+			RU(random(whiteFlowerAngle - 5, whiteFlowerAngle + 5))
+			RH(90)
+			//Flower(11, 2, WHITE)
+			P(WHITE) Flowerw(11,2)
+			]
+		)
+		
+		for (int i:(1:300))
+			(
+			{ float h = i * 0.02; }
+			{ float s = 0.2*Math.sqrt(i); }
+			if (i<250) (
+				// create yellow flowers around flower base
+				// and above white flowers
+				[
+					M(-h)
+					RH(i * 137.5)
+					Translate(s, 0, 0)
+					RU(whiteFlowerAngle * i / 250)
+					P(YELLOW) Flowerw(0.1 + 2.0 * (h / 5.0), 0.5)
+					//Flower(0.1, 0.5, YELLOW)
+				]) else (
+				// create white flowers around flower base
+				[
+					M(-h)
+					RH(i * 137.5)
+					Translate(s, 0, 0)
+					RU(random(whiteFlowerAngle - 5, whiteFlowerAngle + 5))
+					RH(90)
+					P(WHITE) Flowerw(11, 2)
+				]	
+			)
+		)
+		
+	;
 ]
-
