@@ -235,3 +235,4 @@ def _vertex_properties(g, mtg):
     vp = g._vertex_property
     mtg.properties().update(vp)
 
+
