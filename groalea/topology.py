@@ -42,6 +42,10 @@ class RootedGraph(PropertyGraph):
 def spanning_mtg(graph):
     """ Extract an MTG from the GroIMP graph.
 
+    Parameters
+    ----------
+        - graph is a RootedGraph created from the GroIMP Graph
+
     TODO:
         - compress vertices to only usefull vertices (geometry)
         - compress edges to spanning mtg
@@ -53,15 +57,30 @@ def spanning_mtg(graph):
 
     mtg = MTG()
 
+    # Check if the graph contains decomposition (/) edges
     if not is_multiscale(graph):
         pass
 
+    # Compute the scale from each vertex.
+    # Select one decomposition path if there are several in the GroIMP graph
     _scales = scales(g)
+
+    # Set the internal scale information to the MTG
     mtg._scale = _scales
+
+    # Set the edge_type for each vertex (<, +)
     _edge_type = _build_edge_type(g, mtg)
+
+    # Compute the tree information at all scales
     _children_and_parent(g, mtg)
+
+    # Compute the complex (upscale) and components (downscale) for each vertex
     _complex_and_components(g, mtg)
+
+    # Extract all the vertex properties.
     _vertex_properties(g, mtg)
+
+    # Compute missing links to have constant time access (O(1)) to neighbourhood
     fat_mtg(mtg)
 
     return mtg
@@ -82,7 +101,7 @@ def is_multiscale(graph):
 
 def scales(g):
     """ Compute the scale of each vertex inside the graph.
-    One solution: If we have several edges of decomposition, we follow the greater.
+    One solution: If we have several edges of decomposition, we follow the deeper.
     TODO: specification
     """
 

@@ -64,3 +64,11 @@ def test_p():
     parser = Parser()
     g, scene = parser.parse(f)
     return g, scene
+
+def test_msc2():
+    f = 'ex_msc2.xeg'
+    parser = Parser()
+    g, scene = parser.parse(f)
+    return g, scene
+
+
