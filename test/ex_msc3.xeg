@@ -1,0 +1,74 @@
+<graph>
+  <root root_id="1"/>
+  <node id="3" name="" type="M">
+    <property name="length" value="-15.0"/>
+  </node>
+  <edge id="2" src_id="7" dest_id="3" type="branch"/>
+  <node id="4" name="" type="F">
+    <property name="length" value="8.0"/>
+    <property name="diameter" value="0.5"/>
+    <property name="fcolor" value="-1"/>
+  </node>
+  <edge id="3" src_id="9" dest_id="4" type="successor"/>
+  <edge id="4" src_id="5" dest_id="4" type="decomposition"/>
+  <type name="Crown">
+    <extends name="Frustum"/>
+  </type>
+  <node id="5" name="" type="Crown">
+    <property name="radius" value="10.0"/>
+    <property name="height" value="20.0"/>
+    <property name="taper" value="0.4"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+  </node>
+  <edge id="5" src_id="13" dest_id="5" type="successor"/>
+  <node id="6" name="" type="F">
+    <property name="length" value="4.0"/>
+    <property name="diameter" value="0.5"/>
+    <property name="fcolor" value="-1"/>
+  </node>
+  <edge id="6" src_id="12" dest_id="6" type="successor"/>
+  <edge id="7" src_id="5" dest_id="6" type="decomposition"/>
+  <node id="7" name="" type="F">
+    <property name="length" value="20.0"/>
+    <property name="diameter" value="0.5"/>
+    <property name="fcolor" value="-1"/>
+  </node>
+  <edge id="8" src_id="10" dest_id="7" type="successor"/>
+  <edge id="9" src_id="5" dest_id="7" type="decomposition"/>
+  <node id="8" name="" type="M">
+    <property name="length" value="-8.0"/>
+  </node>
+  <edge id="10" src_id="7" dest_id="8" type="branch"/>
+  <node id="9" name="" type="RU">
+    <property name="angle" value="70.0"/>
+  </node>
+  <edge id="11" src_id="3" dest_id="9" type="successor"/>
+  <node id="10" name="" type="F">
+    <property name="length" value="20.0"/>
+    <property name="diameter" value="1.0"/>
+    <property name="fcolor" value="-1"/>
+  </node>
+  <edge id="12" src_id="11" dest_id="10" type="successor"/>
+  <edge id="13" src_id="13" dest_id="10" type="decomposition"/>
+  <node id="11" name="" type="Translate">
+    <property name="translateX" value="-30.0"/>
+    <property name="translateY" value="0.0"/>
+    <property name="translateZ" value="0.0"/>
+  </node>
+  <edge id="14" src_id="1" dest_id="11" type="successor"/>
+  <node id="12" name="" type="RU">
+    <property name="angle" value="-60.0"/>
+  </node>
+  <edge id="15" src_id="8" dest_id="12" type="successor"/>
+  <type name="Stem">
+    <extends name="Cylinder"/>
+  </type>
+  <node id="13" name="" type="Stem">
+    <property name="radius" value="2.0"/>
+    <property name="height" value="20.0"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+  </node>
+  <edge id="16" src_id="1" dest_id="13" type="successor"/>
+</graph>

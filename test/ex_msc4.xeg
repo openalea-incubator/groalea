@@ -1,0 +1,79 @@
+<graph>
+  <root root_id="1"/>
+  <node id="3" name="" type="P">
+    <property name="color" value="4"/>
+  </node>
+  <edge id="2" src_id="1" dest_id="3" type="successor"/>
+  <type name="GU">
+    <extends name="Cylinder"/>
+  </type>
+  <node id="4" name="" type="GU">
+    <property name="radius" value="2.0"/>
+    <property name="height" value="20.0"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+  </node>
+  <edge id="3" src_id="3" dest_id="4" type="successor"/>
+  <edge id="4" src_id="6" dest_id="4" type="decomposition"/>
+  <node id="5" name="" type="GU">
+    <property name="radius" value="2.0"/>
+    <property name="height" value="20.0"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+  </node>
+  <edge id="5" src_id="9" dest_id="5" type="successor"/>
+  <edge id="6" src_id="6" dest_id="5" type="decomposition"/>
+  <type name="Axis">
+    <extends name="Cylinder"/>
+  </type>
+  <node id="6" name="" type="Axis">
+    <property name="radius" value="5.0"/>
+    <property name="height" value="60.0"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+  </node>
+  <edge id="7" src_id="1" dest_id="6" type="successor"/>
+  <node id="7" name="" type="P">
+    <property name="color" value="10"/>
+  </node>
+  <edge id="8" src_id="13" dest_id="7" type="successor"/>
+  <node id="8" name="" type="P">
+    <property name="color" value="14"/>
+  </node>
+  <edge id="9" src_id="5" dest_id="8" type="successor"/>
+  <node id="9" name="" type="P">
+    <property name="color" value="12"/>
+  </node>
+  <edge id="10" src_id="4" dest_id="9" type="successor"/>
+  <type name="Segment">
+    <extends name="Cylinder"/>
+  </type>
+  <node id="10" name="" type="Segment">
+    <property name="radius" value="3.0"/>
+    <property name="height" value="30.0"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+  </node>
+  <edge id="11" src_id="7" dest_id="10" type="successor"/>
+  <edge id="12" src_id="6" dest_id="10" type="decomposition"/>
+  <node id="11" name="" type="GU">
+    <property name="radius" value="2.0"/>
+    <property name="height" value="20.0"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+  </node>
+  <edge id="13" src_id="8" dest_id="11" type="successor"/>
+  <edge id="14" src_id="6" dest_id="11" type="decomposition"/>
+  <node id="12" name="" type="P">
+    <property name="color" value="2"/>
+  </node>
+  <edge id="15" src_id="1" dest_id="12" type="successor"/>
+  <node id="13" name="" type="Segment">
+    <property name="radius" value="3.0"/>
+    <property name="height" value="30.0"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+  </node>
+  <edge id="16" src_id="12" dest_id="13" type="successor"/>
+  <edge id="17" src_id="6" dest_id="13" type="decomposition"/>
+</graph>
