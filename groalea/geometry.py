@@ -46,7 +46,9 @@ def rgb_color(index):
                  (255, 85, 255),
                  (255, 255, 85),
                  (255, 255, 255), ]
-    return pgl.Color3(LUT_color[int(index)])
+
+    color = pgl.Color3(LUT_color[int(index)])
+    return color
 
 
 class TurtleState(object):
@@ -91,7 +93,8 @@ class TurtleState(object):
             elif cself.diameter == -1:
                 cself.diameter = t.diameter
 
-        self.color = t.color
+        if t.color:
+            cself.color = t.color
 
         if t.length != -1:
             cself.length = t.length
