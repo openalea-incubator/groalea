@@ -1,0 +1,12 @@
+<graph>
+  <root root_id="1"/>
+  <node id="3" name="" type="F">
+    <property name="length" value="1.0"/>
+    <property name="diameter" value="-1.0"/>
+    <property name="color" value="-1"/>
+    <property name="color">
+      <rgb>1.0 1.0 0.33333334</rgb>
+    </property>
+  </node>
+  <edge id="2" src_id="1" dest_id="3" type="successor"/>
+</graph>
