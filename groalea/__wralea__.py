@@ -10,7 +10,7 @@ __editable__ = True
 __description__ = 'OpenAlea / GroIMP communication.'
 __license__ = 'CECILL-C'
 __url__ = 'http://openalea.gforge.inria.fr'
-__alias__ = []
+__alias__ = ['groimp']
 __version__ = '0.0.1'
 __authors__ = 'C. Pradal'
 __institutes__ = 'INRIA/CIRAD/University of Cottbus'
@@ -23,7 +23,7 @@ __all__ = ['graphio_xml2graph', 'client_simulation', 'client_connexion', 'graphi
 
 graphio_xml2graph = Factory(name='xml2graph',
                 description='Import a graph from an xml graph.',
-                category='codec', 
+                category='codec',
                 nodemodule='openalea.groalea.graphio',
                 nodeclass='xml2graph',
                 inputs=({'interface': ITextStr, 'name': 'xml_graph', 'value': '', 'desc': 'Graph description in xml with 3D information.'},),
@@ -35,9 +35,9 @@ graphio_xml2graph = Factory(name='xml2graph',
 
 
 
-client_simulation = Factory(name='simulation', 
-                description='Send XL code and a graph to GroIMPi server for simulation.', 
-                category='web,data', 
+client_simulation = Factory(name='simulation',
+                description='Send XL code and a graph to GroIMPi server for simulation.',
+                category='web,data',
                 nodemodule='openalea.groalea.client',
                 nodeclass='simulation',
                 inputs=({'interface': ITextStr, 'name': 'xl_code', 'value': '', 'desc': 'XL code defining the simulation'}, {'interface': ITextStr, 'name': 'graph', 'desc': 'Optional xml graph str used as Axiom.'}, {'interface': IStr, 'name': 'command', 'desc': 'The command to be executed.'}, {'name': 'connexion', 'desc': 'HTTP Connexion to GroIMP.'}),
@@ -49,9 +49,9 @@ client_simulation = Factory(name='simulation',
 
 
 
-client_connexion = Factory(name='http connexion', 
-                description='Connexion to the GroIMP server', 
-                category='web,data', 
+client_connexion = Factory(name='http connexion',
+                description='Connexion to the GroIMP server',
+                category='web,data',
                 nodemodule='openalea.groalea.client',
                 nodeclass='connexion',
                 inputs=({'interface': IStr, 'name': 'host', 'value': 'localhost', 'desc': 'http address of the GroIMP server.'}, {'interface': IStr, 'name': 'port', 'value': '58090', 'desc': 'port used for the connexion with the server'}),
@@ -63,9 +63,9 @@ client_connexion = Factory(name='http connexion',
 
 
 
-graphio_graph2xml = Factory(name='graph2xml', 
-                description='Export a graph to an xml string.', 
-                category='codec', 
+graphio_graph2xml = Factory(name='graph2xml',
+                description='Export a graph to an xml string.',
+                category='codec',
                 nodemodule='openalea.groalea.graphio',
                 nodeclass='graph2xml',
                 inputs=({'name': 'graph', 'desc': 'OpenAlea graph object.'},),
