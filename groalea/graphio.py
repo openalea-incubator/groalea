@@ -328,20 +328,20 @@ class Parser(object):
                     break
         return (pgl.TriangleSet(pgl.Point3Array(p3list), indexlist), None)
 
-	def NURBSCurve(self, ctrlpoints, dimension, **kwds):
-		dimension = int(dimension)
-		points = str(ctrlpoints)
+    def NURBSCurve(self, ctrlpoints, dimension, **kwds):
+        dimension = int(dimension)
+        points = str(ctrlpoints)
         points = [float(num) for num in points.split(",")]
         items, chunk = points, dimension
         plist = zip(*[iter(items)] * chunk)
 
         for i in range(len(plist)):
-			ctlplist.append(plist[i]+(1,))
+            ctlplist.append(plist[i]+(1,))
 
         if dimension == 2:		
-			return (pgl.NURBSCurve2D(ctlplist), None)
+            return (pgl.NURBSCurve2D(ctlplist), None)
         elif demension == 3:
-			return (pgl.NURBSCurve(ctlplist), None)
+            return (pgl.NURBSCurve(ctlplist), None)
 
     sphere = Sphere
     box = Box
