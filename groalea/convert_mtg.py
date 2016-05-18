@@ -65,3 +65,5 @@ def geometry2turtle(geometry):
 
       2 oriented => RU
       RU
+    """
+    pass

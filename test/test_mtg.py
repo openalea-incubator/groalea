@@ -24,7 +24,7 @@ def display_turtle(g, vid):
     geometries = g.property('geometry')
 
     if pid is None:
-
+        pass
 
 def test1():
     g, scene = read_mtg()
@@ -43,9 +43,9 @@ def test1():
         if g.scale(vid) != max_scale:
             continue
 
-        shape = geom_ids[gid]
-        geometries[vid] = shapes[0]
+        shape = geom_ids[vid]
+        #geometries[vid] = geom_shapes[shape]
 
-        display_turtle(g, vid)
+        #display_turtle(g, vid)
 
     # We have several shapes for one vertex. Do we add automatically a new scale in the MTG?
