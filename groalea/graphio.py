@@ -51,7 +51,7 @@ class Parser(object):
     geometries = ['Sphere', 'Box', 'Cone', 'Cylinder', 'Frustum',
                   'sphere', 'box', 'cone', 'cylinder', 'frustum',
                   'parallelogram', 'Parallelogram', 'TextLabel', 'textLabel', 'PointCloud', 'pointCloud',
-                  'polygon', 'Polygon',
+                  'polygon', 'Polygon', 'nURBSCurve', 'NURBSCurve',
                   'F', 'F0', 'M', 'M0', 'RL', 'RU', 'RH', 'V', 'Vl', 'VlAdd', 'VlMul','VAdd', 'VMul','RV', 'RV0', 'RG', 'RD', 'RO',        			  'RP', 'RN', 'AdjustLU',
                   'L', 'Ll', 'LlAdd', 'LlMul', 'LAdd', 'LMul', 'D', 'Dl', 'DlAdd', 'DlMul', 'DAdd', 'DMul', 'P', 'Translate', 'Scale', 			  'Rotate']
 
@@ -261,7 +261,7 @@ class Parser(object):
         top_open = kwds.get('top_open', False)
         solid = not(bool(bottom_open) and bool(top_open))
 
-        return (pgl.Frustrum(radius=radius, height=height, taper=taper, solid=solid),
+        return (pgl.Frustum(radius=radius, height=height, taper=taper, solid=solid),
                 pgl.Matrix4.translation(Vector3(0, 0, height)))
 
     def Parallelogram(self, length=1., width=0.5, **kwds):
@@ -328,6 +328,21 @@ class Parser(object):
                     break
         return (pgl.TriangleSet(pgl.Point3Array(p3list), indexlist), None)
 
+    def NURBSCurve(self, ctrlpoints, dimension, **kwds):
+        dimension = int(dimension)
+        points = str(ctrlpoints)
+        points = [float(num) for num in points.split(",")]
+        items, chunk = points, dimension
+        plist = zip(*[iter(items)] * chunk)
+
+        for i in range(len(plist)):
+            ctlplist.append(plist[i]+(1,))
+
+        if dimension == 2:		
+            return (pgl.NURBSCurve2D(ctlplist), None)
+        elif demension == 3:
+            return (pgl.NURBSCurve(ctlplist), None)
+
     sphere = Sphere
     box = Box
     cone = Cone
@@ -336,6 +351,7 @@ class Parser(object):
     parallelogram = Parallelogram
     textLabel = TextLabel
     pointCloud = PointCloud
+    #nURBSCurve = NURBSCurve
 
     # Turtle implementation:
     # F0, M, M0, RV, RG, AdjustLU
