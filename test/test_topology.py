@@ -28,7 +28,7 @@ def test_length():
     g, scene = parser.parse(f)
 
     mtg = topo.spanning_mtg(g)
-    return g, mtg
+    return mtg, g, scene
 
 
 def test_DMul_branch():
@@ -37,7 +37,9 @@ def test_DMul_branch():
 
     parser = Parser()
     g, scene = parser.parse(f)
-    return g, scene
+
+    mtg = topo.spanning_mtg(g)
+    return mtg, g, scene
 
 
 def test_LMul():
@@ -46,7 +48,9 @@ def test_LMul():
 
     parser = Parser()
     g, scene = parser.parse(f)
-    return g, scene
+
+    mtg = topo.spanning_mtg(g)
+    return mtg, g, scene
 
 
 def test_LMul_Branch():
@@ -55,7 +59,9 @@ def test_LMul_Branch():
 
     parser = Parser()
     g, scene = parser.parse(f)
-    return g, scene
+
+    mtg = topo.spanning_mtg(g)
+    return mtg, g, scene
 
 def test_p():
     data = shared_data(openalea.groalea)
@@ -63,12 +69,18 @@ def test_p():
 
     parser = Parser()
     g, scene = parser.parse(f)
-    return g, scene
+
+    mtg = topo.spanning_mtg(g)
+    return mtg, g, scene
 
 def test_msc2():
     f = 'ex_msc2.xeg'
     parser = Parser()
     g, scene = parser.parse(f)
-    return g, scene
+
+    mtg = topo.spanning_mtg(g)
+
+    assert mtg.scales() == [0,1,2]
+    return mtg, g, scene
 
 
