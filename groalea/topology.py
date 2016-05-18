@@ -57,6 +57,8 @@ def spanning_mtg(graph):
 
     mtg = MTG()
 
+    mtg.root = graph.root
+
     # Check if the graph contains decomposition (/) edges
     if not is_multiscale(graph):
         pass
