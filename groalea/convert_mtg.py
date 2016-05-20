@@ -50,7 +50,9 @@ def mtg2graph(g):
         pname = g.vertex_property('name') label
         ptype = g.vertex_property('type') class_type
         properties = g.vertex_property('parameters') properties
+		color = g.vertex_property('color') color
 
+		geometry = g.g.vertex_property('geometry')
         geometry or transformation
     """
 
@@ -69,6 +71,14 @@ def geometry2turtle(geometry):
       RU
     """
     pass
+
+def transformation2turtle(trans):
+    if type(trans) is Oriented:
+        eltstypelist.append('Oriented')
+    elif type(trans) is Translated:
+        eltstypelist.append('Translated')
+    elif type(trans) is Scaled:
+         eltstypelist.append('Scaled')
 
 
 def transGeometry(mtg_vid, bgeom):
