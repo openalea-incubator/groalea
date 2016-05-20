@@ -347,11 +347,11 @@ class Parser(object):
     box = Box
     cone = Cone
     cylinder = Cylinder
-    frustrum = Frustum
+    frustum = Frustum
     parallelogram = Parallelogram
     textLabel = TextLabel
     pointCloud = PointCloud
-    #nURBSCurve = NURBSCurve
+    nURBSCurve = NURBSCurve
 
     # Turtle implementation:
     # F0, M, M0, RV, RG, AdjustLU
