@@ -88,7 +88,7 @@ class TurtleState(object):
         self.tropism = -2e10
         self.localTropism = 0
         self.set_localTropism = False
-	self.tropism_rv = -2e10
+        self.tropism_rv = -2e10
         self.tropism_ladd = -2e10
         self.tropism_lmul = -2e10
         self.tropism_add = -2e10

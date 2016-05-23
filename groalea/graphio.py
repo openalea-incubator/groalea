@@ -335,13 +335,14 @@ class Parser(object):
         items, chunk = points, dimension
         plist = zip(*[iter(items)] * chunk)
 
+        ctlplist = []
         for i in range(len(plist)):
             ctlplist.append(plist[i]+(1,))
 
         if dimension == 2:		
-            return (pgl.NURBSCurve2D(ctlplist), None)
-        elif demension == 3:
-            return (pgl.NURBSCurve(ctlplist), None)
+            return (pgl.NurbsCurve2D(ctlplist), None)
+        elif dimension == 3:
+            return (pgl.NurbsCurve(ctlplist), None)
 
     sphere = Sphere
     box = Box
