@@ -79,11 +79,13 @@ def spanning_mtg(graph):
     # Compute the complex (upscale) and components (downscale) for each vertex
     _complex_and_components(g, mtg)
 
+    print "scales :", mtg._scale
     # Extract all the vertex properties.
     _vertex_properties(g, mtg)
 
     # Compute missing links to have constant time access (O(1)) to neighbourhood
     fat_mtg(mtg)
+    print "scales :", mtg._scale
 
     return mtg
 
@@ -104,6 +106,7 @@ def is_multiscale(graph):
 def scales(g):
     """ Compute the scale of each vertex inside the graph.
     One solution: If we have several edges of decomposition, we follow the deeper.
+    The root is a real node or a false one?
     TODO: specification
     """
 
@@ -218,6 +221,8 @@ def _complex_and_components(g, mtg):
     root = g.root
     max_scale = mtg.max_scale()
     scales = mtg._scale
+
+    print "scales :", scales
 
     complex = {}
     components = {}
