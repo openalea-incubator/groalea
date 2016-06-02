@@ -784,6 +784,9 @@ class Dumper(object):
         root = self._graph.root
         self.SubElement(self.doc, 'root', dict(root_id=str(root)))
         # universal types
+        # Define the specific types in xeg
+        # <type name='toto'>
+
         self.universal_node()
 
         for vid in self._graph.vertices():
