@@ -46,11 +46,11 @@ def mtg2graph(mtgfile, bgeomfile):
         # add and set vertices
         #if vid not in rootedgraph:
         rootedgraph._vid[nid] = vid
-    
+
         rootedgraph.add_vertex(vid)
 
         mtg_vertex_properties(mtg, vid, rootedgraph)
-        
+
         metamer_id = Feature(vid, "id")
         metamer = metamerlist[metamer_id]
         geom_metamer_properties(metamer, vid, rootedgraph)
@@ -61,7 +61,7 @@ def mtg2graph(mtgfile, bgeomfile):
         edgeid = edgeid + 1
         rootedgraph.add_edge(edge, edgeid)
         rootedgraph.edge_property("edge_type")[edgeid] = mtg.EdgeType(edge[0], edge[1])
-        
+
     # add types
     types = {'':[]}
     rootedgraph._types = types
@@ -100,10 +100,10 @@ def rootedgraph_pre(mtg):
     rootedgraph.add_vertex_property("name")
     rootedgraph.add_vertex_property("type")
     rootedgraph.add_vertex_property("parameters")
-    rootedgraph.add_vertex_property("color")    
-    rootedgraph.add_vertex_property("geometry")    
+    rootedgraph.add_vertex_property("color")
+    rootedgraph.add_vertex_property("geometry")
     rootedgraph.add_vertex_property("transform")
-    rootedgraph.add_edge_property("edge_type") 
+    rootedgraph.add_edge_property("edge_type")
 
     # add root
     '''
@@ -129,7 +129,7 @@ def mtg_vertex_properties(mtg, vid, rootedgraph):
         rootedgraph.vertex_property("type")[vid] = match.groups()[0]
     '''
     # set parameters
-    parameters = mtg.get_vertex_properties(vid)
+    parameters = mtg.get_vertex_property(vid)
     for p in  ['edge_type', 'index', 'label']:
         if p in parameters:
             del parameters[p]
@@ -141,7 +141,7 @@ def mtg_vertex_properties(mtg, vid, rootedgraph):
     rootedgraph.vertex_property("color")[vid] = defaultcolor
 
 
-    
+
 def geom_metamer_properties(metamer, vid, rootedgraph):
 
     length = 0.0; radius = 0.0; typem = None; types = ""
@@ -168,8 +168,8 @@ def geom_metamer_properties(metamer, vid, rootedgraph):
     rootedgraph.vertex_property("geometry")[vid] = typem
     rootedgraph.vertex_property("type")[vid] = types
     paras = {'length': length, 'radius': radius}
-    rootedgraph.vertex_property("parameters")[vid] = paras          
-     
+    rootedgraph.vertex_property("parameters")[vid] = paras
+
     return
 
 
