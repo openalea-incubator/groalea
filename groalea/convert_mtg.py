@@ -26,36 +26,151 @@ from .topology import RootedGraph
 from openalea.plantgl.all import *
 from openalea.mtg.aml import *
 import numpy as np
+import re
 
 
-def mtg2graph(g):
+def mtg2graph(mtgfile, bgeomfile):
     """ Convert an MTG into a Rooted graph.
-
     Just topology
     author: Christophe Pradal
-
     Add _types for types
-
     """
-    max_scale = g.max_scale
+    mtg, vlist, metamerlist = mappletfiles_pre(mtgfile, bgeomfile)
+    rootedgraph = rootedgraph_pre(mtg)
 
+    # add a nid (XEG node id, starts from 1), add the nid-vid map to rootedgraph accordingly
+    nid = 1
+    rootedgraph._vid = {}
+
+    for vid in vlist:
+        # add and set vertices
+        #if vid not in rootedgraph:
+        rootedgraph._vid[nid] = vid
+    
+        rootedgraph.add_vertex(vid)
+
+        mtg_vertex_properties(mtg, vid, rootedgraph)
+        
+        metamer_id = Feature(vid, "id")
+        metamer = metamerlist[metamer_id]
+        geom_metamer_properties(metamer, vid, rootedgraph)
+
+    # set edges and edge_property
+    edgeid = 0
+    for edge in mtg.edges(mtg.max_scale()):
+        edgeid = edgeid + 1
+        rootedgraph.add_edge(edge, edgeid)
+        rootedgraph.edge_property("edge_type")[edgeid] = mtg.EdgeType(edge[0], edge[1])
+        
+    # add types
+    types = {'':[]}
+    rootedgraph._types = types
+
+    # add
+    return rootedgraph
+
+def mappletfiles_pre(mtgfile, bgeomfile):
+    mtg = MTG(mtgfile)
+    max_scale = mtg.max_scale()
+    vlist = mtg.vertices(max_scale)
+
+    scene = Scene(bgeomfile)
+    metamerlist = scene.todict()
+
+    return mtg, vlist, metamerlist
+
+
+def rootedgraph_pre(mtg):
     # one scale
-    graph = RootedGraph()
-    graph._types = None
-
+    rootedgraph = RootedGraph()
+    rootedgraph._types = None
     mtg2graph = {}
-
     # for vertices:
     """
         pname = g.vertex_property('name') label
         ptype = g.vertex_property('type') class_type
         properties = g.vertex_property('parameters') properties
-
+		color = g.vertex_property('color') color
+		geometry = g.g.vertex_property('geometry')
         geometry or transformation
     """
-
     # edges
     # edge_type = g.edge_property('edge_type')
+    # add initial properties
+    rootedgraph.add_vertex_property("name")
+    rootedgraph.add_vertex_property("type")
+    rootedgraph.add_vertex_property("parameters")
+    rootedgraph.add_vertex_property("color")    
+    rootedgraph.add_vertex_property("geometry")    
+    rootedgraph.add_vertex_property("transform")
+    rootedgraph.add_edge_property("edge_type") 
+
+    # add root
+    '''
+    rootedgraph.root = 1
+    '''
+    rootedgraph.root = mtg.component_roots_at_scale_iter(mtg.root, scale=mtg.max_scale()).next()
+    '''
+    if rootedgraph.root not in rootedgraph:
+        rootedgraph.add_vertex(rootedgraph.root)
+    '''
+    return rootedgraph
+
+
+def mtg_vertex_properties(mtg, vid, rootedgraph):
+    # set name
+    label = mtg[vid]["label"]
+    rootedgraph.vertex_property("name")[vid] = label
+
+    '''
+    # set type
+    match = re.match(r"([a-zA-Z]+)([0-9]+)", label, re.I)
+    if match:
+        rootedgraph.vertex_property("type")[vid] = match.groups()[0]
+    '''
+    # set parameters
+    parameters = mtg.get_vertex_properties(vid)
+    for p in  ['edge_type', 'index', 'label']:
+        if p in parameters:
+            del parameters[p]
+
+    rootedgraph.vertex_property("parameters")[vid] = parameters
+
+    # set color
+    defaultcolor = Color3(255,255,85)
+    rootedgraph.vertex_property("color")[vid] = defaultcolor
+
+
+    
+def geom_metamer_properties(metamer, vid, rootedgraph):
+
+    length = 0.0; radius = 0.0; typem = None; types = ""
+    for i in range(len(metamer)):
+        if i != 0:
+          continue
+        shape = metamer[i]
+        temp = shape.geometry
+
+        # compute geometry properties of shape in metamer for XEG node
+        transcount = 0
+        while isinstance(temp, Transformed):
+            transcount = transcount + 1
+            temp = temp.geometry
+
+        if type(temp) is Cylinder:
+           radius = temp.radius
+           length = temp.height
+           typem = temp
+           types = 'F'
+        else:
+            raise Exception('Unexcepted type!!!!!')
+
+    rootedgraph.vertex_property("geometry")[vid] = typem
+    rootedgraph.vertex_property("type")[vid] = types
+    paras = {'length': length, 'radius': radius}
+    rootedgraph.vertex_property("parameters")[vid] = paras          
+     
+    return
 
 
 def geometry2turtle(geometry):
@@ -69,6 +184,8 @@ def geometry2turtle(geometry):
       RU
     """
     pass
+
+
 
 
 def transGeometry(mtg_vid, bgeom):

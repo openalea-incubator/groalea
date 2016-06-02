@@ -130,6 +130,8 @@ class Parser(object):
             self.dispatch(elt)
 
         # add the edges to the graph, when all the nodes have been added.
+        print "graph.root", type(graph)
+        print graph
         if graph.root not in graph:
             graph.add_vertex(graph.root)
 
@@ -139,7 +141,10 @@ class Parser(object):
         """ Construct the entire hierarchy of types.
         This is done before parsing the graph.
         """
-        self._types = {'Axiom': []}
+        # problem: add axiom as a type here to RootedGraph during XEG->RootedGraph,
+        #          then it will also be add to XEG during RootedGraph->XEG 
+        #self._types = {'Axiom': []}
+        self._types = {}
         for elt in elts:
             self.type(elt.getchildren(), **elt.attrib)
 
