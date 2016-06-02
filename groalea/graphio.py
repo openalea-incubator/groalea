@@ -31,23 +31,11 @@ from .geometry import (TurtleState, FunctionalGeometry, rgb_color,
                        orientation, project3Dto2D, determinant, no_interior,
                        grotation, directionalTropism, orthogonalTropism, adjust_lu)
 
+from .topology import RootedGraph
+
 Vector3 = pgl.Vector3
 Vector4 = pgl.Vector4
 Color4Array = pgl.Color4Array
-
-
-class RootedGraph(PropertyGraph):
-    """ A general graph with a root vertex. """
-
-    def _set_root(self, root):
-        self._root = root
-
-    def _get_root(self):
-        return self._root
-
-    root = property(_get_root, _set_root)
-
-
 
 
 class Parser(object):
@@ -142,6 +130,8 @@ class Parser(object):
             self.dispatch(elt)
 
         # add the edges to the graph, when all the nodes have been added.
+        print "graph.root", type(graph)
+        print graph
         if graph.root not in graph:
             graph.add_vertex(graph.root)
 
@@ -151,7 +141,10 @@ class Parser(object):
         """ Construct the entire hierarchy of types.
         This is done before parsing the graph.
         """
-        self._types = {'Axiom': []}
+        # problem: add axiom as a type here to RootedGraph during XEG->RootedGraph,
+        #          then it will also be add to XEG during RootedGraph->XEG 
+        #self._types = {'Axiom': []}
+        self._types = {}
         for elt in elts:
             self.type(elt.getchildren(), **elt.attrib)
 
@@ -796,6 +789,9 @@ class Dumper(object):
         root = self._graph.root
         self.SubElement(self.doc, 'root', dict(root_id=str(root)))
         # universal types
+        # Define the specific types in xeg
+        # <type name='toto'>
+
         self.universal_node()
 
         for vid in self._graph.vertices():
