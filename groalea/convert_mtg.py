@@ -38,10 +38,16 @@ def mtg2graph(mtgfile, bgeomfile):
     mtg, vlist, metamerlist = mappletfiles_pre(mtgfile, bgeomfile)
     rootedgraph = rootedgraph_pre(mtg)
 
+    # add a nid (XEG node id, starts from 1), add the nid-vid map to rootedgraph accordingly
+    nid = 1
+    rootedgraph._vid = {}
+
     for vid in vlist:
         # add and set vertices
-        if vid not in rootedgraph:
-            rootedgraph.add_vertex(vid)
+        #if vid not in rootedgraph:
+        rootedgraph._vid[nid] = vid
+    
+        rootedgraph.add_vertex(vid)
 
         mtg_vertex_properties(mtg, vid, rootedgraph)
         
@@ -104,9 +110,10 @@ def rootedgraph_pre(mtg):
     rootedgraph.root = 1
     '''
     rootedgraph.root = mtg.component_roots_at_scale_iter(mtg.root, scale=mtg.max_scale()).next()
+    '''
     if rootedgraph.root not in rootedgraph:
         rootedgraph.add_vertex(rootedgraph.root)
-
+    '''
     return rootedgraph
 
 
@@ -122,11 +129,10 @@ def mtg_vertex_properties(mtg, vid, rootedgraph):
         rootedgraph.vertex_property("type")[vid] = match.groups()[0]
     '''
     # set parameters
-    parameters = {}
-
-    for p in mtg.property_names():
-        if p not in ['edge_type', 'index', 'label']:
-            parameters[p] = mtg[vid][p]
+    parameters = mtg.get_vertex_properties(vid)
+    for p in  ['edge_type', 'index', 'label']:
+        if p in parameters:
+            del parameters[p]
 
     rootedgraph.vertex_property("parameters")[vid] = parameters
 
@@ -134,7 +140,6 @@ def mtg_vertex_properties(mtg, vid, rootedgraph):
     defaultcolor = Color3(255,255,85)
     rootedgraph.vertex_property("color")[vid] = defaultcolor
 
-    return
 
     
 def geom_metamer_properties(metamer, vid, rootedgraph):
