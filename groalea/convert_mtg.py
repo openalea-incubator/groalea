@@ -39,13 +39,13 @@ def mtg2graph(mtgfile, bgeomfile):
     rootedgraph = rootedgraph_pre(mtg)
 
     # add a nid (XEG node id, starts from 1), add the nid-vid map to rootedgraph accordingly
-    nid = 1
-    rootedgraph._vid = {}
+    #nid = 1
+    #rootedgraph._vid = {}
 
     for vid in vlist:
         # add and set vertices
         #if vid not in rootedgraph:
-        rootedgraph._vid[nid] = vid
+        #rootedgraph._vid[nid] = vid
 
         rootedgraph.add_vertex(vid)
 
@@ -60,7 +60,23 @@ def mtg2graph(mtgfile, bgeomfile):
     for edge in mtg.edges(mtg.max_scale()):
         edgeid = edgeid + 1
         rootedgraph.add_edge(edge, edgeid)
-        rootedgraph.edge_property("edge_type")[edgeid] = mtg.EdgeType(edge[0], edge[1])
+        edge_type = mtg.EdgeType(edge[0], edge[1])
+        rootedgraph.edge_property("edge_type")[edgeid] = edge_type
+
+        if edge_type == "+":
+            m = getVertexCoords(edge[0])
+            h = getVertexCoords(edge[1])
+            l = getVertexCoords(mtg.parent(edge[0]))
+            if mtg.parent(edge[0]) == None:
+                l = [0, 0, 0]
+                # getVertexCoords(mtg.complex(edge[0]))
+            pm = np.array(m)
+            ph = np.array(h)
+            pl = np.array(l)
+            
+            transmatrix = getMatrixRotateArbitraryLine(pl, pm, ph)
+            rootedgraph.vertex_property("transform")[edge[0]] = transmatrix
+
 
     # add types
     types = {'':[]}
@@ -68,6 +84,36 @@ def mtg2graph(mtgfile, bgeomfile):
 
     # add
     return rootedgraph
+
+def getMatrixRotateArbitraryLine(pl, pm, ph):
+
+    v0 = pm - pl
+    v1 = ph - pm
+    cos = np.dot(v0,v1)/np.linalg.norm(v0)/np.linalg.norm(v1)
+    sin = (1 - cos**2)**0.5
+    u = v0[0]; v = v0[1]; w = v0[2]
+    a = pl[0]; b = pl[1]; c = pl[2]
+
+    c0 = [u**2 + (v**2 + w**2) * cos, u * v * (1 - cos) + w * sin, u * w * (1 - cos)- v * sin, 0]
+    c1 = [u * v * (1 - cos) - w * sin, v**2 + (u**2 + w**2) * cos, v * w * (1 - cos) + u * sin, 0]
+    c2 = [u * w * (1 - cos) + v * sin, v * w * (1 - cos) - u * sin, w**2 + (u**2 + v**2) * cos, 0]
+
+    c30 = (a * (v**2 + w**2) - u * (b * v + c * w)) * (1 - cos) + (b * w - c * v) * sin
+    c31 = (b * (w**2 + u**2) - v * (a * u + c * w)) * (1 - cos) + (c * u - a * w) * sin
+    c32 = (c * (u**2 + v**2) - w * (a * u + b * v)) * (1 - cos) + (a * v - b * u) * sin
+    c33 = 1  
+    c3 = [c30, c31, c32, c33]
+
+    return Matrix4(c0, c1, c2, c3)
+    
+
+def getVertexCoords(vid):
+    x = Feature(vid, "XX")
+    y = Feature(vid, "YY")
+    z = Feature(vid, "ZZ")
+
+    return [x, y, z]
+
 
 def mappletfiles_pre(mtgfile, bgeomfile):
     mtg = MTG(mtgfile)
