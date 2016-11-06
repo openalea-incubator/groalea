@@ -157,6 +157,8 @@ def transform4(matrix, shape):
     """
     Return a shape transformed by a Matrix4.
     """
+    if matrix == None:
+        matrix = pgl.Matrix4()
     scale, (a, e, r), translation = matrix.getTransformation2()
     shape = pgl.Translated(translation,
                            pgl.Scaled(scale,
