@@ -1,0 +1,12 @@
+<graph>
+  <type name="A">
+    <extends name="Sphere"/>
+  </type>
+
+  <node id="2" type="A"/>
+
+  <root root_id="1"/>
+  <edge id="1" src_id="1" dest_id="2" type="successor"/>
+
+</graph>
+
