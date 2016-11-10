@@ -232,7 +232,7 @@ def convert(mtgfile, bgeomfile=None, scale_num=1):
         #subMetamerLevelConvert(edge_type_list_2children_metamers, children_sid_list, sid, metamer, parentmetamer, rootedgraph)
         subMetamerLevelConvert(sid, vparent, e2p_type, metamer, parentmetamer, rootedgraph)
 
-    #adjustToGroIMP(scale_num, rootedgraph)
+    adjustToGroIMP(scale_num, rootedgraph)
     return rootedgraph  
 
 
