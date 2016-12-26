@@ -83,6 +83,14 @@ class Parser(object):
 
         if len(list(elt)) > 1:
             list(elt)
+        
+        print "Dispatch elt : ", elt
+        print "list(elt) : ", list(elt)
+        print 'Dispatch elt.tag :', elt.tag 
+        print 'Dispatch elt.attrib',elt.attrib 
+        print "self.__getattribute__(elt.tag)", self.__getattribute__(elt.tag)
+        print "elt.getchildren() : ", elt.getchildren()
+
         # return self.__getattribute__(elt.tag)(elt.getchildren(), **elt.attrib)
         #try:
         return self.__getattribute__(elt.tag)(list(elt), **elt.attrib)
@@ -102,6 +110,7 @@ class Parser(object):
         A graph is a set of nodes and edges.
         """
         print "pass graph(self, elements) function"
+        print "elements : ", elements
 
         graph = self._graph = RootedGraph()
 
@@ -1039,6 +1048,38 @@ def adjustFromGroIMP(graph):
                         graph.add_edge(edge, new_eid)
 
     return graph
+
+
+def adjustFromGroIMP(rootedgraph):
+    eid_max = -1;
+    edgedic = rootedgraph._edges
+
+    for eid in edgedic.keys():
+
+        if eid_max < eid:
+            eid_max = eid
+    
+    i = 1
+
+    for eid in edgedic.keys():
+
+        if edgedic[eid][0] == rootedgraph.root and rootedgraph.edge_property("edge_type")[eid]== "+":
+
+            for eeid in edgedic.keys():
+
+                if edgedic[eid][1] == edgedic[eeid][0]
+                    tsid = edgedic[eeid][1]
+                    if rootedgraph.vertex_property("type")[tsid] == "Tree"
+
+                        rootedgraph.remove_vertex(edgedic[eid][1])
+                        new_eid = eid_max + i
+                        rootedgraph.edge_property("edge_type")[new_eid]== "/"
+                        edge = (rootedgraph.root, tsid)
+                        rootedgraph.add_edge(edge, new_eid)
+            i = i + 1
+
+    return rootedgraph
+
 
 
 def findChildren(pvs, cvs, edgedic, graph):

@@ -25,6 +25,7 @@ from openalea.plantgl.all import *
 from openalea.mtg.aml import *
 import numpy as np
 import re
+from collections import defaultdict
 
 mtg = None
 max_scale = None
@@ -33,6 +34,7 @@ offset = 2
 edgeid = 0
 done=None
 vtypedic = {'T':'Tree', 'G': 'GrowthUnit', 'I': 'Internode', 'M': 'Metamer'}
+geotypes = ['Oriented', 'Translated', 'Scaled', 'Cylinder', 'BezierPatch', 'Sphere']
 
 def mappletfiles_pre(mtgfile, bgeomfile=None):
 
@@ -146,22 +148,34 @@ def uppermetamerLevelConvert(rootedgraph, scale_num):
         else:
             ve2pdic[vid] = (sid, vparent, None)
 
-    return ve2pdic
+    return ve2pdic                
 
 
 def adjustToGroIMP(scale_num, rootedgraph):
-
+    
+    """
+    Adjustment to suite GroIMP's graph syntax: 
+    In MTG, edge type from higher scale nodes to lower scale nodes are always decomposition.
+    In GroIMP graph, the graph root is Node.0, it connects to the RGGRoot by branch edge
+        RGGRoot corresponds to the MTG root. To allow the geometry object in RGGRoot to be rendered,
+        RGGRoot must be connected to first node of each scale by branch edge.  
+    
+    """
     for scale in range(scale_num):
         # get all the first vertex of each scale (without root)
         if scale == 0:
             continue
         vInScale = mtg.vertices(scale)
         fv = vInScale[0]
-        fv = findFirstVertexInScale(fv, scale, vInScale, rootedgraph)
-    
+        # how to find the first vertex if there are many tree and vertices in each tree are not topologically connected?
+        # currently the designed topology matches its geometry, geometrically connected == topologically connected => zero translation 
         sfv = fv * 10 ** offset
+        sfv = findFirstVertexInScale(sfv, scale, vInScale, rootedgraph)
+    
+        
         # for the first vertex that is not in the 2nd scale, there is no edge from root to it, so add a new branch edge from root to each
-        if fv != 1:
+        #if fv != 1:
+        if scale != 1:
             addEdge(rootedgraph.root, sfv, "+", rootedgraph)
             # for sub-metamer scale, add root to the first sub-vertex
             if scale == max_scale:
@@ -174,17 +188,218 @@ def adjustToGroIMP(scale_num, rootedgraph):
                     if rootedgraph.edge_property("edge_type")[eid]== "/":
                         rootedgraph.edge_property("edge_type")[eid]= "+"
 
+    # there is more than 1 plant, (decomposition) edges from root to the non-frist plant need to removed
     if scale_num >1 :
         fs_vs = mtg.vertices(1)
         fs_vs_without_fv = fs_vs[1:]
-        # there is more than 1 plant, (decomposition) edges from root to the non-frist plant need to be deleted
+        
         if len(fs_vs_without_fv) != 0:
             for v in fs_vs_without_fv:
                 edgedic = rootedgraph._edges
                 for eid in edgedic.keys():
                     if edgedic[eid] == (rootedgraph.root, v):
                         if rootedgraph.edge_property("edge_type")[eid]== "/":
+                            #rootedgraph.edge_property("edge_type")[eid]= "+"
                             rootedgraph.remove_edge(eid)
+
+
+def adjustToGroIMP_new(scale_num, max_vid, metamerlist, rootedgraph):
+
+    """
+    Adjustment to suite GroIMP's graph syntax: 
+        1. To allow the geometry node to be plotted, the edge from graph root to node in a geometry node should not be in decomposition type.
+        2. To allow multi-Tree in GroIMP a tree has to be put into a topology branch. 
+            A translation node has to be put between the graph root and the first node at each scale of a tree.
+    Doing 2 will allows 1. So Just implment for 2 will be enough.
+
+    =====
+    pvlist = mtg.vertices(1)
+    sidlst_dic = defaultdict(list)
+    for pv in pvlist:
+        spv = vid2sid(pv) 
+        sidlst_dic[spv] = findsvlistFromSVComplex(spv, rootedgraph)
+
+    
+    fsidlst_dic = defaultdict(list)
+    # process for each plant
+    for scompv in sidlst_dic.keys():
+        
+        #temp_svlist = []
+        sidlst = sidlst_dic[scompv]
+        edgedic = rootedgraph._edges
+
+        for scale in range(2, scale_num+1):
+
+            # get first vertex of each plant at each scale
+            for eid in edgedic.keys():
+                if not (edgedic[eid][0] in sidlist and edgedic[eid][1] in sidlist):
+                    del edgedic[eid]
+
+            fsid = edgedic.values()[0][0]
+            fsid = findFirstVertexInScalePerPlant(fsid, edgedic, rootedgraph)
+            fsidlst_dic[scompv].append(fsid) 
+            
+            # update the decomposed node set to lower scale interactively
+            #for sid in sidlst:              
+                #temp_svlist = temp_svlist + findsvlistFromSVComplex(sid, rootedgraph)
+            #sidlist_dic[scompv] = temp_svlist
+
+    for scompv in sidlst_dic.keys():
+        fsid_mscale = fsidlst_dic[scompv][-2]
+        fsids_smscale = findsvlistFromSVComplex(fsid_mscale, rootedgraph)
+        for fsid_smscale
+
+    """
+    
+    pvids = mtg.vertices(1)
+    #pv2lvs = defaultdict(list)
+    pv2fvids = defaultdict(list)
+    
+    for scale in range(2, scale_num):
+        vids = mtg.vertices(scale)
+
+        for pvid in pvids:
+            vids_sp = []
+            for vid in vids:
+                tmpvid = vid
+                for i in range([1, scale+1]):
+                    vidcomplex = mtg.complex(tmpvid)
+                    tmpvid = vidcomplex
+                if pvid == tmpvid:
+                    vids_sp.append(vid)
+            
+            for vid_sp in vids_sp:
+                if vid_sp.parent == None or vid_sp.parent not in vids_sp:
+                    pv2fvids[pvid].append(vid_sp)
+
+
+    i = 0
+    for pvid in pv2fvids.keys():
+
+        edgedic = rootedgraph._edges
+        for eid in edgedic.keys():
+            if edgedic[eid] == (rootedgraph.root, pvid) and rootedgraph.edge_property("edge_type")[eid]== "/":
+                rootedgraph.remove_edge(eid)
+        
+
+        fvidm = pv2fvids[-1]
+        metamer = getmetamer(fvidm, metamerlist)
+        geo_lists, colors = getMetamerGeolists(metamer)
+
+        tm = None
+        for geo in geo_lists[1]:
+            if type(geo) is Translated:
+                tm = getTM4Transgeo(geo)
+
+        if tm == None:
+            tm = np.zeros(shape=(4,4))
+            tm = np.matrix(tm)
+
+ 
+        tx = str(tm.A[0,3]) 
+        ty = str(tm.A[1,3]) 
+        tz = str(tm.A[2,3])
+
+        para = {'translateX':tx, 'translateY':ty, 'translateZ':tz}
+        trans_type = "Translate"
+        
+        i = i + 1
+        geosid = vid2sid(max_vid + i)
+        rootedgraph.add_vertex(geosid)
+        rootedgraph.vertex_property("type")[geosid] = trans_type
+        rootedgraph.vertex_property("parameters")[geosid] = para
+        rootedgraph.vertex_property("geometry")[geosid] = geo
+        addEdge(rootedgraph.root, geosid, "+", rootedgraph)
+        
+        fvids = pv2fvids[pvid]
+        fsids = []
+        for fvid in fvids:
+            fsids.append(vid2sid(fvid))
+        fsids.append(fsid[-1]+1)
+
+        for fsid in fsids:
+            addEdge(geosid, fsid, ">", rootedgraph)
+
+
+
+
+def findsvlistFromSVComplex(sid, rootedgraph):
+
+    svlSubScale = []
+    edgedic = rootedgraph._edges
+    for eid in edgedic.keys():
+        if edgedic[eid][0] == sid and rootedgraph.edge_property("edge_type")[eid]== "/": 
+            svlSubScale.append(edgedic[eid][1])
+
+   return svlSubScale
+
+
+def findFirstVertexInScalePerPlant(fsid, edgedic, rootedgraph):
+    """
+     recursively get the first/root node in a set of node
+    """
+
+    for eid in edgedic.keys():
+        if edgedic[eid][1] == fsid and rootedgraph.edge_property("edge_type")[eid] != "/":
+            fsid = edgedic[eid][0]
+            findFirstVertexInScale(fsid, edgedic, rootedgraph)
+
+    return fsid
+
+
+
+def addTypeGraph(max_vid, rootedgraph):
+
+    tsid = vid2sid(max_vid + 1)
+    rootedgraph.add_vertex(tsid)
+    rootedgraph.vertex_property("type")[tsid] = 'TypeRoot'
+    addEdge(rootedgraph.root, tsid, "/", rootedgraph)
+
+    ssid = vid2sid(max_vid + 2)
+    rootedgraph.add_vertex(ssid)
+    rootedgraph.vertex_property("type")[ssid] = 'SRoot'
+    addEdge(rootedgraph.root, ssid, "/", rootedgraph)
+
+    for tp in vtypedic.values():
+        tsid = tsid + 1
+        rootedgraph.add_vertex(tsid)
+        rootedgraph.vertex_property("type")[tsid] = tp
+        addEdge(tsid - 1, tsid, "/", rootedgraph)
+
+        ssid = ssid + 1
+        rootedgraph.add_vertex(ssid)
+        rootedgraph.vertex_property("type")[ssid] = 'S' + tp
+        addEdge(ssid - 1, ssid, "/", rootedgraph)
+
+        addEdge(ssid, tsid, "+", rootedgraph)
+
+    ssid = ssid + 1
+    rootedgraph.add_vertex(ssid)
+    rootedgraph.vertex_property("type")[ssid] = 'S' + 'sub' + vtypedic['M']
+    addEdge(ssid - 1, ssid, "/", rootedgraph)
+
+    msid = tsid
+    geotp_vlist = []
+
+    for geotype in geotypes:
+        tsid = tsid + 1
+        rootedgraph.add_vertex(tsid)
+        geotp_vlist.append(tsid)
+        rootedgraph.vertex_property("type")[tsid] = tp
+        addEdge(msid, tsid, "/", rootedgraph)
+        addEdge(ssid, tsid, "+", rootedgraph)
+
+    for v in geotype_vlist:
+        temp_list = list(geotype_vlist)
+        temp_list.remove(v)
+
+        for vrest in temp_list:
+            addEdge(v, vrest, "+", rootedgraph)
+            addEdge(v, vrest, ">", rootedgraph)
+    
+
+def vid2sid(vid):
+    return vid * 10**offset
 
  
 def findFirstVertexInScale(fv, scale, vInScale, rootedgraph):
@@ -214,7 +429,12 @@ def convert(mtgfile, bgeomfile=None, scale_num=1):
     if len(metamerlist) == 0:
         return rootedgraph
 
+    # get the max number of vid and compute sid for node in Type graph from max_vid+1
+    max_vid = -1
+
     for vid in ms_vlist:
+        if max_vid < vid:
+            max_vid = vid
         #if ms_vlist.index(vid) == 11:
             #break
         metamer = getmetamer(vid, metamerlist)
@@ -233,6 +453,9 @@ def convert(mtgfile, bgeomfile=None, scale_num=1):
         subMetamerLevelConvert(sid, vparent, e2p_type, metamer, parentmetamer, rootedgraph)
 
     adjustToGroIMP(scale_num, rootedgraph)
+
+    # type graph has to be added after adjusttoGroIMP
+    addTypeGraph(max_vid, rootegraph)
     return rootedgraph  
 
 
