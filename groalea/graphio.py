@@ -43,7 +43,7 @@ class Parser(object):
     geometries = ['Sphere', 'Box', 'Cone', 'Cylinder', 'Frustum',
                   'sphere', 'box', 'cone', 'cylinder', 'frustum',
                   'parallelogram', 'Parallelogram', 'TextLabel', 'textLabel', 'PointCloud', 'pointCloud',
-                  'polygon', 'Polygon',
+                  'polygon', 'Polygon', 'BezierSurface', 'Null',
                   'F', 'F0', 'M', 'M0', 'RL', 'RU', 'RH', 'V', 'RV', 'RV0', 'RG', 'RD', 'RO', 'RP', 'RN', 'AdjustLU',
                   'L', 'LAdd', 'LMul', 'D', 'DAdd', 'DMul', 'P', 'Translate', 'Scale', 'Rotate']
 
@@ -82,11 +82,11 @@ class Parser(object):
 
     def dispatch(self, elt):
         # print "#####pass in dispatch(root)"
-        # print "Dispatch elt : ", elt
-        # print 'Dispatch elt.tag :', elt.tag
-        # print 'Dispatch elt.attrib',elt.attrib
-        # print "self.__getattribute__(elt.tag)", self.__getattribute__(elt.tag)
-        # print "elt.getchildren() : ", elt.getchildren()
+        #print "Dispatch elt : ", elt
+        #print 'Dispatch elt.tag :', elt.tag
+        #print 'Dispatch elt.attrib',elt.attrib
+        #print "self.__getattribute__(elt.tag)", self.__getattribute__(elt.tag)
+        #print "elt.getchildren() : ", elt.getchildren()
         if len(list(elt)) > 1:
             list(elt)
         # print 'Dispatch get **', elt.getchildren()
@@ -108,7 +108,7 @@ class Parser(object):
         """
         A graph is a set of nodes and edges.
         """
-        print "pass graph(self, elements) function"
+        #print "pass graph(self, elements) function"
 
         graph = self._graph = RootedGraph()
 
@@ -139,7 +139,10 @@ class Parser(object):
         """ Construct the entire hierarchy of types.
         This is done before parsing the graph.
         """
-        self._types = {'Axiom': []}
+        # problem: add axiom as a type here to RootedGraph during XEG->RootedGraph,
+        #          then it will also be add to XEG during RootedGraph->XEG 
+        #self._types = {'Axiom': []}
+        self._types = {}
         for elt in elts:
             self.type(elt.getchildren(), **elt.attrib)
 
@@ -237,7 +240,10 @@ class Parser(object):
         assert len(transfos) <= 1
 
         if transfos:
-            transfo = self.transform(transfos[0].getchildren())
+            if type != 'Null':
+                transfo = self.transform(transfos[0].getchildren())
+            else:
+                print "transfos:", transfos
 
         color = None
 
@@ -359,6 +365,29 @@ class Parser(object):
                     del(pd2list[cur])
                     break
         return (pgl.TriangleSet(pgl.Point3Array(p3list), indexlist), None)
+    
+    def BezierSurface(self, uCount, data, dimension, **kwds):
+        
+        points = str(data)
+        dimension = int(dimension)
+        points = [float(num) for num in points.split(",")]
+        items, chunk = points, dimension 
+        pdlist = zip(*[iter(items)] * chunk)
+        
+        
+        p4m = pgl.Point4Matrix(dimension,dimension)
+      
+        its, pice = pdlist, 4
+        pdmrlst = zip(*[iter(its)] * pice)
+        for i in range(len(pdmrlst)):
+            for j in range(len(pdmrlst[i])):
+                p4m.__setitem__((i,j),pdmrlst[i][j])
+                
+        return (pgl.BezierPatch(p4m), pgl.Matrix4())
+        
+        
+
+
 
     sphere = Sphere
     box = Box
@@ -468,6 +497,26 @@ class Parser(object):
         target = str(target)
         self._current_turtle.tropism_target = tuple([float(num) for num in target.split(",")])
         return (None, -5)
+        
+    def ShadedNull(self, transform, color, **kwds):
+        print "pass null in"
+
+        transform = str(transform)
+        transform = [float(num) for num in transform.split(",")]
+        
+        items, chunk = transform, 4
+        m4rlist = zip(*[iter(items)] * chunk)
+        m4 = pgl.Matrix4()
+
+        for i in range(len(m4rlist)):
+            for j in range(len(m4rlist[i])):
+                m4.__setitem__((i,j),m4rlist[i][j])
+
+        self._current_turtle.color = color(color)
+                
+        print "pass null out"
+
+        return (None, m4)
 
     RN = RP
 
@@ -646,7 +695,7 @@ class Parser(object):
                 print "ERRRORRRR"
                 print v
                 continue
-            # print "v",v
+            #print "v:",v
             # print "parent(v)", parent(v)
             # print "transfos", transfos
             #m = transfos[parent(v)]
@@ -662,14 +711,14 @@ class Parser(object):
                 local_t = self.f_shape(v, global_turtle)
 
 
-            # print "every m : ", m
+            #print "every m : ", m
             # Transform the current shape with the stack of transfos m from the root.
             # Store the result in the graph.
             self._local2global(v, m, global_turtle.color)
 
 
 
-            # print "local_t : ", local_t
+            #print "local_t : ", local_t
             if local_t == -1:
                 m = adjust_lu(m)
             elif local_t == -2:
@@ -748,6 +797,7 @@ class Parser(object):
         edge_type = g.edge_property("edge_type")
 
         if shape:
+            #print "shape;", shape
             if color:
                 shape = pgl.Shape(transform4(matrix, shape), pgl.Material(color))
             else:
