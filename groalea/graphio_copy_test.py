@@ -240,6 +240,7 @@ class Parser(object):
             # special case.
             shape, transfo = None, None
         else:
+            # Here to switch off scene producing
             #shape, transfo = self.dispatch2(type, args)
             shape, transfo = None, None
 
@@ -887,7 +888,8 @@ class Dumper(object):
 
         t=None
         try:
-            t = properties.get(vid)['transform']
+            if properties.get(vid):
+                t = properties.get(vid)['transform']
         except KeyError:
             pass
         if t:
@@ -953,9 +955,12 @@ def xml2graph(xml_graph_file_abs):
     
     #of = open(xml_graph_file_abs, "r")
     #fc = of.read()
+    f = StringIO(xml_graph_file_abs)
     parser = Parser()
-    graph, scene = parser.parse(xml_graph_file_abs)
+    graph, scene = parser.parse(f)
     g = adjustFromGroIMP(graph)
+    g = adjustmentToMtg(g)
+    #g = upscaling4Light(g)
     #f.close()
     return g, scene
 
@@ -1014,8 +1019,8 @@ def removeTypeGraph(graph):
 
 
     
-
-def adjustFromGroIMP(graph):
+# wrong details, and not take into account of multi-plant case and remove_edge don't remove vertex
+def adjustFromGroIMP_old(graph):
     eid_max = -1;
     edgedic = graph._edges
 
@@ -1051,37 +1056,50 @@ def adjustFromGroIMP(graph):
 
 
 def adjustFromGroIMP(rootedgraph):
-    eid_max = -1;
+    
     edgedic = rootedgraph._edges
 
-    for eid in edgedic.keys():
-
-        if eid_max < eid:
-            eid_max = eid
-    
-    i = 1
+    del_sids = []
 
     for eid in edgedic.keys():
 
         if edgedic[eid][0] == rootedgraph.root and rootedgraph.edge_property("edge_type")[eid]== "+":
-
+            del_sids.append(edgedic[eid][1])
             for eeid in edgedic.keys():
 
-                if edgedic[eid][1] == edgedic[eeid][0]
-                    tsid = edgedic[eeid][1]
-                    if rootedgraph.vertex_property("type")[tsid] == "Tree"
+                if edgedic[eid][1] == edgedic[eeid][0] and rootedgraph.edge_property("edge_type")[eeid]== "<":
 
-                        rootedgraph.remove_vertex(edgedic[eid][1])
-                        new_eid = eid_max + i
-                        rootedgraph.edge_property("edge_type")[new_eid]== "/"
-                        edge = (rootedgraph.root, tsid)
-                        rootedgraph.add_edge(edge, new_eid)
-            i = i + 1
+                    xsid = edgedic[eeid][1]
+                    xtype = rootedgraph.vertex_property("type")[xsid]             
+
+                    if xtype == "Tree":
+                        translate3_para = rootedgraph.vertex_property("parameters")[edgedic[eid][1]]
+                        
+                        for eeeid in edgedic.keys():
+                            xxsid = edgedic[eeeid][1]
+                            xxtype = rootedgraph.vertex_property("type")[xxsid]
+                            if edgedic[eid][1] == edgedic[eeeid][0] and rootedgraph.edge_property("edge_type")[eeeid]== "<" and xxtype == "Metamer":
+             
+
+                                for aeid in edgedic.keys():
+                                    smsid = edgedic[aeid][1]
+                                    smtype = rootedgraph.vertex_property("type")[smsid]
+                                    if xxsid == edgedic[aeid][0] and rootedgraph.edge_property("edge_type")[aeid]== "/" and smtype == "Translate":
+                                        # here, as we assume that for the first metamer of each plant at mtg's finest scale, only has one associated Translation object
+                                        # accordingly, code here only support "one association" case 
+                                        rootedgraph.vertex_property("parameters")[smsid] = translate3_para
+
+
+    for del_sid in del_sids:    
+        rootedgraph.remove_vertex(del_sid)
+
+    if "PTranslate" in rootedgraph._types.keys():
+        del rootedgraph._types["PTranslate"]
 
     return rootedgraph
 
 
-
+# wrong idea
 def findChildren(pvs, cvs, edgedic, graph):
     oneGenChv = []
 
@@ -1095,6 +1113,99 @@ def findChildren(pvs, cvs, edgedic, graph):
         findChildren(oneGenChv, cvs, edgedic, graph)
 
     return cvs
+
+
+def upscaling4Light(rootedgraph):
+    """
+    aggregate light interception value from submetamer scale (0-many blades) to metamer scale (1 vertex) 
+    using color to detact BezierSurface typed blades 
+    """
+    sids = rootedgraph._vertices.keys()
+    sids.remove(rootedgraph.root)
+    edgedic = rootedgraph._edges
+    for sid in sids:  
+        if rootedgraph.vertex_property("type")[sid] == "BezierSurface":
+            rgb_color = rootedgraph.vertex_property("color")[sid] 
+            if isGreen(rgb_color):
+                print " BezierSurface node sid == ", sid
+                for eid in edgedic.keys(): 
+                    if edgedic[eid][1] == sid and rootedgraph.edge_property("edge_type")[eid]== "/":
+                        msid = edgedic[eid][0]
+                        rootedgraph.vertex_property("lightInterception")[mid] += rootedgraph.vertex_property("lightInterception")[sid]
+
+    return rootedgraph
+
+def isGreen(rgb_color):
+    r=rgb_color.red
+    g=rgb_color.green
+    b=rgb_color.blue
+    if (r*1.5<=g and b*1.5<=g and g!=0):
+        return True
+
+
+def adjustmentToMtg_old(rootedgraph):
+    """
+    delete sub-metamer scale and set the sid of each remained node to original vid
+    """
+    # delete nodes in sub-metamer scale
+    sids = rootedgraph._vertices.keys()
+    edgedic = rootedgraph._edges
+    for sid in sids:
+        eids = []
+        for eid in edgedic.keys(): 
+            if edgedic[eid][0] == sid:
+                eids.append(eid)
+        has_decomp_flag = False
+        for eid in eids:
+            if rootedgraph.edge_property("edge_type")[eid] == "/":
+                has_decomp_flag = True
+        if has_decomp_flag == False:
+            rootedgraph.remove_vertex(sid)
+
+    # set the sid of each remained node to original vid
+    mtg_sids = rootedgraph._vertices.keys()
+    mtg_sids_edgedic = rootedgraph._edges
+    for mtg_sid in mtg_sids:
+        mtg_vid = mtg_sid/ 10**2
+        rootedgraph._vertices[mtg_vid] = rootedgraph._vertices[mtg_sid]
+        del rootedgraph._vertices[mtg_sid]
+
+    # set also the edge (for source and destination vetex) sid to vid
+    for mtg_eid in mtg_sids_edgedic.keys():
+        srcsid = mtg_sids_edgedic[mtg_eid][0]
+        dstsid = mtg_sids_edgedic[mtg_eid][1]
+        mtg_sids_edgedic[mtg_eid] = (srcsid/10**2, dstsid/10**2)
+
+    return rootedgraph
+
+def adjustmentToMtg(rootedgraph):
+    """
+    delete sub-metamer scale and set the sid of each remained node to original vid
+    """
+    sids = rootedgraph._vertices.keys()
+    # for error caused by that root has no name property
+    sids.remove(rootedgraph.root)
+    for sid in sids:
+        if rootedgraph.vertex_property("name")[sid].split(".")[0] == "SM":
+            rootedgraph.remove_vertex(sid)
+
+    # set the sid of each remained node to original vid
+    mtg_sids = rootedgraph._vertices.keys()
+    mtg_sids_edgedic = rootedgraph._edges
+    for mtg_sid in mtg_sids:
+        mtg_vid = mtg_sid/ 10**2
+        # for error caused by root == 0
+        if mtg_vid != mtg_sid:
+            rootedgraph._vertices[mtg_vid] = rootedgraph._vertices[mtg_sid]
+            del rootedgraph._vertices[mtg_sid]
+
+    # set also the edge (for source and destination vetex) sid to vid
+    for mtg_eid in mtg_sids_edgedic.keys():
+        srcsid = mtg_sids_edgedic[mtg_eid][0]
+        dstsid = mtg_sids_edgedic[mtg_eid][1]
+        mtg_sids_edgedic[mtg_eid] = (srcsid/10**2, dstsid/10**2)
+
+    return rootedgraph
 
 
 

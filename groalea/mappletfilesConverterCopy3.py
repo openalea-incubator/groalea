@@ -34,7 +34,8 @@ offset = 2
 edgeid = 0
 done=None
 vtypedic = {'T':'Tree', 'G': 'GrowthUnit', 'I': 'Internode', 'M': 'Metamer'}
-geotypes = ['Oriented', 'Translated', 'Scaled', 'Cylinder', 'BezierPatch', 'Sphere']
+geotypes = ['ShadedNull', 'Translate', 'Scale', 'PTranslate', 'Cylinder', 'BezierPatch', 'Sphere']
+#pv2ftrdic = {}
 
 def mappletfiles_pre(mtgfile, bgeomfile=None):
 
@@ -73,6 +74,8 @@ def rootedgraph_pre():
     # add root to graph
     if rootedgraph.root not in rootedgraph:
         rootedgraph.add_vertex(rootedgraph.root)
+
+    rootedgraph._types = {}
 	
     return rootedgraph
 
@@ -154,6 +157,7 @@ def uppermetamerLevelConvert(rootedgraph, scale_num):
 def adjustToGroIMP(scale_num, rootedgraph):
     
     """
+    old version, does not allow multi tree case, and remove_edge does not remove vertex
     Adjustment to suite GroIMP's graph syntax: 
     In MTG, edge type from higher scale nodes to lower scale nodes are always decomposition.
     In GroIMP graph, the graph root is Node.0, it connects to the RGGRoot by branch edge
@@ -203,7 +207,7 @@ def adjustToGroIMP(scale_num, rootedgraph):
                             rootedgraph.remove_edge(eid)
 
 
-def adjustToGroIMP_new(scale_num, max_vid, metamerlist, rootedgraph):
+def adjustToGroIMP_new(pv2fvids, max_vid, metamerlist, rootedgraph):
 
     """
     Adjustment to suite GroIMP's graph syntax: 
@@ -249,7 +253,7 @@ def adjustToGroIMP_new(scale_num, max_vid, metamerlist, rootedgraph):
         fsids_smscale = findsvlistFromSVComplex(fsid_mscale, rootedgraph)
         for fsid_smscale
 
-    """
+
     
     pvids = mtg.vertices(1)
     #pv2lvs = defaultdict(list)
@@ -262,64 +266,102 @@ def adjustToGroIMP_new(scale_num, max_vid, metamerlist, rootedgraph):
             vids_sp = []
             for vid in vids:
                 tmpvid = vid
-                for i in range([1, scale+1]):
+                for i in range(1, scale):
                     vidcomplex = mtg.complex(tmpvid)
                     tmpvid = vidcomplex
+                print "tempvid :", tmpvid
                 if pvid == tmpvid:
                     vids_sp.append(vid)
+            print "pvid, vids_sp : ", pvid, vids_sp
             
             for vid_sp in vids_sp:
-                if vid_sp.parent == None or vid_sp.parent not in vids_sp:
+                if (mtg.parent(vid_sp) == None) or (mtg.parent(vid_sp) not in vids_sp):
                     pv2fvids[pvid].append(vid_sp)
 
+    print "pvids = ", pvids
+    print "pv2fvids : ", pv2fvids
 
+    """
     i = 0
     for pvid in pv2fvids.keys():
 
-        edgedic = rootedgraph._edges
-        for eid in edgedic.keys():
-            if edgedic[eid] == (rootedgraph.root, pvid) and rootedgraph.edge_property("edge_type")[eid]== "/":
-                rootedgraph.remove_edge(eid)
+        #the decomposition edge from root node to each plant node will not be removed
+        #edgedic = rootedgraph._edges
+        #for eid in edgedic.keys():
+            #if edgedic[eid] == (rootedgraph.root, vid2sid(pvid)) and rootedgraph.edge_property("edge_type")[eid]== "/":
+                #rootedgraph.remove_edge(eid)
         
 
-        fvidm = pv2fvids[-1]
+        fvidm = pv2fvids[pvid][-1]
         metamer = getmetamer(fvidm, metamerlist)
         geo_lists, colors = getMetamerGeolists(metamer)
 
-        tm = None
-        for geo in geo_lists[1]:
+        tm = np.matrix(np.identity(4))
+        # get the geometry objects of the first shape
+        for geo in geo_lists[0]:
             if type(geo) is Translated:
-                tm = getTM4Transgeo(geo)
-
-        if tm == None:
-            tm = np.zeros(shape=(4,4))
-            tm = np.matrix(tm)
+                tm = getTM4Transgeo(geo) * tm
 
  
         tx = str(tm.A[0,3]) 
         ty = str(tm.A[1,3]) 
         tz = str(tm.A[2,3])
+        #t3 = pv2ftrdic[pvid]
 
+        #para = {'translateX':t3[0], 'translateY':t3[1], 'translateZ':t3[2]}
         para = {'translateX':tx, 'translateY':ty, 'translateZ':tz}
-        trans_type = "Translate"
+        rootedgraph._types["PTranslate"] = ["Translate"]
+        trans_type = "PTranslate"
         
         i = i + 1
         geosid = vid2sid(max_vid + i)
         rootedgraph.add_vertex(geosid)
+        rootedgraph.vertex_property("name")[geosid] = "PTranslate" + "." + str(geosid)
         rootedgraph.vertex_property("type")[geosid] = trans_type
         rootedgraph.vertex_property("parameters")[geosid] = para
         rootedgraph.vertex_property("geometry")[geosid] = geo
         addEdge(rootedgraph.root, geosid, "+", rootedgraph)
         
         fvids = pv2fvids[pvid]
-        fsids = []
+        # plant vertex need to be connected from PTranslate as well
+        fsids = [vid2sid(pvid)]
         for fvid in fvids:
             fsids.append(vid2sid(fvid))
-        fsids.append(fsid[-1]+1)
-
+        #append frist node of a plant at submetamer scale
+        fsids.append(fsids[-1]+1)
+        print "pvid, fsids : ", pvid, fsids
         for fsid in fsids:
-            addEdge(geosid, fsid, ">", rootedgraph)
+            addEdge(geosid, fsid, "<", rootedgraph)
 
+    return rootedgraph
+
+   
+def getPv2fvidsDic(scale_num):
+
+    pvids = mtg.vertices(1)
+    #pv2lvs = defaultdict(list)
+    pv2fvids = defaultdict(list)
+    
+    for scale in range(2, scale_num):
+        vids = mtg.vertices(scale)
+
+        for pvid in pvids:
+            vids_sp = []
+            for vid in vids:
+                tmpvid = vid
+                for i in range(1, scale):
+                    vidcomplex = mtg.complex(tmpvid)
+                    tmpvid = vidcomplex
+                print "tempvid :", tmpvid
+                if pvid == tmpvid:
+                    vids_sp.append(vid)
+            print "pvid, vids_sp : ", pvid, vids_sp
+            
+            for vid_sp in vids_sp:
+                if (mtg.parent(vid_sp) == None) or (mtg.parent(vid_sp) not in vids_sp):
+                    pv2fvids[pvid].append(vid_sp)
+
+    return pv2fvids     
 
 
 
@@ -331,7 +373,7 @@ def findsvlistFromSVComplex(sid, rootedgraph):
         if edgedic[eid][0] == sid and rootedgraph.edge_property("edge_type")[eid]== "/": 
             svlSubScale.append(edgedic[eid][1])
 
-   return svlSubScale
+    return svlSubScale
 
 
 def findFirstVertexInScalePerPlant(fsid, edgedic, rootedgraph):
@@ -350,52 +392,73 @@ def findFirstVertexInScalePerPlant(fsid, edgedic, rootedgraph):
 
 def addTypeGraph(max_vid, rootedgraph):
 
-    tsid = vid2sid(max_vid + 1)
-    rootedgraph.add_vertex(tsid)
-    rootedgraph.vertex_property("type")[tsid] = 'TypeRoot'
-    addEdge(rootedgraph.root, tsid, "/", rootedgraph)
+    #tsid = vid2sid(max_vid + 1)
+    tid = rootedgraph.add_vertex()
+    rootedgraph.vertex_property("type")[tid] = 'TypeRoot'
+    rootedgraph.vertex_property("name")[tid] = 'TypeRoot' + "." + str(tid)
+    rootedgraph.vertex_property("parameters")[tid] = {}
+    addEdge(rootedgraph.root, tid, "/", rootedgraph)
 
-    ssid = vid2sid(max_vid + 2)
-    rootedgraph.add_vertex(ssid)
-    rootedgraph.vertex_property("type")[ssid] = 'SRoot'
-    addEdge(rootedgraph.root, ssid, "/", rootedgraph)
+    #ssid = vid2sid(max_vid + 2)
+    sid = rootedgraph.add_vertex()
+    rootedgraph.vertex_property("type")[sid] = 'SRoot'
+    rootedgraph.vertex_property("name")[sid] = 'SRoot' + "." + str(sid)
+    rootedgraph.vertex_property("parameters")[sid] = {}
+    addEdge(rootedgraph.root, sid, "/", rootedgraph)
 
     for tp in vtypedic.values():
-        tsid = tsid + 1
-        rootedgraph.add_vertex(tsid)
-        rootedgraph.vertex_property("type")[tsid] = tp
-        addEdge(tsid - 1, tsid, "/", rootedgraph)
+        #tsid = tsid + 1
+        tvid = rootedgraph.add_vertex()
+        rootedgraph.vertex_property("type")[tvid] = tp
+        rootedgraph.vertex_property("name")[tvid] = tp + "." + str(tvid)
+        rootedgraph.vertex_property("parameters")[tvid] = {}
+        addEdge(tid, tvid, "/", rootedgraph)
 
-        ssid = ssid + 1
-        rootedgraph.add_vertex(ssid)
-        rootedgraph.vertex_property("type")[ssid] = 'S' + tp
-        addEdge(ssid - 1, ssid, "/", rootedgraph)
+        #ssid = ssid + 1
+        svid = rootedgraph.add_vertex()
+        rootedgraph.vertex_property("type")[svid] = 'S' + tp
+        #rootedgraph._types['S' + tp] =  ["ScaleClass"]
+        rootedgraph.vertex_property("name")[svid] = 'S' + tp + "." + str(svid)
+        rootedgraph.vertex_property("parameters")[svid] = {}
+        addEdge(sid, svid, "/", rootedgraph)
 
-        addEdge(ssid, tsid, "+", rootedgraph)
+        addEdge(svid, tvid, "+", rootedgraph)
 
-    ssid = ssid + 1
-    rootedgraph.add_vertex(ssid)
-    rootedgraph.vertex_property("type")[ssid] = 'S' + 'sub' + vtypedic['M']
-    addEdge(ssid - 1, ssid, "/", rootedgraph)
+    
+    smvid = rootedgraph.add_vertex()
+    rootedgraph.vertex_property("type")[smvid] = 'S' + 'Sub' + vtypedic['M']
+    #rootedgraph._types['S' + 'Sub' + vtypedic['M']] =  ["ScaleClass"]
+    rootedgraph.vertex_property("name")[smvid] = 'S' + 'sub' + vtypedic['M'] + "." + str(smvid)
+    rootedgraph.vertex_property("parameters")[smvid] = {}
+    addEdge(svid, smvid, "/", rootedgraph)
 
-    msid = tsid
+    #msid = tvid
     geotp_vlist = []
 
     for geotype in geotypes:
-        tsid = tsid + 1
-        rootedgraph.add_vertex(tsid)
-        geotp_vlist.append(tsid)
-        rootedgraph.vertex_property("type")[tsid] = tp
-        addEdge(msid, tsid, "/", rootedgraph)
-        addEdge(ssid, tsid, "+", rootedgraph)
 
-    for v in geotype_vlist:
-        temp_list = list(geotype_vlist)
+        geovid = rootedgraph.add_vertex()
+        geotp_vlist.append(geovid)
+        if geotype == "BezierPatch":
+            geotype = "BezierSurface"
+        rootedgraph.vertex_property("type")[geovid] = geotype
+        rootedgraph.vertex_property("name")[geovid] = geotype + "." + str(geovid)
+        rootedgraph.vertex_property("parameters")[geovid] = {}
+        addEdge(tvid, geovid, "/", rootedgraph)
+        addEdge(smvid, geovid, "+", rootedgraph)
+
+    for v in geotp_vlist:
+        temp_list = list(geotp_vlist)
         temp_list.remove(v)
 
         for vrest in temp_list:
             addEdge(v, vrest, "+", rootedgraph)
-            addEdge(v, vrest, ">", rootedgraph)
+            addEdge(v, vrest, "<", rootedgraph)
+
+
+    #rootedgraph._types["TypeRoot"] = rootedgraph._types["SRoot"] = ["Null"]
+
+    #return rootedgraph
     
 
 def vid2sid(vid):
@@ -426,6 +489,8 @@ def convert(mtgfile, bgeomfile=None, scale_num=1):
 
     #return rootedgraph
     
+    pv2fvids = getPv2fvidsDic(scale_num)
+
     if len(metamerlist) == 0:
         return rootedgraph
 
@@ -452,10 +517,10 @@ def convert(mtgfile, bgeomfile=None, scale_num=1):
         #subMetamerLevelConvert(edge_type_list_2children_metamers, children_sid_list, sid, metamer, parentmetamer, rootedgraph)
         subMetamerLevelConvert(sid, vparent, e2p_type, metamer, parentmetamer, rootedgraph)
 
-    adjustToGroIMP(scale_num, rootedgraph)
+    rg = adjustToGroIMP_new(pv2fvids, max_vid, metamerlist, rootedgraph)
 
     # type graph has to be added after adjusttoGroIMP
-    addTypeGraph(max_vid, rootegraph)
+    addTypeGraph(max_vid+1, rg)
     return rootedgraph  
 
 
@@ -620,9 +685,10 @@ def addStructure4SubMetamerLevel(shape_geo_pro, geo_list_index, trans_geo_list, 
     rootedgraph.vertex_property("parameters")[shapegeo_id] = shape_geo_pro[1]
     rootedgraph.vertex_property("geometry")[shapegeo_id] = shape_geo_pro[0] 
 
-    if len(trans_geo_list) == 0:
+    # not just for a shape with no trans geometry object, now, color is set to shape geometry object for all shapes 
+    #if len(trans_geo_list) == 0:
         # if there is no trans geometry object for a shape, then set color to shape geometry object
-        rootedgraph.vertex_property("color")[shapegeo_id] = Color3(color)
+    rootedgraph.vertex_property("color")[shapegeo_id] = Color3(color)
 
     # add inter-scale edge for shape geometry object
     #addEdge(sid, shapegeo_id, "/", rootedgraph)
@@ -706,21 +772,34 @@ def addStructure4SubMetamerLevel(shape_geo_pro, geo_list_index, trans_geo_list, 
             localm = Matrix4(templist[0], templist[1], templist[2], templist[3])
             mlst = localm.data()
             lmstr = serializeList2string(mlst)
-            norm_color = (float(color[0])/float(255), float(color[1])/float(255), float(color[2])/float(255))
-            rootedgraph.vertex_property("color")[transgeo_id] = Color3(color)
+            #norm_color = (float(color[0])/float(255), float(color[1])/float(255), float(color[2])/float(255))
+            # not set color here anymore, instead, set color to shape geometry object to allow the color conditional upscaling
+            #rootedgraph.vertex_property("color")[transgeo_id] = Color3(color)
             para = {'transform':localm}
             trans_type = "ShadedNull" 
 
 
         elif type(trans_geo_list[i]) is Translated:
-            translateX = str(temp_composite_localmatrix.A[0,3]) 
-            translateY = str(temp_composite_localmatrix.A[1,3]) 
-            translateZ = str(temp_composite_localmatrix.A[2,3])
+            #fmvid4ps = []
+            #for pvid in pv2fvids.keys():
+                #fvids = pv2fvids[pvid]
+                #fmvid = fvids[-1]
+                #vid = sid/(10**offset)
+                #if vid == fmvid:
+
+                    #tX = str(temp_composite_localmatrix.A[0,3]) 
+                    #tY = str(temp_composite_localmatrix.A[1,3]) 
+                    #tZ = str(temp_composite_localmatrix.A[2,3])
+                    #pv2ftrdic[pvid] = (tX, tY, tZ)
+                
+           
+            translateX = translateY = translateZ = str(0)
             #if (geo_list_index == 2 and metamer_shape_num == 4) or (geo_list_index == 16 and metamer_shape_num == 18):
                 #para = {'translateX':translateX, 'translateY':translateY, 'translateZ':translateZ}
             #else:
                 # translate is not necessary (set to 0)
-            para = {'translateX':'0', 'translateY':'0', 'translateZ':'0'}
+            #para = {'translateX':'0', 'translateY':'0', 'translateZ':'0'}
+            para = {'translateX':translateX, 'translateY':translateY, 'translateZ':translateZ}
             trans_type = "Translate"
 
         elif type(trans_geo_list[i]) is Scaled:          
