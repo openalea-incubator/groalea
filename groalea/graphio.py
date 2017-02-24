@@ -21,7 +21,6 @@ from math import sqrt
 from math import cos
 from math import sin
 from math import pi
-from math import fabs
 from math import pow
 from copy import deepcopy
 import xml.etree.ElementTree as xml
