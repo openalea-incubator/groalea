@@ -487,14 +487,6 @@ class Parser(object):
         heightValues = str(heightValues)
         heightValues = [float(num) for num in heightValues.split(",")]
 
-        #print "uSize: ", usize
-        #print "vSize: ", vsize
-        #print "zerolevel: ", zerolevel
-        #print "scale: ", scale
-        #print "water: ", water
-        #print "heightValues: ", heightValues
-
-
         verts = []
         faces = []
 
@@ -513,10 +505,7 @@ class Parser(object):
                 if v < nv-1 and u < nu-1:
                     face = (n, n+1, n+1+nu, n+nu)
                     faces.append(face)
-                n = n+1
-        
-        print "verts: ", verts
-        print "faces: ", faces         
+                n = n+1         
 
         return pgl.QuadSet(pgl.Point3Array(verts), faces), None
 
