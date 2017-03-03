@@ -48,7 +48,7 @@ class Parser(object):
                   'polygon', 'Polygon',
                   'F', 'F0', 'M', 'M0', 'RL', 'RU', 'RH', 'V', 'RV', 'RV0', 'RG', 'RD', 'RO', 'RP', 'RN', 'AdjustLU',
                   'L', 'LAdd', 'LMul', 'D', 'DAdd', 'DMul', 'P', 'Translate', 'Scale', 'Rotate', 'NURBSCurve', 'nURBSCurve',
-                  'BezierSurface', 'bezierSurface', 'Supershape', 'supershape', 'Patch', 'patch']
+                  'NURBSSurface', 'nURBSSurface', 'Supershape', 'supershape', 'HeightField', 'heightField']
 
     FUNCTIONAL = -10
 
@@ -361,14 +361,16 @@ class Parser(object):
                 parray.append(Vector4(item,1))
             return (pgl.NurbsCurve(parray), None)
 
-    def BezierSurface(self, uCount, dimension, data, **kwds):
-        data = str(data)
-        data = [float(num) for num in data.split(",")]
+    def NURBSSurface(self, ctrlpoints, uSize, vSize, uDegree, vDegree, dimension, **kwds):
+        ctrlpoints = str(ctrlpoints)
+        ctrlpoints = [float(num) for num in ctrlpoints.split(",")]
         dimension = int(dimension)
-        uCount = int(uCount)
-        items, chunk = data, dimension
+        uSize = int(uSize)
+        vSize = int(vSize)
+        uDegree = int(uDegree)
+        vDegree = int(vDegree)
+        items, chunk = ctrlpoints, dimension
         pointArray = zip(*[iter(items)] * chunk) 
-
         v4array = []
 
         if (dimension == 2):        
@@ -377,11 +379,13 @@ class Parser(object):
         elif (dimension == 3):
             for item in pointArray:
                 v4array.append(Vector4(item,1)) 
+        elif (dimension == 4):
+            v4array = pointArray
 
-        # create uCount x uCount matrix
-        matrixArray = [v4array[i:i+uCount] for i in xrange(0, len(v4array), uCount)]
+        # create uSize x vSize matrix
+        matrixArray = [v4array[i:i+uSize] for i in xrange(0, len(v4array), uSize)]
 
-        return pgl.NurbsPatch(matrixArray), None
+        return pgl.NurbsPatch(matrixArray, uDegree, vDegree), None
 
     def Polygon(self, vertices, **kwds):
         """ TODO: Move code to geometry """
@@ -475,7 +479,7 @@ class Parser(object):
 
         return pgl.QuadSet(pgl.Point3Array(verts), faces), None
 
-    def Patch(self, heightValues, usize, vsize, zerolevel, scale, water, **kwds):
+    def HeightField(self, heightValues, usize, vsize, zerolevel, scale, water, **kwds):
         usize = int(usize)
         vsize = int(vsize)
         zerolevel = float(zerolevel)
@@ -517,9 +521,9 @@ class Parser(object):
     textLabel = TextLabel
     pointCloud = PointCloud
     nURBSCurve = NURBSCurve
-    bezierSurface = BezierSurface
+    nURBSSurface = NURBSSurface
     supershape = Supershape
-    patch = Patch
+    heightField = HeightField
 
     # Turtle implementation:
     # F0, M, M0, RV, RG, AdjustLU
