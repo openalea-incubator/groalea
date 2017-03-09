@@ -53,23 +53,58 @@ def rgb_color(index):
 
 class TurtleState(object):
     """ Store the turtle state of each vertex. """
-    DIAMETER = 0.1
-    LENGTH = 0.1
+    #DIAMETER = 
+    #LDIAMETER = 0.1
+    #DIAMETER_ADD = LENGTH_ADD = TROPISM_ADD =0.
+    #DIAMETER_MUL = LENGTH_MUL = TROPISM_MUL =1.
+    #LENGTH = 100.
+    #TROPISM = 0.
+    COLOR_TURTLE = 14
+    COLOR_SHAPE = 8
 
     def __init__(self):
-        self.diameter = -1
-        self.diameter_add = 0
-        self.diameter_mul = 1.
+        self.diameter = -1.
+        self.localDiameter = 0.1
+        self.set_localDiameter = False
+        self.diameter_ladd = 1e10
+        self.diameter_lmul = -1.
+        self.diameter_add = 1e10
+        self.diameter_mul = -1.
+        self.diameter_op = 'op'
         self.set_diameter = False
-        self.color = None
-        self.length = -1.
-        self.length_add = 0
-        self.length_mul = 1.
-        self.set_length = False
+        self.set_diameter_value = 0.1
 
-        self.tropism = 0.
-        self.tropism_direction = None
-        self.tropism_target = None
+        self.length = -1.
+        self.localLength = 100.
+        self.set_localLength = False
+        self.length_ladd = 1e10
+        self.length_lmul = -1.
+        self.length_add = 1e10
+        self.length_mul = -1.
+        self.length_op = 'op'
+        self.set_length = False
+        self.set_length_value = 100.
+
+        self.tropism = -2e10
+        self.localTropism = 0
+        self.set_localTropism = False
+        self.tropism_rv = -2e10
+        self.tropism_ladd = -2e10
+        self.tropism_lmul = -2e10
+        self.tropism_add = -2e10
+        self.tropism_mul = -2e10
+        self.tropism_op = 'op'
+        self.set_tropism = False
+        self.set_tropism_value = 0
+
+        self.tropism_direction = -2e10
+        self.tropism_target = -2e10
+
+        self.color = -1
+        self.shaded_color = -1
+        self.set_color = False
+        self.set_color_value = -1
+        self.node_type = 'Unknown'
 
     def copy(self):
         return deepcopy(self)
@@ -77,60 +112,173 @@ class TurtleState(object):
     def combine(self, t):
         # copy to avoid side-effect
         cself = self.copy()
-        if t.diameter != -1:
-            cself.diameter = t.diameter
-        if t.diameter_add != 0:
-            if cself.diameter == -1:
-                cself.diameter = self.DIAMETER
-            cself.diameter += t.diameter_add
-        if t.diameter_mul != 1:
-            if cself.diameter == -1:
-                cself.diameter = self.DIAMETER
-            cself.diameter *= t.diameter_mul
-        if t.set_diameter:
-            if cself.diameter == -1 and t.diameter == -1:
-                cself.diameter = self.DIAMETER
-            elif cself.diameter == -1:
-                cself.diameter = t.diameter
+        
+        ###diameter process, here diameter belong to nodes, localDiameter and set_diameter_value belong to the turtle state
 
-        if t.color:
-            cself.color = t.color
+        ##part 1 - for turtle state modification
+        #get parents' set_diameter_value if it's set, otherwise use own initial value 
+        if not(cself.set_diameter):
+            if t.set_diameter:
+                cself.set_diameter = t.set_diameter
+                cself.set_diameter_value = t.set_diameter_value
+        #do add/mul                 
+        if cself.diameter_op == 'add':
+            cself.set_diameter_value += cself.diameter_add
+            if not(cself.set_diameter):
+                cself.set_diameter = True
+        elif cself.diameter_op == 'mul':
+            cself.set_diameter_value *= cself.diameter_mul
+            if not(cself.set_diameter):
+                cself.set_diameter = True
+        #set localDiameter
+        if not(cself.set_localDiameter):
+            cself.localDiameter = cself.set_diameter_value
+        #do local add/mul
+        if cself.diameter_ladd != 1e10:
+            cself.localDiameter += cself.diameter_ladd
+        if cself.diameter_lmul != -1:
+            cself.localDiameter *= cself.diameter_lmul
 
-        if t.length != -1:
-            cself.length = t.length
-        if t.length_add != 0:
-            if cself.length == -1:
-                cself.length = self.LENGTH
-            cself.length += t.length_add
-        if t.length_mul != 1:
-            if cself.length == -1:
-                cself.length = self.LENGTH
-            cself.length *= t.length_mul
-        if t.set_length:
-            if cself.length == -1 and t.length == -1:
-                cself.length = self.DIAMETER
-            elif cself.length == -1:
-                cself.length = t.length
+        ##part 2 - for node geometry assignment
+        if cself.diameter == -1:
+            cself.diameter = t.localDiameter
 
-        cself.tropism = t.tropism
-        cself.tropism_direction = t.tropism_direction
-        cself.tropism_target = t.tropism_target
+        ###length process
+
+        ##part 1 - for turtle state modification
+        #get parents' set_length_value if it's set, otherwise use own initial value 
+        if not(cself.set_length):
+            if t.set_length:
+                cself.set_length = t.set_length
+                cself.set_length_value = t.set_length_value
+        #do add/mul                 
+        if cself.length_op == 'add':
+            cself.set_length_value += cself.length_add
+            if not(cself.set_length):
+                cself.set_length = True
+        elif cself.length_op == 'mul':
+            cself.set_length_value *= cself.length_mul
+            if not(cself.set_length):
+                cself.set_length = True
+        #set localLength
+        if not(cself.set_localLength):
+            cself.localLength = cself.set_length_value
+        #do local add/mul
+        if cself.length_ladd != 1e10:
+            cself.localLength += cself.length_ladd
+        if cself.length_lmul != -1:
+            cself.localLength *= cself.length_lmul
+
+        ##part 2 - for node geometry assignment
+        if cself.length == -1:
+            cself.length = t.localLength
+
+        ###tropism process
+
+        ##part 1 - for turtle state modification
+        #get parents' set_tropism_value if it's set, otherwise use own initial value 
+        if not(cself.set_tropism):
+            if t.set_tropism:
+                cself.set_tropism = t.set_tropism
+                cself.set_tropism_value = t.set_tropism_value
+        #do add/mul                 
+        if cself.tropism_op == 'add':
+            cself.set_tropism_value += cself.tropism_add
+            if not(cself.set_tropism):
+                cself.set_tropism = True
+        elif cself.tropism_op == 'mul':
+            cself.set_tropism_value *= cself.tropism_mul
+            if not(cself.set_tropism):
+                cself.set_tropism = True
+        #set localTropism
+        if not(cself.set_localTropism):
+            cself.localTropism = cself.set_tropism_value
+        #do local add/mul
+        if cself.tropism_ladd != -2e10:
+            cself.localTropism += cself.tropism_ladd
+        if cself.tropism_lmul != -2e10:
+            cself.localTropism *= cself.tropism_lmul
+
+        ##part 2 - for node geometry assignment
+        if cself.tropism == -2e10:
+            cself.tropism = t.localTropism
+        if cself.tropism_rv != -2e10:
+            cself.tropism = cself.tropism_rv
+
+        #cself.tropism_direction = t.tropism_direction
+        #cself.tropism_target = t.tropism_target
+
+        #color process
+        if cself.node_type == 'F' or cself.node_type == 'F0':
+            if cself.color == -1:
+                if t.set_color:
+                    cself.color = t.set_color_value
+                else:
+                    cself.color = self.COLOR_TURTLE
+
+            if cself.shaded_color != -1:
+                cself.color = cself.shaded_color
+        else:
+            if t.set_color_value != -1:
+                cself.color = t.set_color_value
+            elif t.color != -1:
+                cself.color = t.color
+            else:
+                cself.color = self.COLOR_SHAPE
+            if cself.shaded_color != -1:
+                cself.color = cself.shaded_color
+
+        if t.set_color:
+            if not(cself.set_color):
+                cself.set_color = t.set_color
+                cself.set_color_value = t.set_color_value
+
+        if not isinstance(cself.color,pgl.Color3):
+            if isinstance(cself.color,int):
+                cself.color= rgb_color(cself.color)
 
         return cself
+
     def __eq__(self, other):
         """ Test for == operator """
         ok = ((self.diameter == other.diameter) and
+              (self.localDiameter == other.localDiameter) and
+              (self.set_localDiameter == other.set_localDiameter) and
+              (self.diameter_ladd == other.diameter_ladd) and
+              (self.diameter_lmul == other.diameter_lmul) and
               (self.diameter_add == other.diameter_add) and
               (self.diameter_mul == other.diameter_mul) and
+              (self.diameter_op == other.diameter_op) and
               (self.set_diameter == other.set_diameter) and
-              (self.color == other.color) and
+              (self.set_diameter_value == other.set_diameter_value) and  
               (self.length == other.length) and
+              (self.localLength == other.localLength) and
+              (self.set_localLength == other.set_localLength) and
+              (self.length_ladd == other.length_ladd) and
+              (self.length_lmul == other.length_lmul) and
               (self.length_add == other.length_add) and
               (self.length_mul == other.length_mul) and
+              (self.length_op == other.length_op) and
               (self.set_length == other.set_length) and
+              (self.set_length_value == other.set_length_value) and
               (self.tropism == other.tropism) and
+              (self.localTropism == other.localTropism) and
+              (self.set_localTropism == other.set_localTropism) and
+              (self.tropism_rv == other.tropism_rv) and
+              (self.tropism_ladd == other.tropism_ladd) and
+              (self.tropism_lmul == other.tropism_lmul) and
+              (self.tropism_add == other.tropism_add) and
+              (self.tropism_mul == other.tropism_mul) and
+              (self.tropism_op == other.tropism_op) and
+              (self.set_tropism == other.set_tropism) and
+              (self.set_tropism_value == other.set_tropism_value) and
               (self.tropism_direction == other.tropism_direction) and
-              (self.tropism_target == other.tropism_target)
+              (self.tropism_target == other.tropism_target) and
+              (self.color == other.color) and 
+              (self.shaded_color == other.shaded_color) and
+              (self.set_color == other.set_color) and
+              (self.set_color_value == other.set_color_value) and
+              (self.node_type == other.node_type)
               )
         return ok
 
@@ -457,3 +605,4 @@ def frame(matrix, scene, color=1):
     scene.add(pgl.Shape(geom_z, b))
 
 ##########################################################################
+
