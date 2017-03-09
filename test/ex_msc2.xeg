@@ -1,0 +1,36 @@
+<graph>
+  <root root_id="1"/>
+  <type name="GU">
+    <extends name="Cylinder"/>
+  </type>
+  <node id="3" name="" type="GU">
+    <property name="radius" value="1.0"/>
+    <property name="height" value="0.2"/>
+    <property name="top_open" value="false"/>
+    <property name="bottom_open" value="false"/>
+  </node>
+  <edge id="2" src_id="1" dest_id="3" type="successor"/>
+  <node id="4" name="" type="L">
+    <property name="length" value="10.0"/>
+  </node>
+  <edge id="3" src_id="5" dest_id="4" type="successor"/>
+  <edge id="4" src_id="3" dest_id="4" type="decomposition"/>
+  <node id="5" name="" type="Translate">
+    <property name="translateX" value="5.0"/>
+    <property name="translateY" value="0.0"/>
+    <property name="translateZ" value="0.0"/>
+  </node>
+  <edge id="5" src_id="3" dest_id="5" type="decomposition"/>
+  <edge id="6" src_id="1" dest_id="5" type="successor"/>
+  <node id="6" name="" type="D">
+    <property name="diameter" value="0.5"/>
+  </node>
+  <edge id="7" src_id="4" dest_id="6" type="successor"/>
+  <edge id="8" src_id="3" dest_id="6" type="decomposition"/>
+  <type name="B">
+    <extends name="Node"/>
+  </type>
+  <node id="7" name="" type="B"/>
+  <edge id="9" src_id="6" dest_id="7" type="successor"/>
+  <edge id="10" src_id="3" dest_id="7" type="decomposition"/>
+</graph>

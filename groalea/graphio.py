@@ -20,6 +20,8 @@ from math import radians
 from math import sqrt
 from math import cos
 from math import sin
+from math import pi
+from math import pow
 from copy import deepcopy
 import xml.etree.ElementTree as xml
 
@@ -31,29 +33,23 @@ from .geometry import (TurtleState, FunctionalGeometry, rgb_color,
                        orientation, project3Dto2D, determinant, no_interior,
                        grotation, directionalTropism, orthogonalTropism, adjust_lu)
 
+from .topology import RootedGraph
+
 Vector3 = pgl.Vector3
 Vector4 = pgl.Vector4
 Color4Array = pgl.Color4Array
 
 
-class RootedGraph(PropertyGraph):
-    """ A general graph with a root vertex. """
-    def _set_root(self, root):
-        self._root = root
-
-    def _get_root(self):
-        return self._root
-
-    root = property(_get_root, _set_root)
 
 class Parser(object):
     edge_type_name = {'successor': '<', 'branch': '+', 'decomposition': '/'}
     geometries = ['Sphere', 'Box', 'Cone', 'Cylinder', 'Frustum',
                   'sphere', 'box', 'cone', 'cylinder', 'frustum',
                   'parallelogram', 'Parallelogram', 'TextLabel', 'textLabel', 'PointCloud', 'pointCloud',
-                  'polygon', 'Polygon', 'nURBSCurve', 'NURBSCurve',
-                  'F', 'F0', 'M', 'M0', 'RL', 'RU', 'RH', 'V', 'Vl', 'VlAdd', 'VlMul','VAdd', 'VMul','RV', 'RV0', 'RG', 'RD', 'RO',        			  'RP', 'RN', 'AdjustLU',
-                  'L', 'Ll', 'LlAdd', 'LlMul', 'LAdd', 'LMul', 'D', 'Dl', 'DlAdd', 'DlMul', 'DAdd', 'DMul', 'P', 'Translate', 'Scale', 			  'Rotate']
+                  'polygon', 'Polygon',
+                  'F', 'F0', 'M', 'M0', 'RL', 'RU', 'RH', 'V', 'RV', 'RV0', 'RG', 'RD', 'RO', 'RP', 'RN', 'AdjustLU',
+                  'L', 'LAdd', 'LMul', 'D', 'DAdd', 'DMul', 'P', 'Translate', 'Scale', 'Rotate', 'NURBSCurve', 'nURBSCurve',
+                  'NURBSSurface', 'nURBSSurface', 'Supershape', 'supershape', 'HeightField', 'heightField']
 
     FUNCTIONAL = -10
 
@@ -106,6 +102,8 @@ class Parser(object):
             self.dispatch(elt)
 
         # add the edges to the graph, when all the nodes have been added.
+        print "graph.root", type(graph)
+        print graph
         if graph.root not in graph:
             graph.add_vertex(graph.root)
 
@@ -115,7 +113,10 @@ class Parser(object):
         """ Construct the entire hierarchy of types.
         This is done before parsing the graph.
         """
-        self._types = {'Axiom': []}
+        # problem: add axiom as a type here to RootedGraph during XEG->RootedGraph,
+        #          then it will also be add to XEG during RootedGraph->XEG 
+        #self._types = {'Axiom': []}
+        self._types = {}
         for elt in elts:
             self.type(elt.getchildren(), **elt.attrib)
 
@@ -235,7 +236,7 @@ class Parser(object):
 
     def Sphere(self, radius=1., **kwds):
         return pgl.Sphere(radius=float(radius)), None
-
+        
     def Box(self, depth=1., width=1., height=1., **kwds):
         depth, width, height = float(depth), float(width), float(height)
         size = Vector3(depth / 2, width / 2, height / 2)
@@ -294,6 +295,59 @@ class Parser(object):
         c4array = Color4Array(lidx4)
         return (pgl.PointSet(v3array, c4array, pointSize), None)
 
+    def NURBSCurve(self, ctrlpoints, dimension, **kwds):
+        ctrlpoints = str(ctrlpoints)
+        ctrlpoints = [float(num) for num in ctrlpoints.split(",")]
+        dimension = int(dimension)
+        items, chunk = ctrlpoints, dimension
+        pointArray = zip(*[iter(items)] * chunk)
+
+        if (dimension == 2):
+            v4array = []
+            for item in pointArray:
+                v4array.append(pgl.Vector2(item))
+
+            parray = pgl.Point3Array(0)
+            for item in v4array:
+                parray.append(Vector3(item,1))
+
+            return (pgl.NurbsCurve2D(parray), None)
+        elif (dimension == 3):
+            v4array = []
+            for item in pointArray:
+                v4array.append(pgl.Vector3(item))
+
+            parray = pgl.Point4Array(0)
+            for item in v4array:
+                parray.append(Vector4(item,1))
+            return (pgl.NurbsCurve(parray), None)
+
+    def NURBSSurface(self, ctrlpoints, uSize, vSize, uDegree, vDegree, dimension, **kwds):
+        ctrlpoints = str(ctrlpoints)
+        ctrlpoints = [float(num) for num in ctrlpoints.split(",")]
+        dimension = int(dimension)
+        uSize = int(uSize)
+        vSize = int(vSize)
+        uDegree = int(uDegree)
+        vDegree = int(vDegree)
+        items, chunk = ctrlpoints, dimension
+        pointArray = zip(*[iter(items)] * chunk) 
+        v4array = []
+
+        if (dimension == 2):        
+            for item in pointArray:
+                v4array.append(Vector4(item,0,1))
+        elif (dimension == 3):
+            for item in pointArray:
+                v4array.append(Vector4(item,1)) 
+        elif (dimension == 4):
+            v4array = pointArray
+
+        # create uSize x vSize matrix
+        matrixArray = [v4array[i:i+uSize] for i in xrange(0, len(v4array), uSize)]
+
+        return pgl.NurbsPatch(matrixArray, uDegree, vDegree), None
+
     def Polygon(self, vertices, **kwds):
         """ TODO: Move code to geometry """
         points = str(vertices)
@@ -328,6 +382,98 @@ class Parser(object):
                     break
         return (pgl.TriangleSet(pgl.Point3Array(p3list), indexlist), None)
 
+
+    def Supershape(self, a, b, m1, m2, n11, n12, n13, n21, n22, n23, **kwds):
+        a = float(a)
+        b = float(b)
+        m1 = float(m1)
+        m2 = float(m2)
+        n11 = float(n11)
+        n12 = float(n12)
+        n13 = float(n13)
+        n21 = float(n21)
+        n22 = float(n22)
+        n23 = float(n23)
+        
+        verts = []
+        faces = []
+        scale = 1.0
+     
+        Unum = 20
+        Vnum = 20
+    
+        Uinc = pi / (Unum/2)
+        Vinc = (pi/2)/(Vnum/2)
+ 
+        #fill verts array
+        theta = -pi
+        for i in range (0, Unum + 1):
+            phi = -pi/2
+            r1 = Superformula(theta, a, b, m1, n11, n12, n13)
+            for j in range(0,Vnum + 1):
+                r2 = Superformula(phi, a, b, m2, n21, n22, n23)
+                x = scale * (r1 * cos(theta) * r2 * cos(phi))
+                y = scale * (r1 * sin(theta) * r2 * cos(phi))
+                z = scale * (r2 * sin(phi))
+ 
+                vert = (x,y,z) 
+                verts.append(vert)
+
+                phi = phi + Vinc
+
+            theta = theta + Uinc
+ 
+        #define faces
+        count = 0
+        for i in range (0, (Vnum + 1) *(Unum)):
+            if count < Vnum:
+                A = i
+                B = i+1
+                C = (i+(Vnum+1))+1
+                D = (i+(Vnum+1))
+ 
+                face = (A,B,C,D)
+                faces.append(face)
+ 
+                count = count + 1
+            else:
+                count = 0    
+
+        return pgl.QuadSet(pgl.Point3Array(verts), faces), None
+
+    def HeightField(self, heightValues, usize, vsize, zerolevel, scale, water, **kwds):
+        usize = int(usize)
+        vsize = int(vsize)
+        zerolevel = float(zerolevel)
+        scale = float(scale)
+        water = str(water)
+        water = water.lower() == 'true'
+
+        heightValues = str(heightValues)
+        heightValues = [float(num) for num in heightValues.split(",")]
+
+        verts = []
+        faces = []
+
+        nu = usize
+        nv = vsize
+        p = (0, 0, 0)	
+
+        for v in range(nv):
+            for u in range(nu):
+                p = heightFieldGetVertex(v*usize + u, usize, vsize, heightValues, zerolevel, scale, water)
+                verts.append(p)
+
+        n = 0
+        for v in range(nv):
+            for u in range(nu):
+                if v < nv-1 and u < nu-1:
+                    face = (n, n+1, n+1+nu, n+nu)
+                    faces.append(face)
+                n = n+1         
+
+        return pgl.QuadSet(pgl.Point3Array(verts), faces), None
+"""
     def NURBSCurve(self, ctrlpoints, dimension, **kwds):
         dimension = int(dimension)
         points = str(ctrlpoints)
@@ -343,6 +489,7 @@ class Parser(object):
             return (pgl.NurbsCurve2D(ctlplist), None)
         elif dimension == 3:
             return (pgl.NurbsCurve(ctlplist), None)
+"""
 
     sphere = Sphere
     box = Box
@@ -353,6 +500,10 @@ class Parser(object):
     textLabel = TextLabel
     pointCloud = PointCloud
     nURBSCurve = NURBSCurve
+    nURBSSurface = NURBSSurface
+    supershape = Supershape
+    heightField = HeightField
+
 
     # Turtle implementation:
     # F0, M, M0, RV, RG, AdjustLU
@@ -839,6 +990,9 @@ class Dumper(object):
         root = self._graph.root
         self.SubElement(self.doc, 'root', dict(root_id=str(root)))
         # universal types
+        # Define the specific types in xeg
+        # <type name='toto'>
+
         self.universal_node()
 
         for vid in self._graph.vertices():
@@ -909,6 +1063,35 @@ class Dumper(object):
             attrib['type'] = edge_type_conv[edge_type]
 
         self.SubElement(self.doc, 'edge', attrib)
+
+def Superformula(theta, a, b, m, n1, n2, n3):
+    tmp1 = abs((1.0/a) * cos(m * theta/4.0))
+    tmp1 = pow(tmp1, n2)
+
+    tmp2 = abs((1.0/b) * sin(m * theta/4.0))
+    tmp2 = pow(tmp2, n3)
+
+    tmp3 = tmp1 + tmp2
+    tmp3 = pow(tmp3, -1.0/n1)
+    return tmp3
+
+def heightFieldGetVertex(index, usize, vsize, heightValues, zerolevel, scale, water):
+    sx = usize
+    sy = vsize
+    y = index / sx
+    x = index - y * sx
+
+    p = (0, 0, 0)
+    out_x = x * 1 / float(sx - 1)
+    out_y = y * 1 / float(sy - 1)
+    out_z = (heightValues[y*usize + x] - zerolevel) * scale
+
+    if water and (height <= zerolevel):
+        out_z = 0
+
+    p = (out_x, out_y, out_z)
+    return p
+
 
 ##########################################################################
 
