@@ -505,8 +505,8 @@ class Parser(object):
                 n = n+1         
 
         return pgl.QuadSet(pgl.Point3Array(verts), faces), None
-"""
-    def NURBSCurve(self, ctrlpoints, dimension, **kwds):
+
+    def MyNURBSCurve(self, ctrlpoints, dimension, **kwds):
         dimension = int(dimension)
         points = str(ctrlpoints)
         points = [float(num) for num in points.split(",")]
@@ -521,7 +521,7 @@ class Parser(object):
             return (pgl.NurbsCurve2D(ctlplist), None)
         elif dimension == 3:
             return (pgl.NurbsCurve(ctlplist), None)
-"""
+
 
     sphere = Sphere
     box = Box
