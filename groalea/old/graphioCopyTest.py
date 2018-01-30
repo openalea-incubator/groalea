@@ -31,9 +31,8 @@ from .geometry import (TurtleState, FunctionalGeometry, rgb_color,
                        orientation, project3Dto2D, determinant, no_interior,
                        grotation, directionalTropism, orthogonalTropism, adjust_lu)
 
-from .topology import RootedGraph
+from .topology import (RootedGraph, spanning_mtg)
 
-from .mappletfilesConverterCopy3 import (vtypedic, geotypes)
 
 Vector3 = pgl.Vector3
 Vector4 = pgl.Vector4
@@ -84,12 +83,12 @@ class Parser(object):
         if len(list(elt)) > 1:
             list(elt)
         
-        print "Dispatch elt : ", elt
-        print "list(elt) : ", list(elt)
-        print 'Dispatch elt.tag :', elt.tag 
-        print 'Dispatch elt.attrib',elt.attrib 
-        print "self.__getattribute__(elt.tag)", self.__getattribute__(elt.tag)
-        print "elt.getchildren() : ", elt.getchildren()
+        #print "Dispatch elt : ", elt
+        #print "list(elt) : ", list(elt)
+        #print 'Dispatch elt.tag :', elt.tag 
+        #print 'Dispatch elt.attrib',elt.attrib 
+        #print "self.__getattribute__(elt.tag)", self.__getattribute__(elt.tag)
+        #print "elt.getchildren() : ", elt.getchildren()
 
         # return self.__getattribute__(elt.tag)(elt.getchildren(), **elt.attrib)
         #try:
@@ -110,7 +109,7 @@ class Parser(object):
         A graph is a set of nodes and edges.
         """
         print "pass graph(self, elements) function"
-        print "elements : ", elements
+        #print "elements : ", elements
 
         graph = self._graph = RootedGraph()
 
@@ -292,14 +291,12 @@ class Parser(object):
         return (pgl.Cone(radius=radius, height=height, solid=solid),
                 pgl.Matrix4.translation(Vector3(0, 0, height)))
 
-    def Cylinder(self, radius=1., height=1., bottom_open=False, top_open=False, color=None, **kwds):
-        if color:
-            self._current_turtle.color = self.color(color)
+    def Cylinder(self, radius=1., length=1., base_open=False, top_open=False, **kwds):
         # radius, height = float(radius)*10, float(height)*10
-        radius, height = float(radius), float(height)
-        solid = not(bool(bottom_open) and bool(top_open))
-        return (pgl.Cylinder(radius=radius, height=height, solid=solid),
-                pgl.Matrix4.translation(Vector3(0, 0, height)))
+        radius, length = float(radius), float(length)
+        solid = not(bool(base_open) and bool(top_open))
+        return (pgl.Cylinder(radius, length, solid),
+                pgl.Matrix4.translation(Vector3(0, 0, length)))
 
     def Frustum(self, radius=1., height=1., taper=0.5, **kwds):
         radius, height, taper = float(radius), float(height), float(taper)
@@ -395,7 +392,7 @@ class Parser(object):
         return (pgl.BezierPatch(p4m), pgl.Matrix4())
         
         
-    def ShadedNull(self, transform, color, **kwds):
+    def ShadedNull(self, transform, color=None, **kwds):
         print "pass null in"
 
         transform = str(transform)
@@ -408,8 +405,9 @@ class Parser(object):
         for i in range(len(m4rlist)):
             for j in range(len(m4rlist[i])):
                 m4.__setitem__((i,j),m4rlist[i][j])
-
-        self._current_turtle.color = self.color(color)
+		
+        if color:
+            self._current_turtle.color = self.color(color)
                 
         print "pass null out"
 
@@ -948,171 +946,38 @@ class Dumper(object):
 # Wrapper functions for OpenAlea usage.
 
 
-def xml2graph(xml_graph_file_abs):
+def xmlFile2graph(xeg_file_abname):
     """
     Convert a xml string to a rootedgraph and scene graph.
     """
     
-    #of = open(xml_graph_file_abs, "r")
-    #fc = of.read()
-    f = StringIO(xml_graph_file_abs)
+    of = open(xeg_file_abname, "r")
+    f = of.read()
+    #f = StringIO(xml_graph_file_abs)
+    f = StringIO(f)
     parser = Parser()
-    graph, scene = parser.parse(f)
-    g = adjustFromGroIMP(graph)
-    g = adjustmentToMtg(g)
+    rootedgraph, scene = parser.parse(f)
+    #g = adjustFromGroIMP(graph)
+    #g = adjustmentToMtg(g)
     #g = upscaling4Light(g)
     #f.close()
-    return g, scene
+    return rootedgraph, scene
 
 
-def graph2xml(graph):
+def graph2xml(rootedgraph):
     dump = Dumper()
     return dump.dump(graph)
 
 
-def xml2graph_old(xml_graph):
+def xmlObject2graph(xeg_object):
     """
-
     Convert a xml string to a graph and scene graph.
     """
-    f = StringIO(xml_graph)
+    f = StringIO(xeg_object)
     parser = Parser()
-    g, scene = parser.parse(f)
+    rootedgraph, scene = parser.parse(f)
     f.close()
-    return g, scene
-
-
-
-def removeTypeGraph(graph):
-
-    tps = list(vtypedic.values())
-    stypes = tps + ["Sub" + tps[-1]]
-    stypes = ["Root"] + stypes
-
-    for i in range(len(stypes)):
-        stypes[i] = "S" + stypes[i]
-
-    gtypes = ["TypeRoot"] + tps
-
-    vertices = graph._vertieces
-
-    vids = vertices.keys()
-    
-    for vid in vids:
-        vtype = graph.vertex_property('type')[vid]
-        if (vtype in geotypes):
-            edgedic = graph._edges
-
-            for eid in edgedic.keys():
-                esrc = edgedic[eid][0]
-                edst = edgedic[eid][1]
-                srcType = graph.vertex_property('type')[esrc]
-                
-                if srcType == stypes[-1] and edst == vid:
-                    graph.remove_vertex(vid)
-
-
-    for vid in vids:
-        vtype = graph.vertex_property('type')[vid]
-        if (vtype in stypes) or (vtype in gtypes):
-            graph.remove_vertex(vid)
-
-
-    
-# wrong details, and not take into account of multi-plant case and remove_edge don't remove vertex
-def adjustFromGroIMP_old(graph):
-    eid_max = -1;
-    edgedic = graph._edges
-
-    for eid in edgedic.keys():
-
-        if eid_max < eid:
-            eid_max = eid
-
-        if edgedic[eid][0] == graph.root:
-            fv = edgedic[eid][1]
-            vs = []
-            for eidd in edgedic.keys():
-                if fv == edgedic[eidd][1]:
-                    vs.append(eidd)
-
-            if len(vs) != 1:
-                graph.remove_edge(eid)
-            else:
-                graph.edge_property("edge_type")[eid] = "/"
-                # add decomposition edge from root to other plant vertex if there are more than one plant
-                pvs = [fv]
-                cvs = []
-                findChildren(pvs, cvs, edgedic, graph) 
-                if len(cvs) != 0:
-                    new_eid = eid_max
-                    for cv in cvs:
-                        new_eid =  new_eid + 1
-                        graph.edge_property("edge_type")[new_eid] = "/"
-                        edge = (graph.root, cv) 
-                        graph.add_edge(edge, new_eid)
-
-    return graph
-
-
-def adjustFromGroIMP(rootedgraph):
-    
-    edgedic = rootedgraph._edges
-
-    del_sids = []
-
-    for eid in edgedic.keys():
-
-        if edgedic[eid][0] == rootedgraph.root and rootedgraph.edge_property("edge_type")[eid]== "+":
-            del_sids.append(edgedic[eid][1])
-            for eeid in edgedic.keys():
-
-                if edgedic[eid][1] == edgedic[eeid][0] and rootedgraph.edge_property("edge_type")[eeid]== "<":
-
-                    xsid = edgedic[eeid][1]
-                    xtype = rootedgraph.vertex_property("type")[xsid]             
-
-                    if xtype == "Tree":
-                        translate3_para = rootedgraph.vertex_property("parameters")[edgedic[eid][1]]
-                        
-                        for eeeid in edgedic.keys():
-                            xxsid = edgedic[eeeid][1]
-                            xxtype = rootedgraph.vertex_property("type")[xxsid]
-                            if edgedic[eid][1] == edgedic[eeeid][0] and rootedgraph.edge_property("edge_type")[eeeid]== "<" and xxtype == "Metamer":
-             
-
-                                for aeid in edgedic.keys():
-                                    smsid = edgedic[aeid][1]
-                                    smtype = rootedgraph.vertex_property("type")[smsid]
-                                    if xxsid == edgedic[aeid][0] and rootedgraph.edge_property("edge_type")[aeid]== "/" and smtype == "Translate":
-                                        # here, as we assume that for the first metamer of each plant at mtg's finest scale, only has one associated Translation object
-                                        # accordingly, code here only support "one association" case 
-                                        rootedgraph.vertex_property("parameters")[smsid] = translate3_para
-
-
-    for del_sid in del_sids:    
-        rootedgraph.remove_vertex(del_sid)
-
-    if "PTranslate" in rootedgraph._types.keys():
-        del rootedgraph._types["PTranslate"]
-
-    return rootedgraph
-
-
-# wrong idea
-def findChildren(pvs, cvs, edgedic, graph):
-    oneGenChv = []
-
-    for pv in pvs:
-        for eeid in edgedic.keys():      
-            if pv == edgedic[eeid][0] and graph.edge_property("edge_type")[eeid] != "/":
-                oneGenChv.append(edgedic[eeid][1])
-
-    if len(oneGenChv) !=0:
-        cvs = cvs + oneGenChv
-        findChildren(oneGenChv, cvs, edgedic, graph)
-
-    return cvs
+    return rootedgraph, scene
 
 
 def upscaling4Light(rootedgraph):
@@ -1142,41 +1007,45 @@ def isGreen(rgb_color):
     if (r*1.5<=g and b*1.5<=g and g!=0):
         return True
 
+def adjustmentToScene(rootedgraph):
+    """
+    delete the scales from MTG and connet graph root to roots in geometric scale
+    """
+    
+    g = rootedgraph
 
-def adjustmentToMtg_old(rootedgraph):
-    """
-    delete sub-metamer scale and set the sid of each remained node to original vid
-    """
-    # delete nodes in sub-metamer scale
-    sids = rootedgraph._vertices.keys()
-    edgedic = rootedgraph._edges
+    # to allow resulting single scale XEG have "transform" as node's property
+    # transform need to be put as paramters of nodes in rootedgraph
+    transdic = g.vertex_property("transform") 
+    for sid in transdic.keys():
+        para = {'transform': transdic[sid]}
+        g.vertex_property("parameters")[sid] = para
+ 
+    g.remove_vertex_property("transform")
+    
+    #get roots of the geometric scale/finest scale 
+    mtg_mpt = spanning_mtg(g)
+    roots = mtg_mpt.roots(mtg_mpt.max_scale())
+
+    #delete the scales from MTG
+    sids = g._vertices.keys()
+        # for error caused by that root has no name property
+    sids.remove(g.root)
     for sid in sids:
-        eids = []
-        for eid in edgedic.keys(): 
-            if edgedic[eid][0] == sid:
-                eids.append(eid)
-        has_decomp_flag = False
-        for eid in eids:
-            if rootedgraph.edge_property("edge_type")[eid] == "/":
-                has_decomp_flag = True
-        if has_decomp_flag == False:
-            rootedgraph.remove_vertex(sid)
+        if g.vertex_property("type")[sid] == "MtgScaleClass":
+            g.remove_vertex(sid)
+     
+    # connect graph root to roots of the remainning geometric scale       
+    rootedgraph = g        
+    for root in roots:
+        edge = (rootedgraph.root, root) 
+        edgeid = rootedgraph.add_edge(edge)
+        rootedgraph.edge_property("edge_type")[edgeid] = "<"
 
-    # set the sid of each remained node to original vid
-    mtg_sids = rootedgraph._vertices.keys()
-    mtg_sids_edgedic = rootedgraph._edges
-    for mtg_sid in mtg_sids:
-        mtg_vid = mtg_sid/ 10**2
-        rootedgraph._vertices[mtg_vid] = rootedgraph._vertices[mtg_sid]
-        del rootedgraph._vertices[mtg_sid]
+    # convert the rootedgraph to xeg. Ready to be converted to scene graph
+    singleS_xeg = graph2xml(g)
 
-    # set also the edge (for source and destination vetex) sid to vid
-    for mtg_eid in mtg_sids_edgedic.keys():
-        srcsid = mtg_sids_edgedic[mtg_eid][0]
-        dstsid = mtg_sids_edgedic[mtg_eid][1]
-        mtg_sids_edgedic[mtg_eid] = (srcsid/10**2, dstsid/10**2)
 
-    return rootedgraph
 
 def adjustmentToMtg(rootedgraph):
     """
@@ -1186,7 +1055,7 @@ def adjustmentToMtg(rootedgraph):
     # for error caused by that root has no name property
     sids.remove(rootedgraph.root)
     for sid in sids:
-        if rootedgraph.vertex_property("name")[sid].split(".")[0] == "SM":
+        if rootedgraph.vertex_property("type")[sid] != "MtgScaleClass":
             rootedgraph.remove_vertex(sid)
 
     # set the sid of each remained node to original vid
@@ -1204,6 +1073,29 @@ def adjustmentToMtg(rootedgraph):
         srcsid = mtg_sids_edgedic[mtg_eid][0]
         dstsid = mtg_sids_edgedic[mtg_eid][1]
         mtg_sids_edgedic[mtg_eid] = (srcsid/10**2, dstsid/10**2)
+
+    # set also the type sid to vid
+    for skey in rootedgraph.vertex_property("type").keys():
+        nkey = skey/ 10**2
+        if nkey != skey:
+            rootedgraph.vertex_property("type")[nkey] = rootedgraph.vertex_property("type")[skey] 
+            del rootedgraph.vertex_property("type")[skey] 
+
+    # set also the parameters sid to vid    
+    for skey in rootedgraph.vertex_property("parameters").keys():
+        nkey = skey/ 10**2
+        if nkey != skey:
+            rootedgraph.vertex_property("parameters")[nkey] = rootedgraph.vertex_property("parameters")[skey] 
+            del rootedgraph.vertex_property("parameters")[skey] 
+ 
+    # set also the name sid to vid, and add label           
+    rootedgraph.add_vertex_property("label")
+    for skey in rootedgraph.vertex_property("name").keys():
+        nkey = skey/ 10**2
+        if nkey != skey:
+            rootedgraph.vertex_property("name")[nkey] = rootedgraph.vertex_property("name")[skey]
+            rootedgraph.vertex_property("label")[nkey] =  rootedgraph.vertex_property("name")[nkey]
+            del rootedgraph.vertex_property("name")[skey]
 
     return rootedgraph
 

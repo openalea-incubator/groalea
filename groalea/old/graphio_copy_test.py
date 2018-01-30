@@ -23,10 +23,8 @@ from math import sin
 from copy import deepcopy
 import xml.etree.ElementTree as xml
 
-from openalea.mtg.io import *
 from openalea.core.graph.property_graph import PropertyGraph
 import openalea.plantgl.all as pgl
-
 
 from .geometry import (TurtleState, FunctionalGeometry, rgb_color,
                        is_matrix, transform4, frame,
@@ -35,8 +33,7 @@ from .geometry import (TurtleState, FunctionalGeometry, rgb_color,
 
 from .topology import (RootedGraph, spanning_mtg)
 
-from .mappletConverter import offset
-
+#from .mappletfilesConverterCopy3 import (vtypedic, geotypes)
 
 Vector3 = pgl.Vector3
 Vector4 = pgl.Vector4
@@ -54,8 +51,7 @@ class Parser(object):
 
     FUNCTIONAL = -10
 
-    def parse(self, fn, onlyTopology):
-        self.onlyTopology = onlyTopology
+    def parse(self, fn):
         self.trash = []
         self._graph = None
         self._scene = None
@@ -240,15 +236,13 @@ class Parser(object):
 
         graph.vertex_property('parameters')[id] = args
 
-        if type in ['node', 'Axiom', 'MtgVertex']:
+        if type in ['node', 'Axiom']:
             # special case.
             shape, transfo = None, None
         else:
             # Here to switch off scene producing
-            if not self.onlyTopology :
-                shape, transfo = self.dispatch2(type, args)
-            else:
-                shape, transfo = None, None
+            #shape, transfo = self.dispatch2(type, args)
+            shape, transfo = None, None
 
         # End of TODO
 
@@ -298,12 +292,14 @@ class Parser(object):
         return (pgl.Cone(radius=radius, height=height, solid=solid),
                 pgl.Matrix4.translation(Vector3(0, 0, height)))
 
-    def Cylinder(self, radius=1., length=1., base_open=False, top_open=False, **kwds):
+    def Cylinder(self, radius=1., height=1., bottom_open=False, top_open=False, color=None, **kwds):
+        if color:
+            self._current_turtle.color = self.color(color)
         # radius, height = float(radius)*10, float(height)*10
-        radius, length = float(radius), float(length)
-        solid = not(bool(base_open) and bool(top_open))
-        return (pgl.Cylinder(radius, length, solid),
-                pgl.Matrix4.translation(Vector3(0, 0, length)))
+        radius, height = float(radius), float(height)
+        solid = not(bool(bottom_open) and bool(top_open))
+        return (pgl.Cylinder(radius=radius, height=height, solid=solid),
+                pgl.Matrix4.translation(Vector3(0, 0, height)))
 
     def Frustum(self, radius=1., height=1., taper=0.5, **kwds):
         radius, height, taper = float(radius), float(height), float(taper)
@@ -396,29 +392,25 @@ class Parser(object):
             for j in range(len(pdmrlst[i])):
                 p4m.__setitem__((i,j),pdmrlst[i][j])
                 
-        return (pgl.BezierPatch(p4m), None)
+        return (pgl.BezierPatch(p4m), pgl.Matrix4())
         
         
-    def ShadedNull(self, transform=None, color=None, **kwds):
+    def ShadedNull(self, transform, color=None, **kwds):
         print "pass null in"
 
-        if transform :
-            transform = str(transform)
-            transform = [float(num) for num in transform.split(",")]
+        transform = str(transform)
+        transform = [float(num) for num in transform.split(",")]
         
-            items, chunk = transform, 4
-            m4rlist = zip(*[iter(items)] * chunk)
-            m4 = pgl.Matrix4()
+        items, chunk = transform, 4
+        m4rlist = zip(*[iter(items)] * chunk)
+        m4 = pgl.Matrix4()
 
-            for i in range(len(m4rlist)):
-                for j in range(len(m4rlist[i])):
-                    m4.__setitem__((i,j),m4rlist[i][j])
-
-        else:
-            m4 = None 
-
+        for i in range(len(m4rlist)):
+            for j in range(len(m4rlist[i])):
+                m4.__setitem__((i,j),m4rlist[i][j])
+		
         if color:
-            self._current_turtle.color = color(color)
+            self._current_turtle.color = self.color(color)
                 
         print "pass null out"
 
@@ -957,22 +949,22 @@ class Dumper(object):
 # Wrapper functions for OpenAlea usage.
 
 
-def xmlFile2graph(xeg_file_abname, onlyTopology=False):
+def xml2graph(xml_graph_file_abs):
     """
     Convert a xml string to a rootedgraph and scene graph.
     """
     
-    of = open(xeg_file_abname, "r")
+    of = open(xml_graph_file_abs, "r")
     f = of.read()
     #f = StringIO(xml_graph_file_abs)
     f = StringIO(f)
     parser = Parser()
-    rootedgraph, scene = parser.parse(f, onlyTopology)
+    graph, scene = parser.parse(f)
     #g = adjustFromGroIMP(graph)
     #g = adjustmentToMtg(g)
     #g = upscaling4Light(g)
     #f.close()
-    return rootedgraph, scene
+    return graph, scene
 
 
 def graph2xml(graph):
@@ -980,15 +972,51 @@ def graph2xml(graph):
     return dump.dump(graph)
 
 
-def xml2graph(xml_graph, onlyTopology=False):
+def xml2graph_old(xml_graph):
     """
     Convert a xml string to a graph and scene graph.
     """
     f = StringIO(xml_graph)
     parser = Parser()
-    g, scene = parser.parse(f, onlyTopology)
+    g, scene = parser.parse(f)
     f.close()
     return g, scene
+
+
+def removeTypeGraph(graph):
+
+    tps = list(vtypedic.values())
+    stypes = tps + ["Sub" + tps[-1]]
+    stypes = ["Root"] + stypes
+
+    for i in range(len(stypes)):
+        stypes[i] = "S" + stypes[i]
+
+    gtypes = ["TypeRoot"] + tps
+
+    vertices = graph._vertieces
+
+    vids = vertices.keys()
+    
+    for vid in vids:
+        vtype = graph.vertex_property('type')[vid]
+        if (vtype in geotypes):
+            edgedic = graph._edges
+
+            for eid in edgedic.keys():
+                esrc = edgedic[eid][0]
+                edst = edgedic[eid][1]
+                srcType = graph.vertex_property('type')[esrc]
+                
+                if srcType == stypes[-1] and edst == vid:
+                    graph.remove_vertex(vid)
+
+
+    for vid in vids:
+        vtype = graph.vertex_property('type')[vid]
+        if (vtype in stypes) or (vtype in gtypes):
+            graph.remove_vertex(vid)
+
 
 
 def upscaling4Light(rootedgraph):
@@ -1011,7 +1039,6 @@ def upscaling4Light(rootedgraph):
 
     return rootedgraph
 
-
 def isGreen(rgb_color):
     r=rgb_color.red
     g=rgb_color.green
@@ -1019,8 +1046,7 @@ def isGreen(rgb_color):
     if (r*1.5<=g and b*1.5<=g and g!=0):
         return True
 
-
-def getSceneXEG(rootedgraph):
+def adjustmentToScene(rootedgraph):
     """
     delete the scales from MTG and connet graph root to roots in geometric scale
     """
@@ -1039,14 +1065,13 @@ def getSceneXEG(rootedgraph):
     #get roots of the geometric scale/finest scale 
     mtg_mpt = spanning_mtg(g)
     roots = mtg_mpt.roots(mtg_mpt.max_scale())
-    print roots, mtg_mpt.max_scale()
 
     #delete the scales from MTG
     sids = g._vertices.keys()
         # for error caused by that root has no name property
     sids.remove(g.root)
     for sid in sids:
-        if g.vertex_property("type")[sid] == "MtgVertex":
+        if g.vertex_property("type")[sid] == "MtgScaleClass":
             g.remove_vertex(sid)
      
     # connect graph root to roots of the remainning geometric scale       
@@ -1057,15 +1082,11 @@ def getSceneXEG(rootedgraph):
         rootedgraph.edge_property("edge_type")[edgeid] = "<"
 
     # convert the rootedgraph to xeg. Ready to be converted to scene graph
-    single_scale_xeg = graph2xml(g)
-
-    return single_scale_xeg
-
-    	
+    singleS_xeg = graph2xml(g)
 
 
 
-def getMTGRootedGraph(rootedgraph):
+def adjustmentToMtg(rootedgraph):
     """
     delete sub-metamer scale and set the sid of each remained node to original vid
     """
@@ -1073,14 +1094,14 @@ def getMTGRootedGraph(rootedgraph):
     # for error caused by that root has no name property
     sids.remove(rootedgraph.root)
     for sid in sids:
-        if rootedgraph.vertex_property("type")[sid] != "MtgVertex":
+        if rootedgraph.vertex_property("type")[sid] != "MtgScaleClass":
             rootedgraph.remove_vertex(sid)
 
     # set the sid of each remained node to original vid
     mtg_sids = rootedgraph._vertices.keys()
     mtg_sids_edgedic = rootedgraph._edges
     for mtg_sid in mtg_sids:
-        mtg_vid = mtg_sid/ 10**offset
+        mtg_vid = mtg_sid/ 10**2
         # for error caused by root == 0
         if mtg_vid != mtg_sid:
             rootedgraph._vertices[mtg_vid] = rootedgraph._vertices[mtg_sid]
@@ -1090,107 +1111,33 @@ def getMTGRootedGraph(rootedgraph):
     for mtg_eid in mtg_sids_edgedic.keys():
         srcsid = mtg_sids_edgedic[mtg_eid][0]
         dstsid = mtg_sids_edgedic[mtg_eid][1]
-        mtg_sids_edgedic[mtg_eid] = (srcsid/10**offset, dstsid/10**offset)
+        mtg_sids_edgedic[mtg_eid] = (srcsid/10**2, dstsid/10**2)
 
+    # set also the type sid to vid
+    for skey in rootedgraph.vertex_property("type").keys():
+        nkey = skey/ 10**2
+        if nkey != skey:
+            rootedgraph.vertex_property("type")[nkey] = rootedgraph.vertex_property("type")[skey] 
+            del rootedgraph.vertex_property("type")[skey] 
 
     # set also the parameters sid to vid    
     for skey in rootedgraph.vertex_property("parameters").keys():
-        nkey = skey/ 10**offset
+        nkey = skey/ 10**2
         if nkey != skey:
             rootedgraph.vertex_property("parameters")[nkey] = rootedgraph.vertex_property("parameters")[skey] 
-            del rootedgraph.vertex_property("parameters")[skey]
-
-
-    # remove properties does not belongs to the mtg (properties have been added to allow scene creation)
-	non_mtg_pnames = ["name", "type", "color", "geometry", "transform", "turtle_state", "final_geometry"]
-    for non_mtg_pname in non_mtg_pnames:
-        if non_mtg_pname in rootedgraph._vertex_property.keys():
-            rootedgraph.remove_vertex_property(non_mtg_pname)
-
-
-    # get all the paramters back as properties of vertex/node
-    for nkey in rootedgraph.vertex_property("parameters").keys():
-        para_dic = rootedgraph.vertex_property("parameters")[nkey]
-        pnames = para_dic.keys()
-
-        for pname in pnames:
-            if pname not in rootedgraph._vertex_property.keys():
-                rootedgraph.add_vertex_property(pname)
-            rootedgraph.vertex_property(pname)[nkey] = para_dic[pname]
-    
-    rootedgraph.remove_vertex_property("parameters")
-
+            del rootedgraph.vertex_property("parameters")[skey] 
+ 
+    # set also the name sid to vid, and add label           
+    rootedgraph.add_vertex_property("label")
+    for skey in rootedgraph.vertex_property("name").keys():
+        nkey = skey/ 10**2
+        if nkey != skey:
+            rootedgraph.vertex_property("name")[nkey] = rootedgraph.vertex_property("name")[skey]
+            rootedgraph.vertex_property("label")[nkey] =  rootedgraph.vertex_property("name")[nkey]
+            del rootedgraph.vertex_property("name")[skey]
 
     return rootedgraph
 
 
 
-def produceXEGfile(xeg_object, xeg_file_abname):
-    """
-    produce XEG file with given absolute name from xeg object
-    """
-    import sys
-     
-    orig_stdout = sys.stdout
-    f = file(xeg_file_abname, 'w')
-    sys.stdout = f
 
-    from pprint import pprint 
-    print(xeg_object)
-
-    sys.stdout = orig_stdout
-    f.close()
-
-
-def produceMTGContentfile(mtg_object, mtg_file_abname):
-    """
-    produce mtg content text file with given absolute name from mtg object
-    """
-    
-    import sys
-     
-
-    orig_stdout = sys.stdout
-    f = file(mtg_file_abname, 'w')
-    sys.stdout = f
-
-    from pprint import pprint 
-    pprint(vars(mtg_object))
-
-    sys.stdout = orig_stdout
-    f.close()
-
-
-def produceMTGDisplayfile(mtg_object, mtg_file_abname):
-    """
-    produce mtg content text file with given absolute name from mtg object
-    """
-    
-    import sys
-     
-
-    orig_stdout = sys.stdout
-    f = file(mtg_file_abname, 'w')
-    sys.stdout = f
-
-    from pprint import pprint 
-    pprint(mtg_object.display())
-
-    sys.stdout = orig_stdout
-    f.close()
-
-
-
-def produceMTGfile(mtg_object, mtg_file_abname):
-    """
-    produce mtg file with given absolute name from mtg object
-    """
-    
-    
-    g = mtg_object 
-    properties = [(p, 'REAL') for p in g.property_names() if p not in ['edge_type', 'index', 'label', '_line']]
-    print properties
-    mtg_lines = write_mtg(g, properties)
-    f = open(mtg_file_abname, 'w')
-    f.write(mtg_lines)
-    f.close()
