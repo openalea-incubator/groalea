@@ -24,7 +24,7 @@
 """
 from openalea.core.graph.property_graph import PropertyGraph
 from openalea.container.traversal.graph import breadth_first_search
-from openalea.mtg import MTG, fat_mtg
+from openalea.mtg import MTG, fat_mtg, traversal
 
 
 class RootedGraph(PropertyGraph):
@@ -79,13 +79,12 @@ def spanning_mtg(graph):
     # Compute the complex (upscale) and components (downscale) for each vertex
     _complex_and_components(g, mtg)
 
-    print "scales :", mtg._scale
     # Extract all the vertex properties.
     _vertex_properties(g, mtg)
 
     # Compute missing links to have constant time access (O(1)) to neighbourhood
     fat_mtg(mtg)
-    print "scales :", mtg._scale
+    #print "scales :", mtg._scale
 
     return mtg
 
@@ -190,6 +189,7 @@ def _children_and_parent(g, mtg):
     vet = vertex_edge_type = mtg.properties()['edge_type']
     reorder = {}
     for p, cids in children.iteritems():
+        cids = list(cids)
         ets = [vet[cid] for cid in cids]
         nb_less = ets.count('<')
         if nb_less > 1:
@@ -202,17 +202,22 @@ def _children_and_parent(g, mtg):
                 del cids[index]
                 cids.append(vid)
                 reorder[p] = cids
-    if reorder:
-        print 'REORDER: ', reorder
+    #if reorder:
+    # print 'REORDER: ', reorder
     children.update(reorder)
 
-    print parents, children
+    # print parents, children
 
     parents[g.root] = None
 
+    # Add rooted vertices
+    for vid in mtg._scale:
+        if vid not in parents:
+            parents[vid] = None
+
     mtg._parent = parents
     mtg._children = children
-    print parents, children
+    #print parents, children
 
 
 def _complex_and_components(g, mtg):
@@ -222,7 +227,7 @@ def _complex_and_components(g, mtg):
     max_scale = mtg.max_scale()
     scales = mtg._scale
 
-    print "scales :", scales
+    #print "scales :", scales
 
     complex = {}
     components = {}
@@ -233,13 +238,26 @@ def _complex_and_components(g, mtg):
             components.setdefault(source, []).append(target)
 
             #assert scales[source] == scales[target] - 1
+    # Sort all components such that only those that do not have their parent in the same complex are given
 
-    print complex, components
     mtg._complex = complex
+
+    # all the components have to be sorted in the pre_order order (parent before children)
+    minimum_components = {}
+    for vid, components_ids in components.iteritems():
+        new_comp = []
+        for cid in components_ids:
+            pid = mtg.parent(cid)
+            if pid not in components_ids:
+                new_comp.append(cid)
+        minimum_components[vid] = new_comp
+
+    components = minimum_components
     mtg._components = components
 
 def _vertex_properties(g, mtg):
     vp = g._vertex_property
     mtg.properties().update(vp)
+
 
 
