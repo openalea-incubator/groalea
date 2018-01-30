@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # -*- python -*-
 #
-#       Topological algorithms to convert MTG into xeg format.
+#       Topological & geometric algorithms to convert MTG into rootedgraph.
 #
 #       groalea: GroIMP / OpenAlea Communication framework
 #
@@ -19,31 +19,42 @@
 #
 ###############################################################################
 
-"""
 
-"""
 from .topology import RootedGraph
 from openalea.plantgl.all import *
 from openalea.mtg.aml import *
 import numpy as np
 import re
 
+mtg = None
+max_scale = None
+g_scale_num = None
 offset = 2
 edgeid = 0
-vtypedic = {'T':'Tree', 'G': 'Growth_unit', 'I': 'Internode', 'M': 'Metamer'}
+done=None
+# It's better to use the class name + "unit" as the upper and metamer scale node type 
+#vtypedic = {'T':'Tree', 'G': 'GrowthUnit', 'I': 'Internode', 'M': 'Metamer'}
+#geotypes = ['ShadedNull', 'Translate', 'Scale', 'Cylinder', 'BezierPatch', 'Sphere']
+#pv2ftrdic = {}
 
-def mappletfiles_pre(mtgfile, bgeomfile):
+def mappletfiles_pre(mtgfile, bgeomfile=None):
+
+    global mtg, max_scale
+
     mtg = MTG(mtgfile)
     max_scale = mtg.max_scale()
-    vlist = mtg.vertices(max_scale)
+    ms_vlist = mtg.vertices(max_scale)
 
-    scene = Scene(bgeomfile)
-    metamerlist = scene.todict()
+    if bgeomfile == None:
+        metamerlist = []
+    else:
+        scene = Scene(bgeomfile)
+        metamerlist = scene.todict()
 
-    return mtg, vlist, metamerlist
+    return ms_vlist, metamerlist
 
 
-def rootedgraph_pre(mtg):
+def rootedgraph_pre():
 
     rootedgraph = RootedGraph()
     rootedgraph._types = None
@@ -56,13 +67,6 @@ def rootedgraph_pre(mtg):
     rootedgraph.add_vertex_property("geometry")
     rootedgraph.add_vertex_property("transform")
     rootedgraph.add_edge_property("edge_type")
-
-    # add root--> need multiscale modification
-  
-    #rootedgraph.root = 1
-    
-    max_scale_root = mtg.component_roots_at_scale_iter(mtg.root, scale=mtg.max_scale()).next()
-    #rootedgraph.root = max_scale_root * 10**offset
     
     # set root value
     rootedgraph.root = mtg.root
@@ -70,11 +74,13 @@ def rootedgraph_pre(mtg):
     # add root to graph
     if rootedgraph.root not in rootedgraph:
         rootedgraph.add_vertex(rootedgraph.root)
+
+    rootedgraph._types = {}
 	
-    return rootedgraph, max_scale_root
+    return rootedgraph
 
 
-def addEdge2RootedGraph(rootedgraph, esrc, edest, etype):
+def addEdge(esrc, edest, etype, rootedgraph):
 
     global edgeid
 
@@ -84,84 +90,100 @@ def addEdge2RootedGraph(rootedgraph, esrc, edest, etype):
     rootedgraph.add_edge(edge, edgeid)
 
 
-def uppermetamerLevelConvert(mtg, rootedgraph):
+def setVetexProperties(vid, sid, rootedgraph):
 
-    global edgeid
-    
-    max_scale = mtg.max_scale()
+    # set name with sid, which allow sid to be restored
+    label = mtg[vid]["label"]
+    rootedgraph.vertex_property("name")[sid] = label #+ "." + str(sid)
 
-    # add upper metamer level vertices and set properties
-	# the metamer level vertices are added for edge adding
-    for scale in range(max_scale):
-        for vid in mtg.vertices(scale + 1):
+    # set type
+    class_name = mtg.class_name(vid)
+    rootedgraph.vertex_property("type")[sid] = "MtgVertex" #class_name + "_" + "unit" #vtypedic[label[0]]
+
+    # set parameters
+    parameters = mtg.get_vertex_property(vid)
+    for p in  ['edge_type']: #, 'index', 'label', '_line']:
+        if p in parameters:
+            del parameters[p]
+
+    # process for mtg format error
+    if sid == 100 and parameters['observation'] == '0.0000\r' :
+        parameters['observation'] = 0.0000
+
+    rootedgraph.vertex_property("parameters")[sid] = parameters
+
+
+def uppermetamerLevelConvert(rootedgraph, scale_num):
+
+    for scale in range(scale_num):
+        for vid in mtg.vertices(scale):
             sid = vid * 10**offset
             if sid not in rootedgraph:
                 rootedgraph.add_vertex(sid)
 
             vcomplex = mtg.complex(vid)
-            scomplex = vcomplex * 10**offset
-            addEdge2RootedGraph(rootedgraph, scomplex, sid, "/")
-            # '<' edge in max scale (metamer scale) will be process in metamer level convert
-            if scale != max_scale - 1:
-                vparent = mtg.parent(vid)
+            if vcomplex != None:
+                setVetexProperties(vid, sid, rootedgraph)
+                scomplex = vcomplex * 10**offset
+                addEdge(scomplex, sid, "/", rootedgraph)
+
+            # for "<" and "+" edge
+            # just get dic for the max scale (metamer scale)
+            vparent = mtg.parent(vid)
+            if vparent != None:
+                sparent = vparent * 10**offset
+                # edge_type() gets type of the edge (parent to vid)
+                etype = mtg.edge_type(vid)
+                addEdge(sparent, sid, etype, rootedgraph)
                 
-                if vparent != None:
-                    sparent = vparent * 10**offset
-                    etype = mtg.edge_type(vid)
-                    addEdge2RootedGraph(rootedgraph, sparent, sid, etype)
-			
+    ve2pdic = {}            
+    for vid in mtg.vertices(max_scale):
+        sid = vid * 10**offset
+        vparent = mtg.parent(vid)
+        if vparent != None:
+            sparent = vparent * 10**offset
+            # edge_type() gets type of the edge (parent to vid)
+            etype = mtg.edge_type(vid)
+            ve2pdic[vid] = (sid, vparent, etype)
+        else:
+            ve2pdic[vid] = (sid, vparent, None)
 
-            # set name
-            label = mtg[vid]["label"]
-            rootedgraph.vertex_property("name")[sid] = label
-
-            if scale - 1 == max_scale:
-                print "sid :", sid, "label : ", label
-
-            # set type
-            rootedgraph.vertex_property("type")[sid] = vtypedic[label[0]]
-
-            # set parameters
-            parameters = mtg.get_vertex_property(vid)
-            for p in  ['edge_type', 'index', 'label', '_line']:
-                if p in parameters:
-                    del parameters[p]
-
-            rootedgraph.vertex_property("parameters")[sid] = parameters
-
-    
-    #add edges
-    #for scale in range(max_scale):
-        #for vid in mtg.vertices(scale + 1):
-            #vcomplex = mtg.complex(vid)
-            #addEdge2RootedGraph(rootedgraph, vcomplex, vid, '/')
-            # '<' edge in max scale (metamer scale) will be process in metamer level convert
-            #if scale != max_scale - 1:
-                #vparent = mtg.parent(vid)
-                #etype = mtg.edge_type(vid)
-                #if vparent != None:
-                    #addEdge2RootedGraph(rootedgraph, vparent, vid, etype)
-
+    return ve2pdic                
+            
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 
-def convert(mtgfile, bgeomfile):
-    global edgeid
-    mtg, vlist, metamerlist = mappletfiles_pre(mtgfile, bgeomfile)
-    rootedgraph, max_scale_root = rootedgraph_pre(mtg)
+def convert(mtgfile, bgeomfile=None, scale_num=1):
+    global g_scale_num
+    
+    ms_vlist, metamerlist = mappletfiles_pre(mtgfile, bgeomfile)
+    rootedgraph = rootedgraph_pre()
+    scale_num = mtg.nb_scales()
+    ve2pdic = uppermetamerLevelConvert(rootedgraph, scale_num)
+    g_scale_num = scale_num
+    #mtg.display()
 
-    uppermetamerLevelConvert(mtg, rootedgraph)
+    #return rootedgraph
 
-    for vid in vlist:
-        #if vlist.index(vid) == 1:
+    if len(metamerlist) == 0:
+        return rootedgraph
+
+    for vid in ms_vlist:
+        #if ms_vlist.index(vid) == 11:
             #break
         metamer = getmetamer(vid, metamerlist)
         parentvid = mtg.parent(vid)
+        print "vid, parentvid", vid, parentvid
         if parentvid == None:
             parentmetamer = None
         else:
             parentmetamer = getmetamer(parentvid, metamerlist)    
-        sid, edge_type_list_2children_metamers, children_sid_list =  metamerLevelConvert(vid, mtg, rootedgraph)
-        subMetamerLevelConvert(max_scale_root, edge_type_list_2children_metamers, children_sid_list, sid, metamer, parentmetamer, rootedgraph)
+        #sid, edge_type_list_2children_metamers, children_sid_list =  metamerLevelConvert(vid, rootedgraph)
+        sid = ve2pdic[vid][0]
+        vparent = ve2pdic[vid][1]
+        e2p_type = ve2pdic[vid][2]
+
+        #subMetamerLevelConvert(edge_type_list_2children_metamers, children_sid_list, sid, metamer, parentmetamer, rootedgraph)
+        subMetamerLevelConvert(sid, vparent, e2p_type, metamer, parentmetamer, rootedgraph)
 
     return rootedgraph  
 
@@ -172,69 +194,9 @@ def getmetamer(vid, metamerlist):
     return metamer
 
 
-def metamerLevelConvert(vid, mtg, rootedgraph):
-
-    global edgeid
-
-    max_scale = mtg.max_scale()
-    edges_at_maxscale = list(mtg.edges(max_scale))
-    # set new sid using offset
-    sid = vid * 10**offset 
-    if sid not in rootedgraph:
-        rootedgraph.add_vertex(sid)
-
-    #edgeid = 0
-    children_sid_list = []
-    edge_type_list = []
-
-    # connect root to the first metamer 
-    #if mtg.parent(vid) == None:
-        #edgeid = edgeid + 1
-        #edge_type = '/'
-        #rootedgraph.edge_property("edge_type")[edgeid] = edge_type
-        #bran_edge = (rootedgraph.root, sid)         
-        #rootedgraph.add_edge(bran_edge, edgeid)
+def subMetamerLevelConvert(sid, vparent, e2p_type, metamer, parentmetamer, rootedgraph):
     
-    # only use [:] form, the edge_at_maxscale is removeable
-    for edge in edges_at_maxscale[:]:
-        if edge[0] == vid:
-            edgeid = edgeid + 1
-            edge_type = mtg.EdgeType(edge[0], edge[1])
-            rootedgraph.edge_property("edge_type")[edgeid] = edge_type
-            # set new metamer id to each edge 
-            child_sid = edge[1] * 10**offset
-            # if condition may not necessary
-            if child_sid not in rootedgraph:
-                rootedgraph.add_vertex(child_sid)
-
-            new_edge = (sid, child_sid) 
-            rootedgraph.add_edge(new_edge, edgeid)
-            edge_type_list.append(edge_type)            
-            children_sid_list.append(child_sid)
-            edges_at_maxscale.remove(edge)
-
-    # set name
-    label = mtg[vid]["label"]
-    rootedgraph.vertex_property("name")[sid] = label
-    print "sid :", sid, "label : ", label
-
-
-    # set type
-    rootedgraph.vertex_property("type")[sid] = vtypedic[label[0]]
-
-    # set parameters
-    parameters = mtg.get_vertex_property(vid)
-    for p in  ['edge_type', 'index', 'label', '_line']:
-        if p in parameters:
-            del parameters[p]
-
-    rootedgraph.vertex_property("parameters")[sid] = parameters
-
-    return sid, edge_type_list, children_sid_list
-
-
-
-def subMetamerLevelConvert(max_scale_root, edge_type_list_2children_metamers, children_sid_list, sid, metamer, parentmetamer, rootedgraph):
+    global done
 
     geo_lists, colors = getMetamerGeolists(metamer)
     if parentmetamer == None:
@@ -244,8 +206,10 @@ def subMetamerLevelConvert(max_scale_root, edge_type_list_2children_metamers, ch
 
     if parent_geo_lists == None:
         parent_adjacent_trans_geo_list = None
+        parent_adjacent_shape_id = None
     else:
-        pglen = len(parent_geo_lists) 
+        pglen = len(parent_geo_lists)
+        parent_adjacent_shape_id = vparent * 10**2 + len(parent_geo_lists[0]) 
         if (pglen == 1) or (pglen == 3) or (pglen == 4):
             parent_adjacent_trans_geo_list = parent_geo_lists[0][1:]
         else:
@@ -254,13 +218,21 @@ def subMetamerLevelConvert(max_scale_root, edge_type_list_2children_metamers, ch
 
     trans_geo_lists = []
     shape_geo_pro_list = []
+    #done=None
     i = 1
     for geo_list in geo_lists:        
         for geo in geo_list:
             if (sid + i) not in rootedgraph:
-                rootedgraph.add_vertex((sid + i))
-                # ? try for keyerror 304
-                rootedgraph.vertex_property("name")[sid + i] = str(sid + i)
+                rootedgraph.add_vertex(sid + i)
+                #if sid != rootedgraph.root * 10**2
+            if g_scale_num != 1:
+                addEdge(sid, sid+i, "/", rootedgraph)
+            elif done == None:       
+                addEdge(rootedgraph.root, sid+1, "<", rootedgraph)
+                #global done 
+                done = True
+            # ? try for keyerror 304
+            rootedgraph.vertex_property("name")[sid + i] = "" #"SM" + "." + str(sid + i)
             i = i + 1
         shape_geo = geo_list[0]
         shape_geo_pro_dic = getPro4Shapegeo(shape_geo)
@@ -268,7 +240,7 @@ def subMetamerLevelConvert(max_scale_root, edge_type_list_2children_metamers, ch
         trans_geo_list = geo_list[1:]
         trans_geo_lists.append(trans_geo_list)       
       
-    trans_geo_composite_localmatrix_list = getLocalTM4transgeo(trans_geo_lists, parent_adjacent_trans_geo_list)
+    trans_geo_composite_localmatrix_list = getLocalTM4transgeo(sid, trans_geo_lists, parent_adjacent_trans_geo_list)
 	
     metamer_shape_num = len(geo_lists)
 
@@ -285,8 +257,7 @@ def subMetamerLevelConvert(max_scale_root, edge_type_list_2children_metamers, ch
                 preshape_geo_sum = preshape_geo_sum + len(geo_lists[j])
 
         geo_list_index = i
-        addStructure4SubMetamerLevel(max_scale_root, edge_type_list_2children_metamers, children_sid_list, shape_geo_pro, geo_list_index, trans_geo_list, color, trans_geo_composite_localmatrix, sid, metamer_shape_num, preshape_geo_sum, rootedgraph)
-
+        addStructure4SubMetamerLevel(shape_geo_pro, geo_list_index, trans_geo_list, color, trans_geo_composite_localmatrix, sid, e2p_type, parent_adjacent_shape_id, metamer_shape_num, preshape_geo_sum, rootedgraph)
 
 
 def getMetamerGeolists(metamer):
@@ -315,32 +286,14 @@ def getMetamerGeolists(metamer):
 
 
 
-def addStructure4SubMetamerLevel(max_scale_root, edge_type_list_2children_metamers, children_sid_list, shape_geo_pro, geo_list_index, trans_geo_list, color, trans_geo_composite_localmatrix, sid, metamer_shape_num, preshape_geo_sum, rootedgraph):
+def addStructure4SubMetamerLevel(shape_geo_pro, geo_list_index, trans_geo_list, color, trans_geo_composite_localmatrix, sid, e2p_type, parent_adjacent_shape_id, metamer_shape_num, preshape_geo_sum, rootedgraph):
 
     global edgeid
 
-    # add an '+' edge from graph root to the first geometry object of the first metamer <-- not necessary, the decomposition relation is transitive 
-    '''
-    if sid == max_scale_root * 10**offset:
-    
-        idedgeTo = sid + 1            
-
-        bran_edge = (rootedgraph.root, idedgeTo)
-        
-        if bran_edge not in rootedgraph._edges.values():
-            edgeid = edgeid + 1
-            edge_type = '+'
-            rootedgraph.edge_property("edge_type")[edgeid] = edge_type
-            rootedgraph.add_edge(bran_edge, edgeid)
-    '''
-
-
     # firstly, add node (and its properties) for shape, and edges (outgoing edges (+ or <) and an incoming edge (/))
     shapegeo_id = sid + preshape_geo_sum + len(trans_geo_list) + 1
-    if shapegeo_id not in rootedgraph:
-        rootedgraph.add_vertex(shapegeo_id)
-
-
+    #if shapegeo_id not in rootedgraph:
+        #rootedgraph.add_vertex(shapegeo_id)
  
     if type(shape_geo_pro[0]) is BezierPatch:
         rootedgraph.vertex_property("type")[shapegeo_id] = 'BezierSurface'
@@ -350,171 +303,94 @@ def addStructure4SubMetamerLevel(max_scale_root, edge_type_list_2children_metame
     rootedgraph.vertex_property("parameters")[shapegeo_id] = shape_geo_pro[1]
     rootedgraph.vertex_property("geometry")[shapegeo_id] = shape_geo_pro[0] 
 
-
-    # set color to shape geometry object
+    # not just for a shape with no trans geometry object, now, color is set to shape geometry object for all shapes 
+    #if len(trans_geo_list) == 0:
+        # if there is no trans geometry object for a shape, then set color to shape geometry object
     rootedgraph.vertex_property("color")[shapegeo_id] = Color3(color)
-
-
-    # add inter-scale edge for shape geometry object
-    edgeid = edgeid + 1
-    edge_type = "/"
-    rootedgraph.edge_property("edge_type")[edgeid] = edge_type
-    decom_edge = (sid, shapegeo_id) 
-    rootedgraph.add_edge(decom_edge, edgeid)
-
     
-    # add edges from the frist shape
+    # add edges from the frist shape of metamer
     if geo_list_index == 0:
-        # add successive edges (inter-metamer edges) from shape geometry object of current metamer to the first (transformation) geometry object of children metamers
-        if (metamer_shape_num != 18) and (len(edge_type_list_2children_metamers) != 0):
-            for i in range(len(edge_type_list_2children_metamers)):
-                edgeid = edgeid + 1
-                edge_type = edge_type_list_2children_metamers[i]
-                rootedgraph.edge_property("edge_type")[edgeid] = edge_type
-                children_metamer_sid = children_sid_list[i]
-                first_children_metamer_component_id = children_metamer_sid + 1
-
-                if first_children_metamer_component_id not in rootedgraph:
-                    rootedgraph.add_vertex(first_children_metamer_component_id)
-                    # ? try for keyerror 401 - just for one metamer case test
-                    rootedgraph.vertex_property("name")[first_children_metamer_component_id] = str(first_children_metamer_component_id)
-                    rootedgraph.vertex_property("type")[first_children_metamer_component_id] = ''
-               
-                succ_edge = (shapegeo_id, first_children_metamer_component_id) 
-                rootedgraph.add_edge(succ_edge, edgeid) 
-
-        # process for the every frist cylinder without any transformation
-        #if len(trans_geo_list) == 0:
-            #return
 
         # add branch edges (metamer internal edges) from shape geometry to transformation geometry of branching connected shape, for non-Internode metamer
         if metamer_shape_num != 1:
-            edgeid = edgeid + 1
-            edge_type = '+'
-            rootedgraph.edge_property("edge_type")[edgeid] = edge_type
-            bran_edge = (shapegeo_id, shapegeo_id + 1) 
-            rootedgraph.add_edge(bran_edge, edgeid)
+            addEdge(shapegeo_id, shapegeo_id + 1, '+', rootedgraph)
 
-            if metamer_shape_num == 4:
-                edgeid = edgeid + 1
-                edge_type = '+'
-                rootedgraph.edge_property("edge_type")[edgeid] = edge_type
-                bran_edge = (shapegeo_id, shapegeo_id + 4 + 1) 
-                rootedgraph.add_edge(bran_edge, edgeid)
+            if metamer_shape_num == 4:                
+                addEdge(shapegeo_id, shapegeo_id + 4 + 1, '+', rootedgraph)
 
             elif metamer_shape_num == 18:
                 for i in range(9):
-                    edgeid = edgeid + 1
-                    edge_type = '+'
-                    rootedgraph.edge_property("edge_type")[edgeid] = edge_type
                     mf_step = (i+1) * 3 + 1
-                    bran_edge = (shapegeo_id, shapegeo_id + mf_step) 
-                    rootedgraph.add_edge(bran_edge, edgeid)
+                    addEdge(shapegeo_id, shapegeo_id + mf_step, '+', rootedgraph)
 
                 for i in range(5):
-                    edgeid = edgeid + 1
-                    edge_type = '+'
-                    rootedgraph.edge_property("edge_type")[edgeid] = edge_type
                     pt_step = i * 5 + 1 + 10 * 3
-                    bran_edge = (shapegeo_id, shapegeo_id + pt_step) 
-                    rootedgraph.add_edge(bran_edge, edgeid)
+                    addEdge(shapegeo_id, shapegeo_id + pt_step, '+', rootedgraph)
 
-                edgeid = edgeid + 1
-                edge_type = '+'
-                rootedgraph.edge_property("edge_type")[edgeid] = edge_type
-                bran_edge = (shapegeo_id, shapegeo_id + 1 + 5 * 5 + 10 * 3) 
-                rootedgraph.add_edge(bran_edge, edgeid)
+                addEdge(shapegeo_id, shapegeo_id + 1 + 5 * 5 + 10 * 3, '+', rootedgraph)
 
-        # process for the every frist cylinder without any transformation
+        # process for the frist cylinder of the tree that have no transformation
         if len(trans_geo_list) == 0:
             return
                                   
     elif geo_list_index == 1:
         if metamer_shape_num == 3: 
-            edgeid = edgeid + 1
-            edge_type = '<'
-            rootedgraph.edge_property("edge_type")[edgeid] = edge_type
-            succ_edge = (shapegeo_id, shapegeo_id + 1) 
-            rootedgraph.add_edge(succ_edge, edgeid)
+            addEdge(shapegeo_id, shapegeo_id + 1, '<', rootedgraph)
 
     elif geo_list_index == 2:
         if metamer_shape_num == 4: 
-            edgeid = edgeid + 1
-            edge_type = '<'
-            rootedgraph.edge_property("edge_type")[edgeid] = edge_type
-            succ_edge = (shapegeo_id, shapegeo_id + 1) 
-            rootedgraph.add_edge(succ_edge, edgeid)
+            addEdge(shapegeo_id, shapegeo_id + 1, '<', rootedgraph)
 
     elif geo_list_index == 16:
         if metamer_shape_num == 18: 
-            edgeid = edgeid + 1
-            edge_type = '<'
-            rootedgraph.edge_property("edge_type")[edgeid] = edge_type
-            succ_edge = (shapegeo_id, shapegeo_id + 1) 
-            rootedgraph.add_edge(succ_edge, edgeid)      
-                                     
+            addEdge(shapegeo_id, shapegeo_id + 1, '<', rootedgraph)                                           
 
     # secondly add node (and its properties) for transformations of shape, and edges (a < outgoing edge and a / incoming edge)
     for i in range(len(trans_geo_list)):
-		
+        # add edges (inter-metamer edges, "+" or "<" type) from shape geometry object of parent metamer to the first (transformation) geometry object of current metamer
+        if i == 0 and geo_list_index == 0:
+            if parent_adjacent_shape_id != None:
+                addEdge(parent_adjacent_shape_id, sid+1, e2p_type, rootedgraph)                
+
         temp_composite_localmatrix = np.matrix(trans_geo_composite_localmatrix)
 
+        transgeo_id = sid + preshape_geo_sum + i + 1
+
         if type(trans_geo_list[i]) is Oriented:
+
             temp_composite_localmatrix.A[0,3] = temp_composite_localmatrix.A[1,3] = temp_composite_localmatrix.A[2,3] = 0
             templist = temp_composite_localmatrix.transpose().tolist()
             localm = Matrix4(templist[0], templist[1], templist[2], templist[3])
             mlst = localm.data()
             lmstr = serializeList2string(mlst)
-            para = {'transform':lmstr}
-            trans_type = "Null"
+            para = {'transform':localm}
+            trans_type = "ShadedNull" 
 
-        elif type(trans_geo_list[i]) is Translated:
-            #localm = np.identity.matrix(np.identity(4))
-            #localm.A[0,3] = temp_composite_localmatrix.A[0,3] 
-            #localm.A[1,3] = temp_composite_localmatrix.A[1,3] 
-            #localm.A[2,3] = temp_composite_localmatrix.A[2,3]
-            #para = {'transform':localm}
-            translateX = str(temp_composite_localmatrix.A[0,3]) 
-            translateY = str(temp_composite_localmatrix.A[1,3]) 
-            translateZ = str(temp_composite_localmatrix.A[2,3])
+
+        elif type(trans_geo_list[i]) is Translated:        
+            translateX = translateY = translateZ = str(0)
             para = {'translateX':translateX, 'translateY':translateY, 'translateZ':translateZ}
             trans_type = "Translate"
 
         elif type(trans_geo_list[i]) is Scaled:          
             localm = np.matrix(np.identity(4))
-            #para = {'transform':localm}
+            # scale has been taken into local rotation (transform matrix of ShadedNull)
             para = {'scaleX':'1', 'scaleY':'1', 'scaleZ':'1'}
             trans_type = "Scale"
 
-        transgeo_id = sid + preshape_geo_sum + i + 1
-        #rootedgraph.add_vertex(transgeo_id)
+        #transgeo_id = sid + preshape_geo_sum + i + 1
         rootedgraph.vertex_property("type")[transgeo_id] = trans_type
         rootedgraph.vertex_property("parameters")[transgeo_id] = para
         rootedgraph.vertex_property("geometry")[transgeo_id] = trans_geo_list[i]
-
-        edgeid = edgeid + 1
-        edge_type = "/"
-        rootedgraph.edge_property("edge_type")[edgeid] = edge_type
-        decom_edge = (sid, transgeo_id) 
-        rootedgraph.add_edge(decom_edge, edgeid)
-
-        edgeid = edgeid + 1
-        edge_type = '<'
-        rootedgraph.edge_property("edge_type")[edgeid] = edge_type
-
-        if i < (len(trans_geo_list) - 1):
-            #if (i == 0) and (geo_list_index == 0):
-            succ_edge = (transgeo_id, transgeo_id + 1) 
+        
+        if i < (len(trans_geo_list) - 1): 
+            addEdge(transgeo_id, transgeo_id + 1, "<", rootedgraph)
         else:
-            succ_edge = (transgeo_id, shapegeo_id)
- 
-        rootedgraph.add_edge(succ_edge, edgeid)
-     
-    
+            addEdge(transgeo_id, shapegeo_id, "<", rootedgraph)
 
-		
 
-def getLocalTM4transgeo(trans_geo_lists, parent_adjacent_trans_geo_list):
+
+def getLocalTM4transgeo(sid, trans_geo_lists, parent_adjacent_trans_geo_list):
 
     if parent_adjacent_trans_geo_list == None:
         parent_adjacent_trans_geo_product = np.matrix(np.identity(4))
@@ -526,28 +402,33 @@ def getLocalTM4transgeo(trans_geo_lists, parent_adjacent_trans_geo_list):
 
     for i in range(tlen):      
         trans_geo_product = getShapeTransProduct(trans_geo_lists[i])
-        if i == 0:
-            trans_geo_composite_localmatrix = trans_geo_product * parent_adjacent_trans_geo_product.I
-        else:
-            pre_adjacent_trans_geo_product = getShapeTransProduct(trans_geo_lists[i-1])
-            trans_geo_composite_localmatrix = trans_geo_product * pre_adjacent_trans_geo_product.I
 
-        trans_geo_composite_localmatrix_list.append(trans_geo_composite_localmatrix)
+        if i == 0: 
+            trans_geo_composite_localmatrix = parent_adjacent_trans_geo_product.I * trans_geo_product      
+        else:
+            if tlen == 3:
+                pre_adjacent_trans_geo_product = getShapeTransProduct(trans_geo_lists[i-1])                           
+                trans_geo_composite_localmatrix = pre_adjacent_trans_geo_product.I * trans_geo_product
+            elif tlen == 4:
+                if i == 2:
+                    pre_adjacent_trans_geo_product = getShapeTransProduct(trans_geo_lists[0])                           
+                    trans_geo_composite_localmatrix = pre_adjacent_trans_geo_product.I * trans_geo_product
+                else:
+                    pre_adjacent_trans_geo_product = getShapeTransProduct(trans_geo_lists[i-1])                           
+                    trans_geo_composite_localmatrix = pre_adjacent_trans_geo_product.I * trans_geo_product
+            elif tlen == 18:
+                if i < 17:
+                    pre_adjacent_trans_geo_product = getShapeTransProduct(trans_geo_lists[0])                           
+                    trans_geo_composite_localmatrix = pre_adjacent_trans_geo_product.I * trans_geo_product
+                else:
+                    pre_adjacent_trans_geo_product = getShapeTransProduct(trans_geo_lists[i-1])                           
+                    trans_geo_composite_localmatrix = pre_adjacent_trans_geo_product.I * trans_geo_product              
+
+        trans_geo_composite_localmatrix_list.append(trans_geo_composite_localmatrix) 
 
     return trans_geo_composite_localmatrix_list
 
-'''    
-    for trans_geo_list in trans_geo_lists:
-        trans_geo_product = getShapeTransProduct(trans_geo_list)
-        if trans_geo_lists.index(trans_geo_list) == 0:
-            trans_geo_composite_localmatrix = trans_geo_product * parent_adjacent_trans_geo_product.I
-        else:
-            index_pre_adjacent_trans_geo_list = trans_geo_lists.index(trans_geo_list) - 1
-            pre_adjacent_trans_geo_product = getShapeTransProduct(trans_geo_lists[index_pre_adjacent_trans_geo_list])
-            trans_geo_composite_localmatrix = trans_geo_product * pre_adjacent_trans_geo_product.I
 
-        trans_geo_composite_localmatrix_list.append(trans_geo_composite_localmatrix)
-'''
 
 
 def getShapeTransProduct(transgeolist):
@@ -558,7 +439,9 @@ def getShapeTransProduct(transgeolist):
         transgeo_tm4 = getTM4Transgeo(transgeo)
         tm4 = transgeo_tm4 * tm4
         
-    return tm4     
+    return tm4 
+
+
 
 def getColor4Shape(material):
     
@@ -568,41 +451,11 @@ def getColor4Shape(material):
 
     return (r, g, b)
 
-            
-def getMat4Shape(material):
-    property_dic = {}
-    ambient_dic = {}
-    specular_dic = {}
-    emission_dic = {}
-
-    property_dic['name'] = material.name
-
-    ambient_dic['red'] = material.ambient.red
-    ambient_dic['green'] = material.ambient.green
-    ambient_dic['blue'] = material.ambient.blue
-    property_dic['ambient'] = ambient_dic
-
-    property_dic['diffuse'] = material.diffuse
-
-    specular_dic['red'] = material.specular.red
-    specular_dic['green'] = material.specular.green
-    specular_dic['blue'] = material.specular.blue
-    property_dic['specular'] = specular_dic
-
-    emission_dic['red'] = material.emission.red
-    emission_dic['green'] = material.emission.green
-    emission_dic['blue'] = material.emission.blue
-    property_dic['emission'] = emission_dic
-
-    property_dic['shininess'] = material.shininess
-    property_dic['transparency'] = material.transparency
-
-    return property_dic
 
 
 def getTM4Transgeo(transgeo):
     """
-    compute global transformation matrix for each shape in a metamer
+    get transformation matrix for each transformation
     """
     row1=row2=row3=row4=[]
 
@@ -675,12 +528,5 @@ def serializeList2string(lst):
             lstr= lstr+ str(lst[i]) + ","
             
     return lstr
-
-def getedgeid(edge, rg):
-    eid = None
-    for i, e in rg._edges.iteritems():
-        if e == edge:
-            eid = i
-    return eid
 
 
