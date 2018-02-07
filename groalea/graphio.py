@@ -20,6 +20,8 @@ from math import radians
 from math import sqrt
 from math import cos
 from math import sin
+from math import pi
+from math import pow
 from copy import deepcopy
 import xml.etree.ElementTree as xml
 
@@ -43,6 +45,7 @@ Vector4 = pgl.Vector4
 Color4Array = pgl.Color4Array
 
 
+
 class Parser(object):
     edge_type_name = {'successor': '<', 'branch': '+', 'decomposition': '/'}
     geometries = ['Sphere', 'Box', 'Cone', 'Cylinder', 'Frustum',
@@ -50,7 +53,8 @@ class Parser(object):
                   'parallelogram', 'Parallelogram', 'TextLabel', 'textLabel', 'PointCloud', 'pointCloud',
                   'polygon', 'Polygon', 'BezierSurface', 'ShadedNull', 
                   'F', 'F0', 'M', 'M0', 'RL', 'RU', 'RH', 'V', 'RV', 'RV0', 'RG', 'RD', 'RO', 'RP', 'RN', 'AdjustLU',
-                  'L', 'LAdd', 'LMul', 'D', 'DAdd', 'DMul', 'P', 'Translate', 'Scale', 'Rotate']
+                  'L', 'LAdd', 'LMul', 'D', 'DAdd', 'DMul', 'P', 'Translate', 'Scale', 'Rotate', 'NURBSCurve', 'nURBSCurve',
+                  'NURBSSurface', 'nURBSSurface', 'Supershape', 'supershape', 'HeightField', 'heightField']
 
     FUNCTIONAL = -10
 
@@ -59,34 +63,17 @@ class Parser(object):
         self.trash = []
         self._graph = None
         self._scene = None
-        #from lxml import etree
-        #p = etree.XMLParser(recover=True)
-        print "pass parse intialisation"
-        print fn
-
-        #doc = etree.parse(fn, parser=p)
         doc = xml.parse(fn)
-        print "after parse"
         root = doc.getroot()
-        #print root
-
         self.has_type = False
         self.types(doc.findall('type'))
-
-        # self.guiding_edgelist_produce(doc.findall('edge'))
-        # print "#####pass to dispatch(root)"
-
         self.dispatch(root)
         self.scenegraph()
 
         return self._graph, self._scene
 
-    # def guiding_edgelist_produce(self, elements):
 
     def dispatch(self, elt):
-
-        if len(list(elt)) > 1:
-            list(elt)
         
         #print "Dispatch elt : ", elt
         #print "list(elt) : ", list(elt)
@@ -95,12 +82,11 @@ class Parser(object):
         #print "self.__getattribute__(elt.tag)", self.__getattribute__(elt.tag)
         #print "elt.getchildren() : ", elt.getchildren()
 
-        # return self.__getattribute__(elt.tag)(elt.getchildren(), **elt.attrib)
-        #try:
+        if len(list(elt)) > 1:
+            list(elt)
+
         return self.__getattribute__(elt.tag)(list(elt), **elt.attrib)
-#        except Exception, e:
-#            print e
-#            raise Exception("Invalid element %s" % elt.tag)
+
 
     def dispatch2(self, method_name, args):
         try:
@@ -117,7 +103,6 @@ class Parser(object):
         #print "elements : ", elements
 
         graph = self._graph = RootedGraph()
-
         self._edges = {}
         graph._types = self._types
 
@@ -196,18 +181,10 @@ class Parser(object):
     def node(self, properties, id, type, name=None):
         """
         TODO: Write an exhaustive list of examples here
-
         <node id="3" name="" type="L">
             <property name="length" value="6.0"/>
         </node>
-
-
         """
-        # print "node id, type, name = ", id, type, name
-        # print "current turtle_length = ", self._turtle_length
-        #if type not in ['Tree', 'GrowthUnit', 'Internode', 'Metamer']:
-            #return
-
 
         id = int(id)
         if not name:
@@ -284,7 +261,7 @@ class Parser(object):
 
     def Sphere(self, radius=1., **kwds):
         return pgl.Sphere(radius=float(radius)), None
-
+        
     def Box(self, depth=1., width=1., height=1., **kwds):
         depth, width, height = float(depth), float(width), float(height)
         size = Vector3(depth / 2, width / 2, height / 2)
@@ -298,12 +275,11 @@ class Parser(object):
         return (pgl.Cone(radius=radius, height=height, solid=solid),
                 pgl.Matrix4.translation(Vector3(0, 0, height)))
 
-    def Cylinder(self, radius=1., length=1., base_open=False, top_open=False, **kwds):
-        # radius, height = float(radius)*10, float(height)*10
-        radius, length = float(radius), float(length)
-        solid = not(bool(base_open) and bool(top_open))
-        return (pgl.Cylinder(radius, length, solid),
-                pgl.Matrix4.translation(Vector3(0, 0, length)))
+    def Cylinder(self, radius=1., height=1., bottom_open=False, top_open=False, **kwds):
+        radius, height = float(radius), float(height)
+        solid = not(bool(bottom_open) and bool(top_open))
+        return (pgl.Cylinder(radius=radius, height=height, solid=solid),
+                pgl.Matrix4.translation(Vector3(0, 0, height)))
 
     def Frustum(self, radius=1., height=1., taper=0.5, **kwds):
         radius, height, taper = float(radius), float(height), float(taper)
@@ -311,13 +287,12 @@ class Parser(object):
         top_open = kwds.get('top_open', False)
         solid = not(bool(bottom_open) and bool(top_open))
 
-        return (pgl.Frustrum(radius=radius, height=height, taper=taper, solid=solid),
+        return (pgl.Frustum(radius=radius, height=height, taper=taper, solid=solid),
                 pgl.Matrix4.translation(Vector3(0, 0, height)))
 
     def Parallelogram(self, length=1., width=0.5, **kwds):
         length = float(length)
         width = float(width)
-        # pts = [Vector3(0,0,0), Vector3(length,0,0),Vector3(length, width,0),Vector3(0,width, 0)]
         pts = [Vector3(0, 0, 0), Vector3(width, 0, 0), Vector3(width, 0, length), Vector3(0, 0, length)]
         index = [(0, 1, 2), (0, 2, 3)]
         return (pgl.TriangleSet(pts, index), None)
@@ -344,6 +319,59 @@ class Parser(object):
             lidx4.append(idx4)
         c4array = Color4Array(lidx4)
         return (pgl.PointSet(v3array, c4array, pointSize), None)
+
+    def NURBSCurve(self, ctrlpoints, dimension, **kwds):
+        ctrlpoints = str(ctrlpoints)
+        ctrlpoints = [float(num) for num in ctrlpoints.split(",")]
+        dimension = int(dimension)
+        items, chunk = ctrlpoints, dimension
+        pointArray = zip(*[iter(items)] * chunk)
+
+        if (dimension == 2):
+            v4array = []
+            for item in pointArray:
+                v4array.append(pgl.Vector2(item))
+
+            parray = pgl.Point3Array(0)
+            for item in v4array:
+                parray.append(Vector3(item,1))
+
+            return (pgl.NurbsCurve2D(parray), None)
+        elif (dimension == 3):
+            v4array = []
+            for item in pointArray:
+                v4array.append(pgl.Vector3(item))
+
+            parray = pgl.Point4Array(0)
+            for item in v4array:
+                parray.append(Vector4(item,1))
+            return (pgl.NurbsCurve(parray), None)
+
+    def NURBSSurface(self, ctrlpoints, uSize, vSize, uDegree, vDegree, dimension, **kwds):
+        ctrlpoints = str(ctrlpoints)
+        ctrlpoints = [float(num) for num in ctrlpoints.split(",")]
+        dimension = int(dimension)
+        uSize = int(uSize)
+        vSize = int(vSize)
+        uDegree = int(uDegree)
+        vDegree = int(vDegree)
+        items, chunk = ctrlpoints, dimension
+        pointArray = zip(*[iter(items)] * chunk) 
+        v4array = []
+
+        if (dimension == 2):        
+            for item in pointArray:
+                v4array.append(Vector4(item,0,1))
+        elif (dimension == 3):
+            for item in pointArray:
+                v4array.append(Vector4(item,1)) 
+        elif (dimension == 4):
+            v4array = pointArray
+
+        # create uSize x vSize matrix
+        matrixArray = [v4array[i:i+uSize] for i in xrange(0, len(v4array), uSize)]
+
+        return pgl.NurbsPatch(matrixArray, uDegree, vDegree), None
 
     def Polygon(self, vertices, **kwds):
         """ TODO: Move code to geometry """
@@ -425,35 +453,149 @@ class Parser(object):
         return (None, m4)
 
 
+
+    def Supershape(self, a, b, m1, m2, n11, n12, n13, n21, n22, n23, **kwds):
+        a = float(a)
+        b = float(b)
+        m1 = float(m1)
+        m2 = float(m2)
+        n11 = float(n11)
+        n12 = float(n12)
+        n13 = float(n13)
+        n21 = float(n21)
+        n22 = float(n22)
+        n23 = float(n23)
+        
+        verts = []
+        faces = []
+        scale = 1.0
+     
+        Unum = 20
+        Vnum = 20
+    
+        Uinc = pi / (Unum/2)
+        Vinc = (pi/2)/(Vnum/2)
+ 
+        #fill verts array
+        theta = -pi
+        for i in range (0, Unum + 1):
+            phi = -pi/2
+            r1 = Superformula(theta, a, b, m1, n11, n12, n13)
+            for j in range(0,Vnum + 1):
+                r2 = Superformula(phi, a, b, m2, n21, n22, n23)
+                x = scale * (r1 * cos(theta) * r2 * cos(phi))
+                y = scale * (r1 * sin(theta) * r2 * cos(phi))
+                z = scale * (r2 * sin(phi))
+ 
+                vert = (x,y,z) 
+                verts.append(vert)
+
+                phi = phi + Vinc
+
+            theta = theta + Uinc
+ 
+        #define faces
+        count = 0
+        for i in range (0, (Vnum + 1) *(Unum)):
+            if count < Vnum:
+                A = i
+                B = i+1
+                C = (i+(Vnum+1))+1
+                D = (i+(Vnum+1))
+ 
+                face = (A,B,C,D)
+                faces.append(face)
+ 
+                count = count + 1
+            else:
+                count = 0    
+
+        return pgl.QuadSet(pgl.Point3Array(verts), faces), None
+
+    def HeightField(self, heightValues, usize, vsize, zerolevel, scale, water, **kwds):
+        usize = int(usize)
+        vsize = int(vsize)
+        zerolevel = float(zerolevel)
+        scale = float(scale)
+        water = str(water)
+        water = water.lower() == 'true'
+
+        heightValues = str(heightValues)
+        heightValues = [float(num) for num in heightValues.split(",")]
+
+        verts = []
+        faces = []
+
+        nu = usize
+        nv = vsize
+        p = (0, 0, 0)	
+
+        for v in range(nv):
+            for u in range(nu):
+                p = heightFieldGetVertex(v*usize + u, usize, vsize, heightValues, zerolevel, scale, water)
+                verts.append(p)
+
+        n = 0
+        for v in range(nv):
+            for u in range(nu):
+                if v < nv-1 and u < nu-1:
+                    face = (n, n+1, n+1+nu, n+nu)
+                    faces.append(face)
+                n = n+1         
+
+        return pgl.QuadSet(pgl.Point3Array(verts), faces), None
+
+    def MyNURBSCurve(self, ctrlpoints, dimension, **kwds):
+        dimension = int(dimension)
+        points = str(ctrlpoints)
+        points = [float(num) for num in points.split(",")]
+        items, chunk = points, dimension
+        plist = zip(*[iter(items)] * chunk)
+
+        ctlplist = []
+        for i in range(len(plist)):
+            ctlplist.append(plist[i]+(1,))
+
+        if dimension == 2:		
+            return (pgl.NurbsCurve2D(ctlplist), None)
+        elif dimension == 3:
+            return (pgl.NurbsCurve(ctlplist), None)
+
+
     sphere = Sphere
     box = Box
     cone = Cone
     cylinder = Cylinder
-    frustrum = Frustum
+    frustum = Frustum
     parallelogram = Parallelogram
     textLabel = TextLabel
     pointCloud = PointCloud
+    nURBSCurve = NURBSCurve
+    nURBSSurface = NURBSSurface
+    supershape = Supershape
+    heightField = HeightField
+
 
 
     # Turtle implementation:
     # F0, M, M0, RV, RG, AdjustLU
-    def F(self, length=1., diameter=-1., color=14, **kwds):
-
+    def F(self, length, diameter=-1., fcolor=-1, **kwds):
         def f(turtle):
-            height = turtle.length
+            height = length
             radius = turtle.diameter /2.
             color = turtle.color
-            return (pgl.Cylinder(radius=radius, height=height),
-            pgl.Matrix4.translation(Vector3(0, 0, height)))
+	    if radius !=0 and height !=0 : 
+                return (pgl.Cylinder(radius=radius, height=height),
+                pgl.Matrix4.translation(Vector3(0, 0, height)))
+            else:
+                return (None, pgl.Matrix4.translation(Vector3(0, 0, height)))
 
         length = float(length)
         diameter = float(diameter)
-        color3 = rgb_color(color)
-
-        self._current_turtle.length = length
+        color = int(fcolor)
         self._current_turtle.diameter = diameter
-        self._current_turtle.set_diameter = True
-        self._current_turtle.color = color3
+        self._current_turtle.color = color
+        self._current_turtle.node_type = 'F'
 
         return (FunctionalGeometry(f), self.FUNCTIONAL)
 
@@ -462,26 +604,26 @@ class Parser(object):
             height = turtle.length
             radius = turtle.diameter /2.
             color = turtle.color
-            return (pgl.Cylinder(radius=radius, height=height),
-                    pgl.Matrix4.translation(Vector3(0, 0, height)))
+	    if radius !=0 and height !=0 : 
+                return (pgl.Cylinder(radius=radius, height=height),
+                pgl.Matrix4.translation(Vector3(0, 0, height)))
+            else:
+                return (None, pgl.Matrix4.translation(Vector3(0, 0, height)))
 
-        self._current_turtle.set_diameter = True
-        self._current_turtle.set_length = True
+        self._current_turtle.node_type = 'F0'
 
         return (FunctionalGeometry(f), self.FUNCTIONAL)
 
-    def M(self, length=1., **kwds):
+    def M(self, length, **kwds):
         height = float(length)
         return (None, pgl.Matrix4.translation(Vector3(0, 0, height)))
 
     def M0(self, **kwds):
-
         def f(turtle):
             height = turtle.length
             return (None,
                     pgl.Matrix4.translation(Vector3(0, 0, height)))
 
-        self._current_turtle.set_length = True
         return (FunctionalGeometry(f), self.FUNCTIONAL)
 
     def RL(self, angle, **kwds):
@@ -502,16 +644,44 @@ class Parser(object):
         matrix = pgl.Matrix3.axisRotation(Vector3(0, 0, 1), angle)
         return (None, pgl.Matrix4(matrix))
 
-    def V(self, argument=0., **kwds):
-        self._current_turtle.tropism = float(argument)
+    def V(self, argument, **kwds): 
+        self._current_turtle.set_tropism_value = float(argument)
+	self._current_turtle.set_tropism = True
         return (None, None)
 
-    def RV(self, argument=1., **kwds):
+    def Vl(self, argument, **kwds):
+        self._current_turtle.localTropism = float(argument)
+        self._current_turtle.set_localTropism = True
+        return (None, None)
+
+    def VlAdd(self, argument, **kwds):
+        self._current_turtle.tropism_ladd = float(argument)
+        return (None, None)
+
+    def VlMul(self, argument, **kwds):
+        self._current_turtle.tropism_lmul = float(argument)
+        return (None, None)
+
+    def VAdd(self, argument, **kwds):
+        self._current_turtle.tropism_add = float(argument)
+	#self._current_turtle.set_tropism = True
+        self._current_turtle.tropism_op = 'add'
+        return (None, None)
+
+    def VMul(self, argument, **kwds):
+        self._current_turtle.tropism_mul = float(argument)
+	#self._current_turtle.set_tropism = True
+        self._current_turtle.tropism_op = 'mul'
+        return (None, None)
+
+    def RV(self, argument, **kwds):
         """ Gravitropism. """
-        self._current_turtle.tropism = float(argument)
-        return (None, -2)
+        self._current_turtle.tropism_rv = float(argument)
+	#self._current_turtle.set_tropism = True
+        return (None, -6)
 
     def RV0(self, **kwds):
+	#self._current_turtle.set_tropism = True
         return (None, -2)
 
     def RG(self, **kwds):
@@ -522,11 +692,13 @@ class Parser(object):
     def RD(self, direction, strength, **kwds):
         self._current_turtle.tropism = float(strength)
         direction = str(direction)
-        self._current_turtle.direction = tuple([float(num) for num in direction.split(",")])
+        self._current_turtle.tropism_direction = tuple([float(num) for num in direction.split(",")])
         return (None, -3)
 
     def RO(self, direction, strength, **kwds):
-        self.RD(direction, strength, **kwds)
+        self._current_turtle.tropism = float(strength)
+        direction = str(direction)
+        self._current_turtle.tropism_direction = tuple([float(num) for num in direction.split(",")])
         return (None, -4)
 
     def RP(self, target, strength, **kwds):
@@ -541,37 +713,80 @@ class Parser(object):
         """ Rotate around local z-axis such that local y-axis points upwards as far as possible."""
         return (None, -1)
 
-    def L(self, length=1., **kwds):
+    def L(self, length, **kwds):
         """ Set the turtle state to the given length. """
-        self._current_turtle.length = float(length)
+        self._current_turtle.set_length_value = float(length)
+	self._current_turtle.set_length = True
         return (None, None)
 
-    def LAdd(self, argument=1., **kwds):
+    def Ll(self, argument, **kwds):
+        self._current_turtle.localLength = float(argument)
+        self._current_turtle.set_localLength = True
+        return (None, None)
+
+    def LlAdd(self, argument, **kwds):
+        self._current_turtle.length_ladd = float(argument)
+        return (None, None)
+
+    def LlMul(self, argument, **kwds):
+        self._current_turtle.length_lmul = float(argument)
+        return (None, None)
+
+    def LAdd(self, argument, **kwds):
         self._current_turtle.length_add = float(argument)
+	#self._current_turtle.set_length = True
+        self._current_turtle.length_op = 'add'
         return (None, None)
 
-    def LMul(self, argument=1., **kwds):
+    def LMul(self, argument, **kwds):
         self._current_turtle.length_mul = float(argument)
+	#self._current_turtle.set_length = True
+        self._current_turtle.length_op = 'mul'
         return (None, None)
 
-    def D(self, diameter=0.1, **kwds):
+    def D(self, diameter, **kwds):
         """ Set the turtle state to the given diameter. """
-        self._current_turtle.diameter = float(diameter)
+        self._current_turtle.set_diameter_value = float(diameter)
+        self._current_turtle.set_diameter = True
         return (None, None)
 
-    def DAdd(self, argument=1., **kwds):
+    def Dl(self, argument, **kwds):
+        self._current_turtle.localDiameter = float(argument)
+        self._current_turtle.set_localDiameter = True
+        return (None, None)
+
+    def DlAdd(self, argument, **kwds):
+        self._current_turtle.diameter_ladd = float(argument)
+        return (None, None)
+
+    def DlMul(self, argument, **kwds):
+        self._current_turtle.diameter_lmul = float(argument)
+        return (None, None)
+
+    def DAdd(self, argument, **kwds):
         self._current_turtle.diameter_add = float(argument)
+        #self._current_turtle.set_diameter = True
+        self._current_turtle.diameter_op = 'add'
         return (None, None)
 
-    def DMul(self, argument=1., **kwds):
+    def DMul(self, argument, **kwds):
         self._current_turtle.diameter_mul = float(argument)
+        #self._current_turtle.set_diameter = True
+        self._current_turtle.diameter_op = 'mul'
         return (None, None)
 
     def P(self, color=14, **kwds):
         """ Set the turtle state to the given color. """
-        color3 = rgb_color(color)
-        self._current_turtle.color = color3
+        self._current_turtle.set_color_value = int(color)
+        self._current_turtle.set_color = True
         return (None, None)
+
+    def color(self, elements, **kwds):
+        rgb = elements[0]
+        assert rgb.tag == 'rgb'
+        color = pgl.Color3(*(int(float(x) * 255) for x in rgb.text.strip().split()))
+        self._current_turtle.shaded_color = color
+        return color
 
     def Translate(self, translateX=0., translateY=0., translateZ=0., **kwds):
         # TODO: put the code in geometry
@@ -610,13 +825,6 @@ class Parser(object):
         m4 = pgl.Matrix4(m4[:4], m4[4:8], m4[8:12], m4[12:])
         m4 = m4.transpose()
         return m4
-
-    def color(self, elements, **kwds):
-        rgb = elements[0]
-        assert rgb.tag == 'rgb'
-        color = pgl.Color3(*(int(float(x) * 255) for x in rgb.text.strip().split()))
-        self._current_turtle.color = color
-        return color
 
     def edge(self, elements, src_id, dest_id, type, id=None):
         # we add the edges at the end of the process
@@ -699,11 +907,14 @@ class Parser(object):
                     return g.source(eid)
             return vid
 
-
         def update_turtle(v, ts):
-            local_turtle = local_turtles.get(v, TurtleState())
-            global_turtle = ts.combine(local_turtle)
+            lt = local_turtle = local_turtles.get(v, TurtleState())
+	    print "v, lt.set_locTm, lt.locTm, lt.set_tm_val= ", v, lt.set_localTropism, lt.localTropism, lt.set_tropism_value
+            print "lt.tropism", lt.tropism
+            #global_turtle = ts.combine(local_turtle) <-- wrong idea
+            global_turtle = local_turtle.combine(ts)
             return global_turtle
+
 
         for v in breadth_first_search(g, vid):
             pid = parent(v)
@@ -712,10 +923,12 @@ class Parser(object):
                 print "ERRRORRRR"
                 print v
                 continue
-            # print "v",v
+
+            #print "v:",v
             # print "parent(v)", parent(v)
             # print "transfos", transfos
             #m = transfos[parent(v)]
+
             m = transfos.get(pid)
 
             if not m:
@@ -724,26 +937,32 @@ class Parser(object):
             # CPL
             ts = turtles.get(pid, TurtleState())
             gt = global_turtle = update_turtle(v, ts)
+            print "v, gt.set_locTm, gt.locTm, gt.set_tm_val= ", v, gt.set_localTropism, gt.localTropism, gt.set_tropism_value
+            print "gt.tropism", gt.tropism
             local_t = transform.get(v)
             if local_t == self.FUNCTIONAL:
                 # Get the functional shape to compute the transformation and geometry
                 # with the turtle state
                 local_t = self.f_shape(v, global_turtle)
 
+            #print "every m : ", m
 
-            # print "every m : ", m
             # Transform the current shape with the stack of transfos m from the root.
             # Store the result in the graph.
             self._local2global(v, m, global_turtle.color)
 
 
+            #print "local_t : ", local_t
 
-            # print "local_t : ", local_t
             if local_t == -1:
                 m = adjust_lu(m)
             elif local_t == -2:
-                #RV and RG
+                #RV0 and RG
                 local_m = grotation(m, gt.tropism)
+                m = m * local_m
+            elif local_t == -6:
+                #RV
+                local_m = grotation(m, gt.tropism_rv)
                 m = m * local_m
             elif local_t == -3:
                 # RD
@@ -763,7 +982,6 @@ class Parser(object):
                 else:
                     m = m * local_t
             else:
-                # print m
                 pass
 
             transfos[v] = m
@@ -950,6 +1168,35 @@ class Dumper(object):
             attrib['type'] = edge_type_conv[edge_type]
 
         self.SubElement(self.doc, 'edge', attrib)
+
+
+def Superformula(theta, a, b, m, n1, n2, n3):
+    tmp1 = abs((1.0/a) * cos(m * theta/4.0))
+    tmp1 = pow(tmp1, n2)
+
+    tmp2 = abs((1.0/b) * sin(m * theta/4.0))
+    tmp2 = pow(tmp2, n3)
+
+    tmp3 = tmp1 + tmp2
+    tmp3 = pow(tmp3, -1.0/n1)
+    return tmp3
+
+def heightFieldGetVertex(index, usize, vsize, heightValues, zerolevel, scale, water):
+    sx = usize
+    sy = vsize
+    y = index / sx
+    x = index - y * sx
+
+    p = (0, 0, 0)
+    out_x = x * 1 / float(sx - 1)
+    out_y = y * 1 / float(sy - 1)
+    out_z = (heightValues[y*usize + x] - zerolevel) * scale
+
+    if water and (height <= zerolevel):
+        out_z = 0
+
+    p = (out_x, out_y, out_z)
+    return p
 
 
 ##########################################################################
