@@ -51,9 +51,9 @@ class Parser(object):
     geometries = ['Sphere', 'Box', 'Cone', 'Cylinder', 'Frustum',
                   'sphere', 'box', 'cone', 'cylinder', 'frustum',
                   'parallelogram', 'Parallelogram', 'TextLabel', 'textLabel', 'PointCloud', 'pointCloud',
-                  'polygon', 'Polygon', 'BezierSurface', 'ShadedNull', 
-                  'F', 'F0', 'M', 'M0', 'RL', 'RU', 'RH', 'V', 'RV', 'RV0', 'RG', 'RD', 'RO', 'RP', 'RN', 'AdjustLU',
-                  'L', 'LAdd', 'LMul', 'D', 'DAdd', 'DMul', 'P', 'Translate', 'Scale', 'Rotate', 'NURBSCurve', 'nURBSCurve',
+                  'Polygon', 'polygon', 'BezierSurface', 'bezierSurface', 'ShadedNull', 'shadedNull', 
+                  'F', 'F0', 'M', 'M0', 'RL', 'RU', 'RH', 'V', 'Vl', 'VlAdd', 'VlMul', 'VAdd', 'VMul','RV', 'RV0', 'RG', 'RD', 'RO', 'RP', 'RN', 'AdjustLU',
+                  'L', 'Ll', 'LlAdd', 'LlMul', 'LAdd', 'LMul', 'D', 'Dl', 'DlAdd', 'DlMul', 'DAdd', 'DMul', 'P', 'Translate', 'Scale', 'Rotate', 'NURBSCurve', 'nURBSCurve',
                   'NURBSSurface', 'nURBSSurface', 'Supershape', 'supershape', 'HeightField', 'heightField']
 
     FUNCTIONAL = -10
@@ -574,6 +574,9 @@ class Parser(object):
     parallelogram = Parallelogram
     textLabel = TextLabel
     pointCloud = PointCloud
+    polygon = Polygon
+    bezierSurface = BezierSurface
+    shadedNull = ShadedNull
     nURBSCurve = NURBSCurve
     nURBSSurface = NURBSSurface
     supershape = Supershape
