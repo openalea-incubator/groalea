@@ -275,11 +275,18 @@ class Parser(object):
         return (pgl.Cone(radius=radius, height=height, solid=solid),
                 pgl.Matrix4.translation(Vector3(0, 0, height)))
 
-    def Cylinder(self, radius=1., height=1., bottom_open=False, top_open=False, **kwds):
+    def master_Cylinder(self, radius=1., height=1., bottom_open=False, top_open=False, **kwds):
         radius, height = float(radius), float(height)
         solid = not(bool(bottom_open) and bool(top_open))
         return (pgl.Cylinder(radius=radius, height=height, solid=solid),
                 pgl.Matrix4.translation(Vector3(0, 0, height)))
+
+    def Cylinder(self, radius=1., length=1., base_open=False, top_open=False, **kwds):
+        # radius, height = float(radius)*10, float(height)*10
+        radius, length = float(radius), float(length)
+        solid = not(bool(base_open) and bool(top_open))
+        return (pgl.Cylinder(radius, length, solid),
+                pgl.Matrix4.translation(Vector3(0, 0, length)))
 
     def Frustum(self, radius=1., height=1., taper=0.5, **kwds):
         radius, height, taper = float(radius), float(height), float(taper)
