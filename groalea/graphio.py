@@ -51,7 +51,7 @@ class Parser(object):
     geometries = ['Sphere', 'Box', 'Cone', 'Cylinder', 'Frustum',
                   'sphere', 'box', 'cone', 'cylinder', 'frustum',
                   'parallelogram', 'Parallelogram', 'TextLabel', 'textLabel', 'PointCloud', 'pointCloud',
-                  'Polygon', 'polygon', 'BezierSurface', 'bezierSurface', 'ShadedNull', 'shadedNull', 
+                  'Polygon', 'polygon', 'BezierSurface', 'bezierSurface', 'ShadedNull', 'shadedNull',
                   'F', 'F0', 'M', 'M0', 'RL', 'RU', 'RH', 'V', 'Vl', 'VlAdd', 'VlMul', 'VAdd', 'VMul','RV', 'RV0', 'RG', 'RD', 'RO', 'RP', 'RN', 'AdjustLU',
                   'L', 'Ll', 'LlAdd', 'LlMul', 'LAdd', 'LMul', 'D', 'Dl', 'DlAdd', 'DlMul', 'DAdd', 'DMul', 'P', 'Translate', 'Scale', 'Rotate', 'NURBSCurve', 'nURBSCurve',
                   'NURBSSurface', 'nURBSSurface', 'Supershape', 'supershape', 'HeightField', 'heightField']
@@ -74,11 +74,11 @@ class Parser(object):
 
 
     def dispatch(self, elt):
-        
+
         #print "Dispatch elt : ", elt
         #print "list(elt) : ", list(elt)
-        #print 'Dispatch elt.tag :', elt.tag 
-        #print 'Dispatch elt.attrib',elt.attrib 
+        #print 'Dispatch elt.tag :', elt.tag
+        #print 'Dispatch elt.attrib',elt.attrib
         #print "self.__getattribute__(elt.tag)", self.__getattribute__(elt.tag)
         #print "elt.getchildren() : ", elt.getchildren()
 
@@ -133,7 +133,7 @@ class Parser(object):
         This is done before parsing the graph.
         """
         # problem: add axiom as a type here to RootedGraph during XEG->RootedGraph,
-        #          then it will also be add to XEG during RootedGraph->XEG 
+        #          then it will also be add to XEG during RootedGraph->XEG
         #self._types = {'Axiom': []}
         self._types = {}
         for elt in elts:
@@ -254,14 +254,14 @@ class Parser(object):
         if self._current_turtle:
             graph.vertex_property('turtle_state')[id] = self._current_turtle
 
-        self._current_turtle = None                   
-        
+        self._current_turtle = None
+
 
     Node = node
 
     def Sphere(self, radius=1., **kwds):
         return pgl.Sphere(radius=float(radius)), None
-        
+
     def Box(self, depth=1., width=1., height=1., **kwds):
         depth, width, height = float(depth), float(width), float(height)
         size = Vector3(depth / 2, width / 2, height / 2)
@@ -360,15 +360,15 @@ class Parser(object):
         uDegree = int(uDegree)
         vDegree = int(vDegree)
         items, chunk = ctrlpoints, dimension
-        pointArray = zip(*[iter(items)] * chunk) 
+        pointArray = zip(*[iter(items)] * chunk)
         v4array = []
 
-        if (dimension == 2):        
+        if (dimension == 2):
             for item in pointArray:
                 v4array.append(Vector4(item,0,1))
         elif (dimension == 3):
             for item in pointArray:
-                v4array.append(Vector4(item,1)) 
+                v4array.append(Vector4(item,1))
         elif (dimension == 4):
             v4array = pointArray
 
@@ -412,32 +412,32 @@ class Parser(object):
         return (pgl.TriangleSet(pgl.Point3Array(p3list), indexlist), None)
 
     def BezierSurface(self, uCount, data, dimension, **kwds):
-        
+
         points = str(data)
         dimension = int(dimension)
         points = [float(num) for num in points.split(",")]
-        items, chunk = points, dimension 
+        items, chunk = points, dimension
         pdlist = zip(*[iter(items)] * chunk)
-        
-        
+
+
         p4m = pgl.Point4Matrix(dimension,dimension)
-      
+
         its, pice = pdlist, 4
         pdmrlst = zip(*[iter(its)] * pice)
         for i in range(len(pdmrlst)):
             for j in range(len(pdmrlst[i])):
                 p4m.__setitem__((i,j),pdmrlst[i][j])
-                
+
         return (pgl.BezierPatch(p4m), None)
-        
-        
+
+
     def ShadedNull(self, transform=None, color=None, **kwds):
         #print("pass null in")
 
         if transform :
             transform = str(transform)
             transform = [float(num) for num in transform.split(",")]
-        
+
             items, chunk = transform, 4
             m4rlist = zip(*[iter(items)] * chunk)
             m4 = pgl.Matrix4()
@@ -447,7 +447,7 @@ class Parser(object):
                     m4.__setitem__((i,j),m4rlist[i][j])
 
         else:
-            m4 = None 
+            m4 = None
 
         if color:
             self._current_turtle.color = color(color)
@@ -469,17 +469,17 @@ class Parser(object):
         n21 = float(n21)
         n22 = float(n22)
         n23 = float(n23)
-        
+
         verts = []
         faces = []
         scale = 1.0
-     
+
         Unum = 20
         Vnum = 20
-    
+
         Uinc = pi / (Unum/2)
         Vinc = (pi/2)/(Vnum/2)
- 
+
         #fill verts array
         theta = -pi
         for i in range (0, Unum + 1):
@@ -490,14 +490,14 @@ class Parser(object):
                 x = scale * (r1 * cos(theta) * r2 * cos(phi))
                 y = scale * (r1 * sin(theta) * r2 * cos(phi))
                 z = scale * (r2 * sin(phi))
- 
-                vert = (x,y,z) 
+
+                vert = (x,y,z)
                 verts.append(vert)
 
                 phi = phi + Vinc
 
             theta = theta + Uinc
- 
+
         #define faces
         count = 0
         for i in range (0, (Vnum + 1) *(Unum)):
@@ -506,13 +506,13 @@ class Parser(object):
                 B = i+1
                 C = (i+(Vnum+1))+1
                 D = (i+(Vnum+1))
- 
+
                 face = (A,B,C,D)
                 faces.append(face)
- 
+
                 count = count + 1
             else:
-                count = 0    
+                count = 0
 
         return pgl.QuadSet(pgl.Point3Array(verts), faces), None
 
@@ -532,7 +532,7 @@ class Parser(object):
 
         nu = usize
         nv = vsize
-        p = (0, 0, 0)	
+        p = (0, 0, 0)
 
         for v in range(nv):
             for u in range(nu):
@@ -545,7 +545,7 @@ class Parser(object):
                 if v < nv-1 and u < nu-1:
                     face = (n, n+1, n+1+nu, n+nu)
                     faces.append(face)
-                n = n+1         
+                n = n+1
 
         return pgl.QuadSet(pgl.Point3Array(verts), faces), None
 
@@ -560,7 +560,7 @@ class Parser(object):
         for i in range(len(plist)):
             ctlplist.append(plist[i]+(1,))
 
-        if dimension == 2:		
+        if dimension == 2:
             return (pgl.NurbsCurve2D(ctlplist), None)
         elif dimension == 3:
             return (pgl.NurbsCurve(ctlplist), None)
@@ -591,7 +591,7 @@ class Parser(object):
             height = length
             radius = turtle.diameter /2.
             color = turtle.color
-	    if radius !=0 and height !=0 : 
+	    if radius !=0 and height !=0 :
                 return (pgl.Cylinder(radius=radius, height=height),
                 pgl.Matrix4.translation(Vector3(0, 0, height)))
             else:
@@ -611,7 +611,7 @@ class Parser(object):
             height = turtle.length
             radius = turtle.diameter /2.
             color = turtle.color
-	    if radius !=0 and height !=0 : 
+	    if radius !=0 and height !=0 :
                 return (pgl.Cylinder(radius=radius, height=height),
                 pgl.Matrix4.translation(Vector3(0, 0, height)))
             else:
@@ -651,7 +651,7 @@ class Parser(object):
         matrix = pgl.Matrix3.axisRotation(Vector3(0, 0, 1), angle)
         return (None, pgl.Matrix4(matrix))
 
-    def V(self, argument, **kwds): 
+    def V(self, argument, **kwds):
         self._current_turtle.set_tropism_value = float(argument)
 	self._current_turtle.set_tropism = True
         return (None, None)
@@ -1152,7 +1152,7 @@ class Dumper(object):
                 c = tuple(t.getRow(i))
                 s += '\t\t\t%.5f %.5f %.5f %.5f\n' % c
             matrix.text = s + '\n' +'\t'
-                
+
         c3 = g.vertex_property('color').get(vid)
         if c3:
             ctu = (c3.clampedRed(), c3.clampedGreen(), c3.clampedBlue())
@@ -1161,7 +1161,7 @@ class Dumper(object):
             h = '\n'
             s = '\t\t\t%.5f %.5f %.5f\n'%ctu
             rgb.text = h + s +'\t'
-            
+
 
         pdicts = properties.get(vid, [])
         if type(pdicts) is list:
@@ -1231,7 +1231,7 @@ def xmlFile2graph(xeg_file_abname, onlyTopology=False):
     """
     Convert a xml string to a rootedgraph and scene graph.
     """
-    
+
     of = open(xeg_file_abname, "r")
     f = of.read()
     #f = StringIO(xml_graph_file_abs)
@@ -1263,15 +1263,15 @@ def xml2graph(xml_graph, onlyTopology=False):
 
 def upscaling4Light(rootedgraph):
     """
-    aggregate light interception value from submetamer scale (0-many blades) to metamer scale (1 vertex) 
-    using color to detact BezierSurface typed blades 
+    aggregate light interception value from submetamer scale (0-many blades) to metamer scale (1 vertex)
+    using color to detact BezierSurface typed blades
     """
     sids = rootedgraph._vertices.keys()
     sids.remove(rootedgraph.root)
     edgedic = rootedgraph._edges
-    for sid in sids:  
+    for sid in sids:
         if rootedgraph.vertex_property("type")[sid] == "BezierSurface":
-            rgb_color = rootedgraph.vertex_property("color")[sid] 
+            rgb_color = rootedgraph.vertex_property("color")[sid]
             if isGreen(rgb_color):
                 #print(" BezierSurface node sid == ", sid)
                 for eid in edgedic.keys(): 
@@ -1292,9 +1292,9 @@ def isGreen(rgb_color):
 
 def getSceneXEG(rootedgraph):
     """
-    delete the scales from MTG and connet graph root to roots in geometric scale
+    delete the scales from MTG and connect graph root to roots in geometric scale
     """
-    
+
     g = rootedgraph
     
     # store the mapping between MTG vertex and shape id in scene
@@ -1302,16 +1302,17 @@ def getSceneXEG(rootedgraph):
 
     # to allow resulting single scale XEG have "transform" as node's property
     # transform need to be put as paramters of nodes in rootedgraph
-    transdic = g.vertex_property("transform") 
+    transdic = g.vertex_property("transform")
     for sid in transdic.keys():
         para = {'transform': transdic[sid]}
         g.vertex_property("parameters")[sid] = para
- 
+
     g.remove_vertex_property("transform")
-    
-    #get roots of the geometric scale/finest scale 
+
+    #get roots of the geometric scale/finest scale
     mtg_mpt = spanning_mtg(g)
     roots = mtg_mpt.roots(mtg_mpt.max_scale())
+
     #print(roots, mtg_mpt.max_scale())
 
     #delete the scales from MTG
@@ -1319,13 +1320,13 @@ def getSceneXEG(rootedgraph):
         # for error caused by that root has no name property
     sids.remove(g.root)
     for sid in sids:
-        if g.vertex_property("type")[sid] == "MtgVertex":
+        if g.vertex_property("type").get(sid) == "MtgVertex":
             g.remove_vertex(sid)
-     
-    # connect graph root to roots of the remainning geometric scale       
-    rootedgraph = g        
+
+    # connect graph root to roots of the remainning geometric scale
+    rootedgraph = g
     for root in roots:
-        edge = (rootedgraph.root, root) 
+        edge = (rootedgraph.root, root)
         edgeid = rootedgraph.add_edge(edge)
         rootedgraph.edge_property("edge_type")[edgeid] = "<"
 
@@ -1382,16 +1383,16 @@ def getMTGRootedGraph(rootedgraph):
         mtg_sids_edgedic[mtg_eid] = (srcsid/10**offset, dstsid/10**offset)
 
 
-    # set also the parameters sid to vid    
+    # set also the parameters sid to vid
     for skey in rootedgraph.vertex_property("parameters").keys():
         nkey = skey/ 10**offset
         if nkey != skey:
-            rootedgraph.vertex_property("parameters")[nkey] = rootedgraph.vertex_property("parameters")[skey] 
+            rootedgraph.vertex_property("parameters")[nkey] = rootedgraph.vertex_property("parameters")[skey]
             del rootedgraph.vertex_property("parameters")[skey]
 
 
     # remove properties does not belongs to the mtg (properties have been added to allow scene creation)
-	non_mtg_pnames = ["name", "type", "color", "geometry", "transform", "turtle_state", "final_geometry"]
+    non_mtg_pnames = ["name", "type", "color", "geometry", "transform", "turtle_state", "final_geometry"]
     for non_mtg_pname in non_mtg_pnames:
         if non_mtg_pname in rootedgraph._vertex_property.keys():
             rootedgraph.remove_vertex_property(non_mtg_pname)
@@ -1406,7 +1407,7 @@ def getMTGRootedGraph(rootedgraph):
             if pname not in rootedgraph._vertex_property.keys():
                 rootedgraph.add_vertex_property(pname)
             rootedgraph.vertex_property(pname)[nkey] = para_dic[pname]
-    
+
     rootedgraph.remove_vertex_property("parameters")
 
 
@@ -1419,12 +1420,12 @@ def produceXEGfile(xeg_object, xeg_file_abname):
     produce XEG file with given absolute name from xeg object
     """
     import sys
-     
+
     orig_stdout = sys.stdout
     f = file(xeg_file_abname, 'w')
     sys.stdout = f
 
-    from pprint import pprint 
+    from pprint import pprint
     print(xeg_object)
 
     sys.stdout = orig_stdout
@@ -1435,15 +1436,15 @@ def produceMTGContentfile(mtg_object, mtg_file_abname):
     """
     produce mtg content text file with given absolute name from mtg object
     """
-    
+
     import sys
-     
+
 
     orig_stdout = sys.stdout
     f = file(mtg_file_abname, 'w')
     sys.stdout = f
 
-    from pprint import pprint 
+    from pprint import pprint
     pprint(vars(mtg_object))
 
     sys.stdout = orig_stdout
@@ -1454,15 +1455,15 @@ def produceMTGDisplayfile(mtg_object, mtg_file_abname):
     """
     produce mtg content text file with given absolute name from mtg object
     """
-    
+
     import sys
-     
+
 
     orig_stdout = sys.stdout
     f = file(mtg_file_abname, 'w')
     sys.stdout = f
 
-    from pprint import pprint 
+    from pprint import pprint
     pprint(mtg_object.display())
 
     sys.stdout = orig_stdout
@@ -1474,9 +1475,9 @@ def produceMTGfile(mtg_object, mtg_file_abname):
     """
     produce mtg file with given absolute name from mtg object
     """
-    
-    
-    g = mtg_object 
+
+
+    g = mtg_object
     properties = [(p, 'REAL') for p in g.property_names() if p not in ['edge_type', 'index', 'label', '_line']]
     print properties
     mtg_lines = write_mtg(g, properties)
