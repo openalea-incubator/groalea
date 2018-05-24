@@ -892,7 +892,6 @@ class Parser(object):
 
         self.traverse2(g.root)
         self._scene.merge(pgl.Scene(final_geometry.values()))
-        #self._scene.save("/home/groimp/temps/try_st_id.bgeom")
         return self._scene
 
     def traverse2(self, vid):
