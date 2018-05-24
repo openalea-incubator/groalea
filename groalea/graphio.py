@@ -99,7 +99,7 @@ class Parser(object):
         """
         A graph is a set of nodes and edges.
         """
-        print "pass graph(self, elements) function"
+        #print("pass graph(self, elements) function")
         #print "elements : ", elements
 
         graph = self._graph = RootedGraph()
@@ -121,8 +121,8 @@ class Parser(object):
             self.dispatch(elt)
 
         # add the edges to the graph, when all the nodes have been added.
-        print "graph.root", type(graph)
-        print graph
+        #print("graph.root", type(graph))
+        #print(graph)
         if graph.root not in graph:
             graph.add_vertex(graph.root)
 
@@ -165,7 +165,7 @@ class Parser(object):
 
         self._types[name] = []
         for elt in elts:
-            # print elt.tag
+            #  elt.tag
             if elt.tag == 'extends':
                 elt.attrib['type_name'] = name
                 self.dispatch(elt)
@@ -432,7 +432,7 @@ class Parser(object):
         
         
     def ShadedNull(self, transform=None, color=None, **kwds):
-        print "pass null in"
+        #print("pass null in")
 
         if transform :
             transform = str(transform)
@@ -452,7 +452,7 @@ class Parser(object):
         if color:
             self._current_turtle.color = color(color)
                 
-        print "pass null out"
+        #print("pass null out")
 
         return (None, m4)
 
@@ -917,8 +917,8 @@ class Parser(object):
 
         def update_turtle(v, ts):
             lt = local_turtle = local_turtles.get(v, TurtleState())
-	    print "v, lt.set_locTm, lt.locTm, lt.set_tm_val= ", v, lt.set_localTropism, lt.localTropism, lt.set_tropism_value
-            print "lt.tropism", lt.tropism
+	    #print("v, lt.set_locTm, lt.locTm, lt.set_tm_val= ", v, lt.set_localTropism, lt.localTropism, lt.set_tropism_value)
+            #print("lt.tropism", lt.tropism)
             #global_turtle = ts.combine(local_turtle) <-- wrong idea
             global_turtle = local_turtle.combine(ts)
             return global_turtle
@@ -945,8 +945,8 @@ class Parser(object):
             # CPL
             ts = turtles.get(pid, TurtleState())
             gt = global_turtle = update_turtle(v, ts)
-            print "v, gt.set_locTm, gt.locTm, gt.set_tm_val= ", v, gt.set_localTropism, gt.localTropism, gt.set_tropism_value
-            print "gt.tropism", gt.tropism
+            #print("v, gt.set_locTm, gt.locTm, gt.set_tm_val= ", v, gt.set_localTropism, gt.localTropism, gt.set_tropism_value)
+            #print("gt.tropism", gt.tropism)
             local_t = transform.get(v)
             if local_t == self.FUNCTIONAL:
                 # Get the functional shape to compute the transformation and geometry
@@ -1056,17 +1056,17 @@ class Parser(object):
     def _getShapeid(self, vid):
         global msidShapeidDic
         shapeid = 0
-        print msidShapeidDic
-        print "vid --=", vid
+        #print(msidShapeidDic)
+        #print("vid --=", vid)
         if msidShapeidDic == None:
             pass
         else:
             try:
-                print "dic id =", vid/10**offset * 10**offset
+                #print("dic id =", vid/10**offset * 10**offset)
                 shapeid = int(msidShapeidDic[vid/10**offset * 10**offset])
             except KeyError:
                 pass
-        print "shapeid =", shapeid  
+        #print("shapeid =", shapeid)  
         return shapeid
 
     def _get_args(self, properties):
@@ -1274,7 +1274,7 @@ def upscaling4Light(rootedgraph):
         if rootedgraph.vertex_property("type")[sid] == "BezierSurface":
             rgb_color = rootedgraph.vertex_property("color")[sid] 
             if isGreen(rgb_color):
-                print " BezierSurface node sid == ", sid
+                #print(" BezierSurface node sid == ", sid)
                 for eid in edgedic.keys(): 
                     if edgedic[eid][1] == sid and rootedgraph.edge_property("edge_type")[eid]== "/":
                         msid = edgedic[eid][0]
@@ -1313,7 +1313,7 @@ def getSceneXEG(rootedgraph):
     #get roots of the geometric scale/finest scale 
     mtg_mpt = spanning_mtg(g)
     roots = mtg_mpt.roots(mtg_mpt.max_scale())
-    print roots, mtg_mpt.max_scale()
+    #print(roots, mtg_mpt.max_scale())
 
     #delete the scales from MTG
     sids = g._vertices.keys()
