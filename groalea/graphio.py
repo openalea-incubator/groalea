@@ -24,6 +24,9 @@ from math import pi
 from math import pow
 from copy import deepcopy
 import xml.etree.ElementTree as xml
+import threading
+import Queue
+
 
 from openalea.mtg.io import *
 from openalea.core.graph.property_graph import PropertyGraph
@@ -38,6 +41,8 @@ from .geometry import (TurtleState, FunctionalGeometry, rgb_color,
 from .topology import (RootedGraph, spanning_mtg)
 
 from .mappletConverter import offset
+
+from pprint import pprint
 
 
 Vector3 = pgl.Vector3
@@ -68,7 +73,9 @@ class Parser(object):
         self.has_type = False
         self.types(doc.findall('type'))
         self.dispatch(root)
-        self.scenegraph()
+        
+        if not onlyTopology:
+            self.scenegraph()
 
         return self._graph, self._scene
 
@@ -99,7 +106,7 @@ class Parser(object):
         """
         A graph is a set of nodes and edges.
         """
-        print "pass graph(self, elements) function"
+        #print "pass graph(self, elements) function"
         #print "elements : ", elements
 
         graph = self._graph = RootedGraph()
@@ -118,11 +125,14 @@ class Parser(object):
 
         # Process / Parse all the xml nodes contains directly inside the <graph> node.
         for elt in elements:
-            self.dispatch(elt)
+	        th = threading.Thread(target=self.dispatch, args=(elt,))
+	        th.start()
+	        th.join()
+            #self.dispatch(elt)
 
         # add the edges to the graph, when all the nodes have been added.
-        print "graph.root", type(graph)
-        print graph
+        #print "graph.root", type(graph)
+        #print graph
         if graph.root not in graph:
             graph.add_vertex(graph.root)
 
@@ -136,7 +146,13 @@ class Parser(object):
         #          then it will also be add to XEG during RootedGraph->XEG 
         #self._types = {'Axiom': []}
         self._types = {}
+
         for elt in elts:
+            #x = elt.getchildren()
+            #y = **elt.attrib
+	        #th = threading.Thread(target=self.type, args=(x, y,))
+	        #th.start()
+	        #th.join()
             self.type(elt.getchildren(), **elt.attrib)
 
         self.has_type = True
@@ -221,11 +237,14 @@ class Parser(object):
             # special case.
             shape, transfo = None, None
         else:
-            # Here to switch off scene producing
+            #shape, transfo = self.dispatch2(type, args)
+            
+            # Here to switch off geometrical type mapping (groimp type to plantgl type)
             if not self.onlyTopology :
                 shape, transfo = self.dispatch2(type, args)
             else:
                 shape, transfo = None, None
+  
 
         # End of TODO
 
@@ -432,7 +451,7 @@ class Parser(object):
         
         
     def ShadedNull(self, transform=None, color=None, **kwds):
-        print "pass null in"
+        #print "pass null in"
 
         if transform :
             transform = str(transform)
@@ -452,7 +471,7 @@ class Parser(object):
         if color:
             self._current_turtle.color = color(color)
                 
-        print "pass null out"
+        #print "pass null out"
 
         return (None, m4)
 
@@ -875,9 +894,13 @@ class Parser(object):
                 self.trash.append(type_name)
             return None, None
 
-    def scenegraph(self):
+    def scenegraph(self, rg=None):
         # traverse the graph
+        if rg != None:
+            self._graph = rg
+
         g = self._graph
+
         if self._scene:
             return self._scene
         else:
@@ -885,14 +908,15 @@ class Parser(object):
 
         self.visited = set()
 
-        self._graph.add_vertex_property('final_geometry')
+        #self._graph.add_vertex_property('final_geometry')
+        g.add_vertex_property('final_geometry')
         final_geometry = g.vertex_property("final_geometry")
 
         transfos = [pgl.Matrix4()]
 
         self.traverse2(g.root)
         self._scene.merge(pgl.Scene(final_geometry.values()))
-        #self._scene.save("/home/groimp/temps/try_st_id.bgeom")
+        self._scene.save("/home/groimp/temps/try_st_id1.bgeom")
         return self._scene
 
     def traverse2(self, vid):
@@ -917,83 +941,89 @@ class Parser(object):
 
         def update_turtle(v, ts):
             lt = local_turtle = local_turtles.get(v, TurtleState())
-	    print "v, lt.set_locTm, lt.locTm, lt.set_tm_val= ", v, lt.set_localTropism, lt.localTropism, lt.set_tropism_value
-            print "lt.tropism", lt.tropism
             #global_turtle = ts.combine(local_turtle) <-- wrong idea
             global_turtle = local_turtle.combine(ts)
             return global_turtle
 
 
-        for v in breadth_first_search(g, vid):
+        #for v in breadth_first_search(g, vid):
+
+        def func_search(v, g, transfos, turtles, transform):
             pid = parent(v)
 
-            if pid == v and v != g.root:
-                print "ERRRORRRR"
-                print v
-                continue
+            if not (pid == v and v != g.root):
+                    #print "ERRRORRRR"
+                    #print v
+                    #continue
 
-            #print "v:",v
-            # print "parent(v)", parent(v)
-            # print "transfos", transfos
-            #m = transfos[parent(v)]
+                #print "v:",v
+                # print "parent(v)", parent(v)
+                # print "transfos", transfos
+                #m = transfos[parent(v)]
 
-            m = transfos.get(pid)
+                m = transfos.get(pid)
 
-            if not m:
-                m=pgl.Matrix4()
+                if not m:
+                    m=pgl.Matrix4()
 
-            # CPL
-            ts = turtles.get(pid, TurtleState())
-            gt = global_turtle = update_turtle(v, ts)
-            print "v, gt.set_locTm, gt.locTm, gt.set_tm_val= ", v, gt.set_localTropism, gt.localTropism, gt.set_tropism_value
-            print "gt.tropism", gt.tropism
-            local_t = transform.get(v)
-            if local_t == self.FUNCTIONAL:
-                # Get the functional shape to compute the transformation and geometry
-                # with the turtle state
-                local_t = self.f_shape(v, global_turtle)
+                # CPL
+                ts = turtles.get(pid, TurtleState())
+                gt = global_turtle = update_turtle(v, ts)
+                #print "v, gt.set_locTm, gt.locTm, gt.set_tm_val= ", v, gt.set_localTropism, gt.localTropism, gt.set_tropism_value
+                #print "gt.tropism", gt.tropism
+                local_t = transform.get(v)
+                if local_t == self.FUNCTIONAL:
+                    # Get the functional shape to compute the transformation and geometry
+                    # with the turtle state
+                    local_t = self.f_shape(v, global_turtle)
 
-            #print "every m : ", m
+                #print "every m : ", m
 
-            # Transform the current shape with the stack of transfos m from the root.
-            # Store the result in the graph.
-            self._local2global(v, m, global_turtle.color)
+                # Transform the current shape with the stack of transfos m from the root.
+                # Store the result in the graph.
+                self._local2global(v, m, global_turtle.color)
 
 
-            #print "local_t : ", local_t
+                #print "local_t : ", local_t
 
-            if local_t == -1:
-                m = adjust_lu(m)
-            elif local_t == -2:
-                #RV0 and RG
-                local_m = grotation(m, gt.tropism)
-                m = m * local_m
-            elif local_t == -6:
-                #RV
-                local_m = grotation(m, gt.tropism_rv)
-                m = m * local_m
-            elif local_t == -3:
-                # RD
-                local_m = directionalTropism(m, gt.tropism_direction, gt.tropism)
-                m = m * local_m
-            elif local_t == -4:
-                # RO
-                local_m = orthogonalTropism(m, gt.tropism_direction, gt.tropism)
-                m = m * local_m
-            elif local_t == -5:
-                #RP and RN
-                local_m = positionalTropism(m, gt.tropism_target, gt.tropism)
-                m = m * local_m
-            elif local_t:
-                if local_t.getColumn(3) != Vector4(0, 0, 0, 1):
-                    m = m * local_t
+                if local_t == -1:
+                    m = adjust_lu(m)
+                elif local_t == -2:
+                    #RV0 and RG
+                    local_m = grotation(m, gt.tropism)
+                    m = m * local_m
+                elif local_t == -6:
+                    #RV
+                    local_m = grotation(m, gt.tropism_rv)
+                    m = m * local_m
+                elif local_t == -3:
+                    # RD
+                    local_m = directionalTropism(m, gt.tropism_direction, gt.tropism)
+                    m = m * local_m
+                elif local_t == -4:
+                    # RO
+                    local_m = orthogonalTropism(m, gt.tropism_direction, gt.tropism)
+                    m = m * local_m
+                elif local_t == -5:
+                    #RP and RN
+                    local_m = positionalTropism(m, gt.tropism_target, gt.tropism)
+                    m = m * local_m
+                elif local_t:
+                    if local_t.getColumn(3) != Vector4(0, 0, 0, 1):
+                        m = m * local_t
+                    else:
+                        m = m * local_t
                 else:
-                    m = m * local_t
-            else:
-                pass
+                    pass
 
-            transfos[v] = m
-            turtles[v] = global_turtle
+                transfos[v] = m
+                turtles[v] = global_turtle
+
+        for v in breadth_first_search(g, vid):
+	        th = threading.Thread(target=func_search, args=(v, g, transfos, turtles, transform,))
+	        th.start()
+	        th.join()
+            
 
     def traverse(self, vid, transfos):
         if vid in self.visited:
@@ -1056,17 +1086,17 @@ class Parser(object):
     def _getShapeid(self, vid):
         global msidShapeidDic
         shapeid = 0
-        print msidShapeidDic
-        print "vid --=", vid
+        #print msidShapeidDic
+        #print "vid --=", vid
         if msidShapeidDic == None:
             pass
         else:
             try:
-                print "dic id =", vid/10**offset * 10**offset
+                #print "dic id =", vid/10**offset * 10**offset
                 shapeid = int(msidShapeidDic[vid/10**offset * 10**offset])
             except KeyError:
                 pass
-        print "shapeid =", shapeid  
+        #print "shapeid =", shapeid  
         return shapeid
 
     def _get_args(self, properties):
@@ -1262,6 +1292,51 @@ def xml2graph(xml_graph, onlyTopology=False):
     return g, scene
 
 
+def xeg2MtgAndScene(xml_graph):
+    """
+    convert a xml string (an XEG data file) to a MTG object and a Scene object
+    """
+    import copy
+    from openalea.mtg import MTG
+    # firstly, get only the rooted graph with mapped node (geometrical) type (by dispatch2)
+    rootedgraph, nullscene = xml2graph(xml_graph, True)
+    crg, nullscene = xml2graph(xml_graph, True)
+
+    # then, produce the scene and mtg by Parallel Computing in two threads
+    scene_queue = Queue.Queue()
+    mtg_queue = Queue.Queue()
+
+    for i in range(2):
+        if i == 0:
+            th = threading.Thread(target=rootedgraph2scene, args=(rootedgraph, scene_queue,))
+        else:
+            th = threading.Thread(target=rootedgraph2mtg, args=(crg, mtg_queue,))
+        th.start()
+        th.join()
+    
+    return mtg_queue.get(), scene_queue.get()
+
+
+def rootedgraph2scene(rootedgraph, scene_queue):
+
+    # get the rooted graph having only the sub metamer scale and produce a scene object
+    sceneXEG = getSceneXEG(rootedgraph)
+    rg, scene = xml2graph(sceneXEG)
+    scene_queue.put(scene)
+
+
+def rootedgraph2mtg(crg, mtg_queue):
+
+    # get the rooted graph having scales in mtg and produce a mtg object 
+    mtgrg = getMTGRootedGraph(crg)
+    if len(mtgrg._edges) == 0:
+        mtg = None
+    else:
+        mtg = spanning_mtg(mtgrg)
+    
+    mtg_queue.put(mtg)
+    
+
 def upscaling4Light(rootedgraph):
     """
     aggregate light interception value from submetamer scale (0-many blades) to metamer scale (1 vertex) 
@@ -1291,6 +1366,53 @@ def isGreen(rgb_color):
         return True
 
 
+
+def getSceneRootedGraph(rootedgraph):
+    """
+    delete the scales from MTG and connet graph root to roots in geometric scale
+    """
+    
+    g = rootedgraph
+    
+    # store the mapping between MTG vertex and shape id in scene
+    storeMsidShapeidDic(g)
+
+    # to allow resulting single scale XEG have "transform" as node's property
+    # transform need to be put as paramters of nodes in rootedgraph
+    transdic = g.vertex_property("transform") 
+    for sid in transdic.keys():
+        para = {'transform': transdic[sid]}
+        g.vertex_property("parameters")[sid] = para
+ 
+    g.remove_vertex_property("transform")
+    
+    #get roots of the geometric scale/finest scale 
+    mtg_mpt = spanning_mtg(g)
+    roots = mtg_mpt.roots(mtg_mpt.max_scale())
+
+    #delete the scales from MTG
+    sids = g._vertices.keys()
+        # for error caused by that root has no name property
+    sids.remove(g.root)
+    for sid in sids:
+        if g.vertex_property("type")[sid] == "MtgVertex":
+            g.remove_vertex(sid)
+     
+    # connect graph root to roots of the remainning geometric scale       
+    rootedgraph = g  
+    oneSucessorAdded = False     
+    for root in roots:
+        edge = (rootedgraph.root, root) 
+        edgeid = rootedgraph.add_edge(edge)
+        if not oneSucessorAdded:
+            rootedgraph.edge_property("edge_type")[edgeid] = "<"
+            oneSucessorAdded = True
+        else:
+            rootedgraph.edge_property("edge_type")[edgeid] = "+"
+
+    return g
+
+
 def getSceneXEG(rootedgraph):
     """
     delete the scales from MTG and connet graph root to roots in geometric scale
@@ -1313,7 +1435,6 @@ def getSceneXEG(rootedgraph):
     #get roots of the geometric scale/finest scale 
     mtg_mpt = spanning_mtg(g)
     roots = mtg_mpt.roots(mtg_mpt.max_scale())
-    print roots, mtg_mpt.max_scale()
 
     #delete the scales from MTG
     sids = g._vertices.keys()
@@ -1322,13 +1443,25 @@ def getSceneXEG(rootedgraph):
     for sid in sids:
         if g.vertex_property("type")[sid] == "MtgVertex":
             g.remove_vertex(sid)
+
+    # delete the decomposition edges for GroIMP one scale case (one or multi tree)
+    edgedic = g._edges
+    for edgeid in edgedic.keys():
+        if g.edge_property("edge_type")[edgeid] == "/":
+            g.remove_edge(edgeid)
      
     # connect graph root to roots of the remainning geometric scale       
-    rootedgraph = g        
+    rootedgraph = g
+    oneSucessorAdded = False  
+       
     for root in roots:
         edge = (rootedgraph.root, root) 
         edgeid = rootedgraph.add_edge(edge)
-        rootedgraph.edge_property("edge_type")[edgeid] = "<"
+        if not oneSucessorAdded:
+            rootedgraph.edge_property("edge_type")[edgeid] = "<"
+            oneSucessorAdded = True
+        else:
+            rootedgraph.edge_property("edge_type")[edgeid] = "+"
 
     # convert the rootedgraph to xeg. Ready to be converted to scene graph
     single_scale_xeg = graph2xml(g)
@@ -1366,15 +1499,24 @@ def getMTGRootedGraph(rootedgraph):
         if rootedgraph.vertex_property("type")[sid] != "MtgVertex":
             rootedgraph.remove_vertex(sid)
 
+    
     # set the sid of each remained node to original vid
-    mtg_sids = rootedgraph._vertices.keys()
+    temp_sids = rootedgraph._vertices.keys()
+    mtg_sids = sorted(temp_sids, key=int)
     mtg_sids_edgedic = rootedgraph._edges
     for mtg_sid in mtg_sids:
+        #if mtg_sid == 100000:
+            #print "sid = ", mtg_sid
         mtg_vid = mtg_sid/ 10**offset
         # for error caused by root == 0
         if mtg_vid != mtg_sid:
+            #if mtg_sid == 100000:
+                #print "sid = ", mtg_sid
+            #if mtg_vid == 1000:
+                #print "vid = ", mtg_vid
             rootedgraph._vertices[mtg_vid] = rootedgraph._vertices[mtg_sid]
-            del rootedgraph._vertices[mtg_sid]
+            if rootedgraph._vertices[mtg_vid] == rootedgraph._vertices[mtg_sid]:
+                del rootedgraph._vertices[mtg_sid]
 
     # set also the edge (for source and destination vetex) sid to vid
     for mtg_eid in mtg_sids_edgedic.keys():
@@ -1390,9 +1532,10 @@ def getMTGRootedGraph(rootedgraph):
             rootedgraph.vertex_property("parameters")[nkey] = rootedgraph.vertex_property("parameters")[skey] 
             del rootedgraph.vertex_property("parameters")[skey]
 
+    
 
     # remove properties does not belongs to the mtg (properties have been added to allow scene creation)
-	non_mtg_pnames = ["name", "type", "color", "geometry", "transform", "turtle_state", "final_geometry"]
+    non_mtg_pnames = ["name", "type", "color", "geometry", "transform", "turtle_state", "final_geometry"]
     for non_mtg_pname in non_mtg_pnames:
         if non_mtg_pname in rootedgraph._vertex_property.keys():
             rootedgraph.remove_vertex_property(non_mtg_pname)
@@ -1410,6 +1553,43 @@ def getMTGRootedGraph(rootedgraph):
     
     rootedgraph.remove_vertex_property("parameters")
 
+    #resumeVidFromSid(rootedgraph)
+    produceMTGContentfile(rootedgraph, "/home/groimp/temps/st_rootedgraph_content.txt")
+
+    return rootedgraph
+
+
+
+def resumeVidFromSid(rootedgraph):
+    """
+    set the sid of each remained node to original vid
+    """
+
+    # set the edge (for source and destination vetex) sid to vid
+    mtg_sids_edgedic = rootedgraph._edges
+    for mtg_eid in mtg_sids_edgedic.keys():
+        srcsid = mtg_sids_edgedic[mtg_eid][0]
+        dstsid = mtg_sids_edgedic[mtg_eid][1]
+        mtg_sids_edgedic[mtg_eid] = (srcsid/10**offset, dstsid/10**offset)
+
+    # set the node sid sid to vid
+    mtg_sids = rootedgraph._vertices.keys()
+    for mtg_sid in mtg_sids:
+        mtg_vid = mtg_sid/ 10**offset
+        # for error caused by root == 0
+        if mtg_vid != mtg_sid:
+            rootedgraph._vertices[mtg_vid] = rootedgraph._vertices[mtg_sid]
+            del rootedgraph._vertices[mtg_sid]
+
+
+    # set also the parameters sid to vid
+    """    
+    for skey in rootedgraph.vertex_property("parameters").keys():
+        nkey = skey/ 10**offset
+        if nkey != skey:
+            rootedgraph.vertex_property("parameters")[nkey] = rootedgraph.vertex_property("parameters")[skey] 
+            del rootedgraph.vertex_property("parameters")[skey]
+    """
 
     return rootedgraph
 
