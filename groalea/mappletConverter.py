@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 # -*- python -*-
 #
-#       Topological & geometric algorithms to convert MTG into rootedgraph.
+#       Topological & geometric algorithms to convert a combination of 
+#		MAppleT based MTG and Scene into a rootedgraph.
 #
 #       groalea: GroIMP / OpenAlea Communication framework
 #
 #       Copyright 2015 Goettingen University - CIRAD - INRIA
 #
 #       File author(s): Long Qinqin
-#
-#       File contributor(s): Christophe Pradal
 #
 #       Distributed under the Cecill-C License.
 #       See accompanying file LICENSE.txt or copy at
@@ -25,6 +24,7 @@ from openalea.plantgl.all import *
 from openalea.mtg.aml import *
 import numpy as np
 import re
+import threading
 
 mtg = None
 max_scale = None
@@ -112,7 +112,7 @@ def addEdge(esrc, edest, etype, rootedgraph):
 
 def setVetexProperties(vid, sid, rootedgraph):
 
-    # set name with sid, which allow sid to be restored
+    # set name
     label = mtg[vid]["label"]
     rootedgraph.vertex_property("name")[sid] = label #+ "." + str(sid)
 
@@ -172,7 +172,7 @@ def uppermetamerLevelConvert(rootedgraph, scale_num):
             
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 
-def convert(mtg_object, scene_object=None, scale_num=1):
+def mpt_MtgAndScene2rootedgraph(mtg_object, scene_object=None, scale_num=1):
     global g_scale_num
     
     ms_vlist, metamerlist = inputs_pre(mtg_object, scene_object)
@@ -188,24 +188,30 @@ def convert(mtg_object, scene_object=None, scale_num=1):
         return rootedgraph
 
     for vid in ms_vlist:
-        #if ms_vlist.index(vid) == 11:
-            #break
-        metamer = getmetamer(vid, metamerlist)
-        parentvid = mtg.parent(vid)
-        print "vid, parentvid", vid, parentvid
-        if parentvid == None:
-            parentmetamer = None
-        else:
-            parentmetamer = getmetamer(parentvid, metamerlist)    
-        #sid, edge_type_list_2children_metamers, children_sid_list =  metamerLevelConvert(vid, rootedgraph)
-        sid = ve2pdic[vid][0]
-        vparent = ve2pdic[vid][1]
-        e2p_type = ve2pdic[vid][2]
+        th = threading.Thread(target=func_metamer_convert, args=(vid, metamerlist, ve2pdic, rootedgraph,))
+        th.start()
+        th.join()
 
-        #subMetamerLevelConvert(edge_type_list_2children_metamers, children_sid_list, sid, metamer, parentmetamer, rootedgraph)
-        subMetamerLevelConvert(sid, vparent, e2p_type, metamer, parentmetamer, rootedgraph)
+    return rootedgraph
 
-    return rootedgraph  
+def func_metamer_convert(vid, metamerlist, ve2pdic, rootedgraph):
+
+    #if ms_vlist.index(vid) == 11:
+        #break
+    metamer = getmetamer(vid, metamerlist)
+    parentvid = mtg.parent(vid)
+    #print "vid, parentvid", vid, parentvid
+    if parentvid == None:
+        parentmetamer = None
+    else:
+        parentmetamer = getmetamer(parentvid, metamerlist)    
+    #sid, edge_type_list_2children_metamers, children_sid_list =  metamerLevelConvert(vid, rootedgraph)
+    sid = ve2pdic[vid][0]
+    vparent = ve2pdic[vid][1]
+    e2p_type = ve2pdic[vid][2]
+
+    #subMetamerLevelConvert(edge_type_list_2children_metamers, children_sid_list, sid, metamer, parentmetamer, rootedgraph)
+    subMetamerLevelConvert(sid, vparent, e2p_type, metamer, parentmetamer, rootedgraph)
 
 
 def getmetamer(vid, metamerlist):

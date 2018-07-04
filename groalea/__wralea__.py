@@ -12,21 +12,23 @@ __license__ = 'CECILL-C'
 __url__ = 'http://openalea.gforge.inria.fr'
 __alias__ = ['groimp']
 __version__ = '0.0.1'
-__authors__ = 'C. Pradal and Long Qinqin'
+__authors__ = 'Long Qinqin and C. Pradal'
 __institutes__ = 'INRIA/CIRAD/University of Cottbus'
 __icon__ = 'plant1.png'
 
 
-__all__ = ['mappletConverter_convert', 'graphio_graph2xml', 'mappletConverter_addMTGProperty', 'graphio_getMTGRootedGraph', 'graphio_xml2graph', 'client_simulation', 'graphio_getSceneXEG', 'client_connexion', 'topology_spanning_mtg', 'graphio_produceXEGfile', 'graphio_produceMTGContentfile', 'graphio_produceMTGDisplayfile']
+__all__ = ['mappletConverter_mpt_MtgAndScene2rootedgraph', 'graphio_graph2xml', 'mappletConverter_addMTGProperty', 'graphio_getMTGRootedGraph', 'graphio_xml2graph', 'client_simulation', 'graphio_getSceneXEG', 'client_connexion', 'topology_spanning_mtg', 'graphio_produceXEGfile', 'graphio_produceMTGContentfile', 'graphio_produceMTGDisplayfile', 'graphio_xeg2MtgAndScene']
 
 
 
-mappletConverter_convert = Factory(name='convert',
-                authors='C. Pradal and Long Qinqin (wralea authors)',
+
+
+mappletConverter_mpt_MtgAndScene2rootedgraph = Factory(name='mpt_MtgAndScene2rootedgraph',
+                authors='Long Qinqin',
                 description='Add a property to all vertices of the mtg object.',
                 category='codec',
                 nodemodule='openalea.groalea.mappletConverter',
-                nodeclass='convert',
+                nodeclass='mpt_MtgAndScene2rootedgraph',
                 inputs=({'name': 'mtg_object', 'desc': 'OpenAlea MTG object.'}, {'name': 'scene_object', 'desc': 'OpenAlea PlantGL scene object.'}, {'name': 'scale_num', 'desc': 'OpenAlea PlantGL scene object.'}),
                 outputs=({'name': 'rootedgraph', 'desc': 'OpenAlea RootedGraph object with both MTG scales and a geometric scale (at finest scale).'},),
                 widgetmodule=None,
@@ -37,7 +39,7 @@ mappletConverter_convert = Factory(name='convert',
 
 
 graphio_graph2xml = Factory(name='graph2xml',
-                authors='C. Pradal and Long Qinqin (wralea authors)',
+                authors='Long Qinqin and C. Pradal (wralea authors)',
                 description='Export a graph to an xml string.',
                 category='codec',
                 nodemodule='openalea.groalea.graphio',
@@ -52,7 +54,7 @@ graphio_graph2xml = Factory(name='graph2xml',
 
 
 mappletConverter_addMTGProperty = Factory(name='addMTGProperty',
-                authors='C. Pradal and Long Qinqin (wralea authors)',
+                authors='Long Qinqin and C. Pradal (wralea authors)',
                 description='Add a property to all vertices of the mtg object.',
                 category='codec',
                 nodemodule='openalea.groalea.mappletConverter',
@@ -67,7 +69,7 @@ mappletConverter_addMTGProperty = Factory(name='addMTGProperty',
 
 
 graphio_getMTGRootedGraph = Factory(name='getMTGRootedGraph',
-                authors='C. Pradal and Long Qinqin (wralea authors)',
+                authors='Long Qinqin and C. Pradal (wralea authors)',
                 description='remove the geometric scale (at finest scale) from the input rooted graph.',
                 category='codec',
                 nodemodule='openalea.groalea.graphio',
@@ -82,7 +84,7 @@ graphio_getMTGRootedGraph = Factory(name='getMTGRootedGraph',
 
 
 graphio_xml2graph = Factory(name='xml2graph',
-                authors='C. Pradal and Long Qinqin (wralea authors)',
+                authors='Long Qinqin and C. Pradal (wralea authors)',
                 description='Import a graph from an xml graph.',
                 category='codec',
                 nodemodule='openalea.groalea.graphio',
@@ -97,7 +99,7 @@ graphio_xml2graph = Factory(name='xml2graph',
 
 
 client_simulation = Factory(name='simulation',
-                authors='C. Pradal and Long Qinqin (wralea authors)',
+                authors='Long Qinqin and C. Pradal (wralea authors)',
                 description='Send XL code and a graph to GroIMPi server for simulation.',
                 category='web,data',
                 nodemodule='openalea.groalea.client',
@@ -112,7 +114,7 @@ client_simulation = Factory(name='simulation',
 
 
 graphio_getSceneXEG = Factory(name='getSceneXEG',
-                authors='C. Pradal and Long Qinqin (wralea authors)',
+                authors='Long Qinqin and C. Pradal (wralea authors)',
                 description='get the finest/gometric scale XEG from rooted graph.',
                 category='codec',
                 nodemodule='openalea.groalea.graphio',
@@ -127,7 +129,7 @@ graphio_getSceneXEG = Factory(name='getSceneXEG',
 
 
 client_connexion = Factory(name='http connexion',
-                authors='C. Pradal and Long Qinqin (wralea authors)',
+                authors='Long Qinqin and C. Pradal (wralea authors)',
                 description='Connexion to the GroIMP server',
                 category='web,data',
                 nodemodule='openalea.groalea.client',
@@ -142,7 +144,7 @@ client_connexion = Factory(name='http connexion',
 
 
 topology_spanning_mtg = Factory(name='spanning_mtg',
-                authors='C. Pradal and Long Qinqin (wralea authors)',
+                authors='Long Qinqin and C. Pradal (wralea authors)',
                 description='get MTG object from RootedGraph object.',
                 category='codec',
                 nodemodule='openalea.groalea.topology',
@@ -157,7 +159,7 @@ topology_spanning_mtg = Factory(name='spanning_mtg',
 
 
 graphio_produceXEGfile = Factory(name='produceXEGfile',
-                authors='C. Pradal and Long Qinqin (wralea authors)',
+                authors='Long Qinqin and C. Pradal (wralea authors)',
                 description='produce .xeg file taking string of xeg object as content.',
                 category='codec',
                 nodemodule='openalea.groalea.graphio',
@@ -172,7 +174,7 @@ graphio_produceXEGfile = Factory(name='produceXEGfile',
 
 
 graphio_produceMTGContentfile = Factory(name='produceMTGContentfile',
-                authors='C. Pradal and Long Qinqin (wralea authors)',
+                authors='Long Qinqin and C. Pradal (wralea authors)',
                 description='produce text file taking the content of mtg object as its content.',
                 category='codec',
                 nodemodule='openalea.groalea.graphio',
@@ -186,7 +188,7 @@ graphio_produceMTGContentfile = Factory(name='produceMTGContentfile',
 
 
 graphio_produceMTGDisplayfile = Factory(name='produceMTGDisplayfile',
-                authors='C. Pradal and Long Qinqin (wralea authors)',
+                authors='Long Qinqin and C. Pradal (wralea authors)',
                 description='produce text file taking the display of mtg object as its content.',
                 category='codec',
                 nodemodule='openalea.groalea.graphio',
@@ -199,4 +201,16 @@ graphio_produceMTGDisplayfile = Factory(name='produceMTGDisplayfile',
 
 
 
+
+graphio_xeg2MtgAndScene = Factory(name='xeg2MtgAndScene',
+                authors='Long Qinqin',
+                description='convert a xml string, i.e. an XEG data file, to a MTG object and a Scene object.',
+                category='codec',
+                nodemodule='openalea.groalea.graphio',
+                nodeclass='xeg2MtgAndScene',
+                inputs=({'name': 'xeg_graph', 'desc': 'a xml string - XEG data file.'},),
+                outputs=({'name': 'mtg', 'desc': 'OpenAlea MTG object.'}, {'name': 'scene', 'desc': 'OpenAlea PlantGL scene object.'}),
+                widgetmodule=None,
+                widgetclass=None,
+               )
 
