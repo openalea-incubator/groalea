@@ -24,6 +24,7 @@ url = ''
 
 license = 'GPL'
 
+pkgs = ['openalea', 'openalea.groalea', 'openalea.groalea.example']
 # Main setup
 setup(
     name="groalea",
@@ -35,14 +36,14 @@ setup(
     url=url,
     license=license,
 
-    namespace_packages=["openalea"],
-    create_namespaces=True,
+    #namespace_packages=["openalea"],
+    #create_namespaces=True,
 
     py_modules=[],
     # pure python  packages
-    packages=[pkg_name],
+    packages=pkgs,
     # python packages directory
-    package_dir={pkg_name: 'groalea'},
+    package_dir={'openalea': 'openalea'},
 
     include_package_data=True,
     package_data={'': ['*.png']},

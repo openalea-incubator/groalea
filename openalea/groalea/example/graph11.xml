@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<graph xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <type name="Boid">
+    <extends name="Sphere"/>
+  </type>
+
+  <node id="2" name="C1" type="Cylinder">
+    <property name="height" value="1"/>
+    <property name="radius" value="0.2" />
+  </node>
+  <node id="10" name="C2" type="Cylinder">
+    <property name="height" value="1"/>
+    <property name="radius" value="0.2" />
+  </node>
+  <node id="3" name="C3" type="Cylinder">
+    <property name="height" value="1"/>
+    <property name="radius" value="0.2" />
+  </node>
+  <node id="4" name="S4" type="Boid">
+    <property name="radius" value="0.2" />
+  </node>
+  <node id="7" name="T7" type="node">
+    	<property name="transform">
+            <matrix>
+			1 0 0 0
+			0 1 0 0
+			0 0 1 1
+			0 0 0 1    	
+    	    </matrix>
+        </property>
+  </node>
+  <node id="5" name="C5" type="Cylinder">
+    <property name="height" value="1"/>
+    <property name="radius" value="0.2" />
+    <property name="color"><rgb>0.1 0.9 0.2</rgb></property>
+  </node>
+  <node id="6" name="C6" type="Cylinder">
+    <property name="height" value="1"/>
+    <property name="radius" value="0.2" />
+  </node>
+  <node id="8" name="T8" type="node">
+    <property name="transform">
+    	<matrix>
+			1 0 0 0
+			0 0.866 0.5 0
+			0 -0.5 0.866 0
+			0 0 0 1    	
+    	</matrix>
+    </property>
+  </node>
+  <node id="9" name="T9" type="node">
+    <property name="transform">
+    	<matrix>
+			1 0 0 0
+			0 0.866 -0.5 0
+			0 0.5 0.866 0
+			0 0 0 1    	
+    	</matrix>
+    </property>
+  </node>
+  <root root_id="1"/>
+  <edge id="1" src_id="1" dest_id="2" type="successor" />
+  <edge id="2" src_id="10" dest_id="3" type="successor" />
+  <edge id="3" src_id="3" dest_id="7" type="successor" />
+  <edge id="6" src_id="7" dest_id="4" type="successor" />
+  <edge id="4" src_id="2" dest_id="8" type="branch" />
+  <edge id="5" src_id="2" dest_id="9" type="branch" />
+  <edge id="7" src_id="8" dest_id="5" type="successor" />
+  <edge id="8" src_id="9" dest_id="6" type="successor" />
+  <edge id="9" src_id="2" dest_id="10" type="successor" />
+</graph>

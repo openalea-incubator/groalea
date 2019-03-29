@@ -18,7 +18,7 @@ from openalea.groalea.topology import spanning_mtg
 
 scenes = []
 for filename in (sti_fn, st_fn):
-    graph, scene = xmlFile2graph(filename, True)
+    graph, scene = xmlFile2graph(filename, onlyTopology=False)
     xeg_graph = getSceneXEG(graph)
     _g, scene = xml2graph(xeg_graph)
     scenes.append(scene)

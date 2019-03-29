@@ -1,0 +1,54 @@
+<graph>
+  <root root_id="0"/>
+
+  <edge id="1" src_id="0" dest_id="1" type="decomposition"/>
+  <edge id="2" src_id="0" dest_id="2" type="decomposition"/>
+  <edge id="3" src_id="0" dest_id="3" type="decomposition"/>
+  <edge id="4" src_id="1" dest_id="11" type="decomposition"/>
+  <edge id="5" src_id="2" dest_id="21" type="decomposition"/>
+  <edge id="6" src_id="2" dest_id="22" type="decomposition"/>
+  <edge id="7" src_id="3" dest_id="31" type="decomposition"/>
+  <edge id="8" src_id="3" dest_id="32" type="decomposition"/>
+
+  <edge id="9" src_id="21" dest_id="22" type="successor"/>
+  <edge id="10" src_id="31" dest_id="32" type="successor"/>
+
+  <node id="1" name="" type="MtgVertex"/>
+  <node id="2" name="" type="MtgVertex"/>
+  <node id="3" name="" type="MtgVertex"/>
+
+  <node id="11" name="" type="Sphere">
+    <property name="radius" value="0.5"/>
+    <property name="color">
+      <rgb>1.0 0.0 0.0</rgb>
+    </property>
+  </node>
+
+  <node id="21" name="" type="Translate">
+    <property name="translateX" value="2.0"/>
+    <property name="translateY" value="0.0"/>
+    <property name="translateZ" value="0.0"/>
+  </node>
+
+  <node id="22" name="" type="Sphere">
+    <property name="radius" value="0.5"/>
+    <property name="color">
+      <rgb>1.0 0.0 0.0</rgb>
+    </property>
+  </node>
+
+  <node id="31" name="" type="Translate">
+    <property name="translateX" value="4.0"/>
+    <property name="translateY" value="0.0"/>
+    <property name="translateZ" value="0.0"/>
+  </node>
+
+  <node id="32" name="" type="Sphere">
+    <property name="radius" value="0.5"/>
+    <property name="color">
+      <rgb>1.0 0.0 0.0</rgb>
+    </property>
+  </node>
+
+
+</graph>
