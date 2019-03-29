@@ -12,7 +12,7 @@ from path import Path
 import time
 
 data_dir = Path('../../share/interface-example/')
-sti_fn, sti_fs_fn, st_fn = data_dir.glob('*.xeg')
+sti_fn, sti_fs_fn, st_fn, _, _ = data_dir.glob('*.xeg')
 
 from openalea.groalea.topology import spanning_mtg
 

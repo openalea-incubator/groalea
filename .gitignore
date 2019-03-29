@@ -65,3 +65,6 @@ nosetests.xml
 
 # Notebook
 .ipynb_checkpoints
+
+# Mac
+.DS_Store
