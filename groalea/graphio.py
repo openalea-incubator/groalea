@@ -48,7 +48,7 @@ from pprint import pprint
 Vector3 = pgl.Vector3
 Vector4 = pgl.Vector4
 Color4Array = pgl.Color4Array
-
+msidShapeidDic = None
 
 
 class Parser(object):
@@ -1077,7 +1077,7 @@ class Parser(object):
                 shape = pgl.Shape(transform4(matrix, shape), pgl.Material(color))
             else:
                 shape = pgl.Shape(transform4(matrix, shape))
-            shape.id = vid
+            shape.id = self._getShapeid(vid)
             final_geometry[vid] = shape
 
         if color:
@@ -1373,6 +1373,9 @@ def getSceneRootedGraph(rootedgraph):
     """
     
     g = rootedgraph
+    
+    # store the mapping between MTG vertex and shape id in scene
+    storeMsidShapeidDic(g)
 
     # to allow resulting single scale XEG have "transform" as node's property
     # transform need to be put as paramters of nodes in rootedgraph
@@ -1465,8 +1468,24 @@ def getSceneXEG(rootedgraph):
 
     return single_scale_xeg
 
+    	
+def storeMsidShapeidDic(rootedgraph):
+    """
+    store the mapping between MTG vertex (super id of metamer: msid) and shape in scene (orignal "id")
+    """
+    global msidShapeidDic
 
+    g = rootedgraph
+    prodic = g.vertex_property('parameters')
 
+    msidShapeidDic = {}
+    for sid in prodic.keys():
+        try:
+            if prodic.get(sid)['id']:
+                shapeid = prodic.get(sid)['id']
+                msidShapeidDic[sid] = shapeid
+        except KeyError:
+            pass   
 
 
 def getMTGRootedGraph(rootedgraph):
