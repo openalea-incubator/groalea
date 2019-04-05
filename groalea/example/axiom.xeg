@@ -1,6 +1,5 @@
 <graph>
-  <node id="1" type="Axiom">
-  </node>
+  <node id="1" type="Axiom"/>
   <root root_id="0"/>
   <edge id="1" src_id="0" dest_id="1" type="successor"/>
 </graph>

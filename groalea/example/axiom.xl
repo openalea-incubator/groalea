@@ -1,11 +1,11 @@
-module A extends Sphere(0.1)
+module A(float len) extends Sphere(0.1)
 {
 	{setShader(GREEN);}
 }
 
+
 public void run ()
 [
-	Axiom ==> A;
-	A ==> F [RU(30)RH(30) A] RU(-30)RH(30) A;
+	Axiom ==> [A(1)] [Translate(4,0,0) A(1)] [Translate(-4,0,0) A(1)];
+	A(x) ==> F(x) [RU(30) RH(90) A(x*0.8)] [RU(-30) RH(90) A(x*0.8)];
 ]
-
