@@ -60,7 +60,8 @@ def xeg2mtg(xeg_fn, plot=False):
 
     g.properties()['geometry']= geoms
 
-    pconvert(g, float)
+    convert_props(g, float, float_names)
+    convert_props(g, int, int_names)
 
     # Visu
     light = g.property('interceptedLightAmount')
@@ -78,22 +79,22 @@ def xeg2mtg(xeg_fn, plot=False):
 
     return g
 
+float_names = ['interceptedLightAmount',
+         'star_pgl',
+         'ta_pgl',
+         'leaf_area',
+         'YY',
+         'XX',
+         'radius',
+         'ZZ',
+         'sa_pgl',
+         'length',
+         'fruit',
+         'TopDia']
+int_names = ['id', 'unit_id', 'lstring_id', 'branch_id']
 
-
-def pconvert(g, _type):
-    names = ['interceptedLightAmount',
-             'star_pgl',
-             'ta_pgl',
-             'leaf_area',
-             'YY',
-             'XX',
-             'radius',
-             'ZZ',
-             'sa_pgl',
-             'length',
-             'fruit',
-             'TopDia']
-
+def convert_props(g, _type, pnames):
+    names = pnames
     properties = g.properties()
     for pname in names:
         if pname not in properties:
@@ -148,24 +149,42 @@ def mtg2xeg(g, scene, xeg_fn):
     rooted_graph = mpt_MtgAndScene2rootedgraph(g, scene)
     xml_g = graph2xml(rooted_graph)
 
-    name, ext = xeg_fn.splitext()
-    if '_' in name:
-        l=name.split('_')
-        if l[-1].isdigit():
-            num = int(l[-1])+1
-            l[-1] = str(num)
-            name = ('_').join(l)
-        else:
-            l.append('1')
-            name =('_').join(l)
+    dname = xeg_fn.dirname()
+    name = xeg_fn.namebase
+    ext = xeg_fn.ext
+
+    files = Path('result').glob('%s_*.xeg'%name)
+    def num(fn):
+        name = fn.namebase
+        _id=name.split('_')[-1]
+        return int(_id)
+
+    l = name.split('_')
+    if files:
+        new_id = max(num(f) for f in fn)
+
+        l[-1] = str(new_id+1)
+        name = ('_').join(l)
     else:
         name = name + '_1'
-    fn = name+ext
+
+
+    fn = dname/'result'/name+ext
     produceXEGfile(xml_g, fn)
+
     return fn
 
-if __name__ == '__main__':
-    g = xeg2mtg(f4)
+def run(fn):
+    g = xeg2mtg(fn)
     fruit_growth(g)
     scene = extract_scene(g)
-    f41 = mtg2xeg(f4)
+    del g.properties()['geometry']
+    fn1 = mtg2xeg(g, scene, fn)
+    return g, scene
+
+if __name__ == '__main__':
+    #g = xeg2mtg(f4)
+    #fruit_growth(g)
+    #scene = extract_scene(g)
+    #f41 = mtg2xeg(g, scene, f4)
+    pass
