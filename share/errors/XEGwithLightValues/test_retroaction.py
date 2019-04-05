@@ -161,7 +161,7 @@ def mtg2xeg(g, scene, xeg_fn):
 
     l = name.split('_')
     if files:
-        new_id = max(num(f) for f in fn)
+        new_id = max(num(f) for f in files)
 
         l[-1] = str(new_id+1)
         name = ('_').join(l)
