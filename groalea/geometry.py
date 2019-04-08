@@ -301,10 +301,48 @@ def is_matrix(shape):
     return type(shape) == pgl.Matrix4
 
 
+
 def transform4(matrix, shape):
     """
     Return a shape transformed by a Matrix4.
     """
+    if matrix == None:
+        matrix = pgl.Matrix4()
+    scale, (a, e, r), translation = matrix.getTransformation2()
+
+
+    if type(shape) is pgl.Cylinder and matrix != pgl.Matrix4():
+        #print "scale for cylinder is :", scale
+        #print "scale.xyz = ", scale.x, scale.y, scale.z
+        if round(scale.x, 1) == 1.0 and round(scale.y, 1) == 1.0 and round(scale.z, 1) == 1.0:
+            shape = pgl.Translated(translation,
+				                   pgl.EulerRotated(a, e, r,
+				                                     shape))
+        else:
+            raise Exception,"Invalid transformation for cylinder!"
+
+    elif type(shape) is pgl.Sphere:
+        shape = pgl.Translated(translation,
+                               pgl.EulerRotated(a, e, r,
+		                                        pgl.Scaled(scale,
+		                                                   shape)))
+    elif type(shape) is pgl.BezierPatch:
+        scale1 = pgl.Vector3(1,1,1)
+        shape = pgl.Translated(translation,
+		                       pgl.EulerRotated(a, e, r,
+		                                  	    pgl.Scaled(scale,
+													       pgl.Scaled(scale1,
+		                                                              shape))))
+		
+    return shape
+
+
+
+def old_transform4(matrix, shape):
+    """
+    Return a shape transformed by a Matrix4.
+    """
+
     if matrix == None:
         matrix = pgl.Matrix4()
     scale, (a, e, r), translation = matrix.getTransformation2()
