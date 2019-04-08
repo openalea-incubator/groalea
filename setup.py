@@ -35,8 +35,8 @@ setup(
     url=url,
     license=license,
 
-    namespace_packages=["openalea"],
-    create_namespaces=True,
+    #namespace_packages=["openalea"],
+    #create_namespaces=True,
 
     py_modules=[],
     # pure python  packages
