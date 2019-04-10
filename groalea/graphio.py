@@ -895,6 +895,36 @@ class Parser(object):
             return None, None
 
     def scenegraph(self, rg=None):
+
+        def storeShapelist(final_geometry):
+            """
+            store the shape in the order of the sid number, which corresponds to
+            metamer toplogy applied in mappletConverter to convert MTG+Scene to XEG
+            """
+            vid_set = set()
+            for sid in final_geometry.keys():
+                vid_set.add(sid/10**offset)
+    
+            
+            vid_sid_dic = {}
+            for vid in vid_set:
+                sidspvid = []
+                for sid in final_geometry.keys():
+                    if sid/10**offset == vid:
+                        sidspvid.append(sid)
+                vid_sid_dic[vid]=sidspvid
+
+            shapess=[]
+            for sidspvid in vid_sid_dic.values():
+                sidspvid.sort()
+                shapes = []
+                for sid in sidspvid:
+                    shapes.append(final_geometry[sid])
+                shapess.append(pgl.Scene(shapes))
+
+            return shapess
+  
+
         # traverse the graph
         if rg != None:
             self._graph = rg
@@ -915,7 +945,13 @@ class Parser(object):
         transfos = [pgl.Matrix4()]
 
         self.traverse2(g.root)
-        self._scene.merge(pgl.Scene(final_geometry.values()))
+
+
+        shapesc_list = storeShapelist(final_geometry)
+        #self._scene.merge(pgl.Scene(final_geometry.values()))
+        self._scene = pgl.Scene(shapesc_list)
+
+        
         #self._scene.save("/home/groimp/temps/try_st_id1.bgeom")
         return self._scene
 
@@ -1071,6 +1107,7 @@ class Parser(object):
         final_geometry = g.vertex_property("final_geometry")
         shape = geometry.get(vid)
         edge_type = g.edge_property("edge_type")
+
 
         if shape:
             if color:
@@ -1289,6 +1326,7 @@ def xml2graph(xml_graph, onlyTopology=False):
     parser = Parser()
     g, scene = parser.parse(f, onlyTopology)
     f.close()
+
     return g, scene
 
 
@@ -1417,8 +1455,11 @@ def getSceneXEG(rootedgraph):
     """
     delete the scales from MTG and connet graph root to roots in geometric scale
     """
-
+    from pprint import pprint 
+    
     g = rootedgraph
+
+    #pprint(vars(g))    
 
     # store the mapping between MTG vertex and shape id in scene
     storeMsidShapeidDic(g)
@@ -1434,7 +1475,8 @@ def getSceneXEG(rootedgraph):
 
     #get roots of the geometric scale/finest scale
     mtg_mpt = spanning_mtg(g)
-    roots = mtg_mpt.roots(mtg_mpt.max_scale())
+    maxscale = mtg_mpt.max_scale()
+    roots = mtg_mpt.roots(maxscale)
 
     #delete the scales from MTG
     sids = g._vertices.keys()

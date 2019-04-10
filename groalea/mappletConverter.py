@@ -47,6 +47,7 @@ def inputs_pre(mtg_object, scene_object=None):
     ms_vlist = mtg.vertices(max_scale)
 
     if scene_object == None:
+        print "scene is none!!!"
         metamerlist = []
     else:
         scene = scene_object
@@ -113,9 +114,15 @@ def addEdge(esrc, edest, etype, rootedgraph):
 
 def setVetexProperties(vid, sid, rootedgraph):
 
-    # set name
-    label = mtg.label(vid)
-    rootedgraph.vertex_property("name")[sid] = label #+ "." + str(sid)
+    try:
+        # set name
+        label = mtg[vid]["label"]
+        rootedgraph.vertex_property("name")[sid] = label #+ "." + str(sid)
+    except KeyError:
+        #pass
+        label = " " #mtg[vid]["name"]
+        rootedgraph.vertex_property("name")[sid] = label #+ "." + str(sid)
+
 
     # set type
     class_name = mtg.class_name(vid)
@@ -201,7 +208,8 @@ def func_metamer_convert(vid, metamerlist, ve2pdic, rootedgraph):
         #break
     metamer = getmetamer(vid, metamerlist)
     parentvid = mtg.parent(vid)
-    #print "vid, parentvid", vid, parentvid
+
+
     if parentvid == None:
         parentmetamer = None
     else:
@@ -216,8 +224,14 @@ def func_metamer_convert(vid, metamerlist, ve2pdic, rootedgraph):
 
 
 def getmetamer(vid, metamerlist):
-    metamer_id = int(Feature(vid, "id"))
+
+    property_dic = mtg.get_vertex_property(vid)
+    metamer_id = property_dic['id']
+    if type(metamer_id) is str:
+        metamer_id = int(metamer_id)
+    #metamer_id = Feature(vid, "id")
     metamer = metamerlist[metamer_id]
+
     return metamer
 
 
@@ -390,6 +404,16 @@ def addStructure4SubMetamerLevel(shape_geo_pro, geo_list_index, trans_geo_list, 
             localm = Matrix4(templist[0], templist[1], templist[2], templist[3])
             #mlst = localm.data()
             #lmstr = serializeList2string(mlst)
+            para = {'transform':localm}
+            trans_type = "ShadedNull"
+
+        elif type(trans_geo_list[i]) is EulerRotated:
+
+            temp_composite_localmatrix.A[0,3] = temp_composite_localmatrix.A[1,3] = temp_composite_localmatrix.A[2,3] = 0
+            templist = temp_composite_localmatrix.transpose().tolist()
+            localm = Matrix4(templist[0], templist[1], templist[2], templist[3])
+            mlst = localm.data()
+            lmstr = serializeList2string(mlst)
             para = {'transform':localm}
             trans_type = "ShadedNull"
 
