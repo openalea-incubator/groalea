@@ -1,0 +1,37 @@
+<graph>
+
+  <type name="A">
+  	<extends name="B"/>
+  	<property name="abc" type="String"/>
+  </type>
+  
+  <type name="B">
+  	<extends name="sphere"/>
+  	<property name="xyz" type="float"/>
+  </type>
+  
+  <node id="2" type="sphere" name="s1">
+    <property name="radius" value="1.23"/>
+    <property name="transform">
+      <matrix>
+    		1 0 0 2
+    		0 1 0 3
+    		0 0 1 4
+    		0 0 0 1
+    	</matrix>
+    </property>
+    <property name="color"><rgb>0.1 0.9 0.2</rgb></property>
+  </node>
+  <node id="3" type="A" name="b1">
+  	<property name="xyz" value="2.34"/>
+  	<property name="abc" value="hanswurst"/>
+    <property name="color"><rgb>0.9 0.3 0.6</rgb></property>
+  	<property name="radius" value="2.111"/>
+  </node>
+  
+  <root root_id="1"/>
+  
+  <edge id="1" src_id="1" dest_id="2" type="successor"/>
+  <edge id="2" src_id="2" dest_id="3" type="branch"/>
+  
+</graph>

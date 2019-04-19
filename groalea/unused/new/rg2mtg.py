@@ -1,42 +1,44 @@
-# -*- coding: utf-8 -*-
-# -*- python -*-
-#
-#       Topological algorithms for computing the MTG from the GroIMP graph.
-#
-#       groalea: GroIMP / OpenAlea Communication framework
-#
-#       Copyright 2015 Goettingen University - CIRAD - INRIA
-#
-#       File author(s): Christophe Pradal
-#
-#       File contributor(s):
-#
-#       Distributed under the Cecill-C License.
-#       See accompanying file LICENSE.txt or copy at
-#           http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
-#
-#       OpenAlea WebSite : http://openalea.gforge.inria.fr
-#
-###############################################################################
+from copy import deepcopy
 
-"""
-
-"""
-from openalea.core.graph.property_graph import PropertyGraph
 from openalea.container.traversal.graph import breadth_first_search
 from openalea.mtg import MTG, fat_mtg, traversal
 
 
-class RootedGraph(PropertyGraph):
-    """ A general graph with a root vertex. """
+#####################################################################################
+#TODO: create a class for mtg creating from adjusted rootedgraph
 
-    def _set_root(self, root):
-        self._root = root
+def adjustmentToMtg(rg):
+    """
+    delete sub-metamer scale and set the sid of each remained node to original vid
+    """
+    rootedgraph = deepcopy(rg)
+    sids = rootedgraph._vertices.keys()
+    # for error caused by that root has no name property
+    sids.remove(rootedgraph.root)
+    for sid in sids:
+        if rootedgraph.vertex_property("name")[sid].split(".")[0] == "SM":
+            rootedgraph.remove_vertex(sid)
 
-    def _get_root(self):
-        return self._root
+    # set the sid of each remained node to original vid
+    mtg_sids = rootedgraph._vertices.keys()
+    mtg_sids_edgedic = rootedgraph._edges
+    for mtg_sid in mtg_sids:
+        mtg_vid = mtg_sid/ 10**2
+        # for error caused by root == 0
+        if mtg_vid != mtg_sid:
+            rootedgraph._vertices[mtg_vid] = rootedgraph._vertices[mtg_sid]
+            del rootedgraph._vertices[mtg_sid]
 
-    root = property(_get_root, _set_root)
+    # set also the edge (for source and destination vetex) sid to vid
+    for mtg_eid in mtg_sids_edgedic.keys():
+        srcsid = mtg_sids_edgedic[mtg_eid][0]
+        dstsid = mtg_sids_edgedic[mtg_eid][1]
+        mtg_sids_edgedic[mtg_eid] = (srcsid/10**2, dstsid/10**2)
+
+    return rootedgraph
+
+
+#######################################################################################
 
 
 def spanning_mtg(graph):
@@ -258,6 +260,4 @@ def _complex_and_components(g, mtg):
 def _vertex_properties(g, mtg):
     vp = g._vertex_property
     mtg.properties().update(vp)
-
-
 
