@@ -904,8 +904,8 @@ class Parser(object):
             vid_set = set()
             for sid in final_geometry.keys():
                 vid_set.add(sid/10**offset)
-    
-            
+
+
             vid_sid_dic = {}
             for vid in vid_set:
                 sidspvid = []
@@ -923,7 +923,7 @@ class Parser(object):
                 shapess.append(pgl.Scene(shapes))
 
             return shapess
-  
+
 
         # traverse the graph
         if rg != None:
@@ -951,7 +951,7 @@ class Parser(object):
         #self._scene.merge(pgl.Scene(final_geometry.values()))
         self._scene = pgl.Scene(shapesc_list)
 
-        
+
         #self._scene.save("/home/groimp/temps/try_st_id1.bgeom")
         return self._scene
 
@@ -1455,11 +1455,11 @@ def getSceneXEG(rootedgraph):
     """
     delete the scales from MTG and connet graph root to roots in geometric scale
     """
-    from pprint import pprint 
-    
+    from pprint import pprint
+
     g = rootedgraph
 
-    #pprint(vars(g))    
+    #pprint(vars(g))
 
     # store the mapping between MTG vertex and shape id in scene
     storeMsidShapeidDic(g)
@@ -1568,8 +1568,10 @@ def getMTGRootedGraph(rootedgraph):
 
 
     # set also the parameters sid to vid
-    for skey in rootedgraph.vertex_property("parameters").keys():
-        nkey = skey/ 10**offset
+    temp_skeys = rootedgraph.vertex_property("parameters").keys()
+    mtg_skeys = sorted(temp_skeys, key=int)
+    for skey in mtg_skeys:
+        nkey = skey / (10**offset)
         if nkey != skey:
             rootedgraph.vertex_property("parameters")[nkey] = rootedgraph.vertex_property("parameters")[skey]
             del rootedgraph.vertex_property("parameters")[skey]
