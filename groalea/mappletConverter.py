@@ -225,22 +225,12 @@ def func_metamer_convert(vid, metamerlist, ve2pdic, rootedgraph):
 
 def getmetamer(vid, metamerlist):
 
-
     property_dic = mtg.get_vertex_property(vid)
-    try: 
-        metamer_id = property_dic['id']
-    except KeyError:
-        print "keyError happened during getting metamer id, when vid = ", vid
-        print "property_dic === ", property_dic 
-
-    if vid == 801:
-        print "when vid is 801, metamer id is : ", metamer_id
-
+    metamer_id = property_dic['id']
     if type(metamer_id) is str:
         metamer_id = int(metamer_id)
     #metamer_id = Feature(vid, "id")
     metamer = metamerlist[metamer_id]
-
 
     return metamer
 

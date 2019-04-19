@@ -1570,6 +1570,7 @@ def getMTGRootedGraph(rootedgraph):
     # set also the parameters sid to vid
     temp_skeys = rootedgraph.vertex_property("parameters").keys()
     mtg_skeys = sorted(temp_skeys, key=int)
+
     for skey in mtg_skeys:
         nkey = skey/ 10**offset
         if nkey != skey:
@@ -1598,9 +1599,8 @@ def getMTGRootedGraph(rootedgraph):
     rootedgraph.remove_vertex_property("parameters")
 
     #resumeVidFromSid(rootedgraph)
-    import time
-    produceMTGContentfile(rootedgraph, "/home/long/Temps/st_rootedgraph_content"+time.ctime()+".txt")
-	
+    #produceMTGContentfile(rootedgraph, "/home/groimp/temps/st_rootedgraph_content.txt")
+
     return rootedgraph
 
 

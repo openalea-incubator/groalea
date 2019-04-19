@@ -1,0 +1,4941 @@
+<graph>
+	<root root_id="0">
+	</root>
+	<node id="4100" name="" type="MtgVertex">
+	<property name="YY" value="-0.0371">
+	</property>
+	<property name="radius" value="0.0008">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="58">
+	</property>
+	<property name="branch_id" value="3">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="small">
+	</property>
+	<property name="unit_id" value="3">
+	</property>
+	<property name="TopDia" value="1.5852">
+	</property>
+	<property name="interceptedLightAmount" value="0.129788446392">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.012">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2743">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="58">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="large">
+	</property>
+	<property name="leaf_area" value="0.0007">
+	</property>
+	<property name="length" value="0.0041">
+	</property>
+	<property name="photosynthesis" value="2.27708077971">
+	</property>
+	<property name="light_per_surface" value="106.611938108">
+	</property>
+	</node>
+	<node id="4101" name="" type="">
+	</node>
+	<node id="4102" name="" type="">
+	</node>
+	<node id="4103" name="" type="">
+	</node>
+	<node id="4104" name="" type="">
+	</node>
+	<node id="4105" name="" type="">
+	</node>
+	<node id="4106" name="" type="">
+	</node>
+	<node id="4107" name="" type="">
+	</node>
+	<node id="4108" name="" type="">
+	</node>
+	<node id="4109" name="" type="">
+	</node>
+	<node id="4110" name="" type="">
+	</node>
+	<node id="4111" name="" type="">
+	</node>
+	<node id="4112" name="" type="">
+	</node>
+	<node id="2100" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0012">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="26">
+	</property>
+	<property name="branch_id" value="2">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="2">
+	</property>
+	<property name="TopDia" value="2.4704">
+	</property>
+	<property name="interceptedLightAmount" value="0.00428005040176">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0098">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.1908">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="26">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="medium">
+	</property>
+	<property name="leaf_area" value="0.0011">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="-0.649771232298">
+	</property>
+	<property name="light_per_surface" value="2.23729907365">
+	</property>
+	</node>
+	<node id="2101" name="" type="">
+	</node>
+	<node id="2102" name="" type="">
+	</node>
+	<node id="2103" name="" type="">
+	</node>
+	<node id="2104" name="" type="">
+	</node>
+	<node id="2105" name="" type="">
+	</node>
+	<node id="2106" name="" type="">
+	</node>
+	<node id="2107" name="" type="">
+	</node>
+	<node id="2108" name="" type="">
+	</node>
+	<node id="2109" name="" type="">
+	</node>
+	<node id="2110" name="" type="">
+	</node>
+	<node id="2111" name="" type="">
+	</node>
+	<node id="2112" name="" type="">
+	</node>
+	<node id="4504" name="" type="">
+	</node>
+	<node id="100" name="" type="MtgVertex">
+	<property name="interceptedLightAmount" value="0.0">
+	</property>
+	<property name="observation" value="0.0">
+	</property>
+	<property name="YY" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="ZZ" value="0.0">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="TopDia" value="5.6906">
+	</property>
+	<property name="id" value="0">
+	</property>
+	</node>
+	<node id="4200" name="" type="MtgVertex">
+	<property name="YY" value="-0.0385">
+	</property>
+	<property name="radius" value="0.0006">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="59">
+	</property>
+	<property name="branch_id" value="3">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="small">
+	</property>
+	<property name="unit_id" value="3">
+	</property>
+	<property name="TopDia" value="1.2">
+	</property>
+	<property name="interceptedLightAmount" value="0.000543505786716">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0125">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2757">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="59">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="large">
+	</property>
+	<property name="leaf_area" value="0.0002">
+	</property>
+	<property name="length" value="0.0021">
+	</property>
+	<property name="photosynthesis" value="-0.672953624877">
+	</property>
+	<property name="light_per_surface" value="1.56257913681">
+	</property>
+	</node>
+	<node id="4201" name="" type="">
+	</node>
+	<node id="4202" name="" type="">
+	</node>
+	<node id="4203" name="" type="">
+	</node>
+	<node id="4204" name="" type="">
+	</node>
+	<node id="4205" name="" type="">
+	</node>
+	<node id="4206" name="" type="">
+	</node>
+	<node id="4207" name="" type="">
+	</node>
+	<node id="4208" name="" type="">
+	</node>
+	<node id="4209" name="" type="">
+	</node>
+	<node id="4210" name="" type="">
+	</node>
+	<node id="4211" name="" type="">
+	</node>
+	<node id="4212" name="" type="">
+	</node>
+	<node id="4505" name="" type="">
+	</node>
+	<node id="4800" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0013">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="71">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="2.6217">
+	</property>
+	<property name="interceptedLightAmount" value="0.196500326933">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.3258">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="71">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0029">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="0.518333936912">
+	</property>
+	<property name="light_per_surface" value="38.9612717195">
+	</property>
+	</node>
+	<node id="4801" name="" type="">
+	</node>
+	<node id="4802" name="" type="">
+	</node>
+	<node id="4803" name="" type="">
+	</node>
+	<node id="2200" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0011">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="27">
+	</property>
+	<property name="branch_id" value="2">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="2">
+	</property>
+	<property name="TopDia" value="2.2971">
+	</property>
+	<property name="interceptedLightAmount" value="0.0109264216434">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.013">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.194">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="27">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="medium">
+	</property>
+	<property name="leaf_area" value="0.0015">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="-0.583107503451">
+	</property>
+	<property name="light_per_surface" value="4.18846162996">
+	</property>
+	</node>
+	<node id="2201" name="" type="">
+	</node>
+	<node id="2202" name="" type="">
+	</node>
+	<node id="2203" name="" type="">
+	</node>
+	<node id="2204" name="" type="">
+	</node>
+	<node id="2205" name="" type="">
+	</node>
+	<node id="2206" name="" type="">
+	</node>
+	<node id="2207" name="" type="">
+	</node>
+	<node id="2208" name="" type="">
+	</node>
+	<node id="2209" name="" type="">
+	</node>
+	<node id="2210" name="" type="">
+	</node>
+	<node id="2211" name="" type="">
+	</node>
+	<node id="2212" name="" type="">
+	</node>
+	<node id="4806" name="" type="">
+	</node>
+	<node id="4807" name="" type="">
+	</node>
+	<node id="4808" name="" type="">
+	</node>
+	<node id="200" name="" type="MtgVertex">
+	<property name="interceptedLightAmount" value="0.0">
+	</property>
+	<property name="YY" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="ZZ" value="0.0">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="TopDia" value="5.6906">
+	</property>
+	<property name="id" value="1">
+	</property>
+	</node>
+	<node id="4300" name="" type="MtgVertex">
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="interceptedLightAmount" value="0.0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="TopDia" value="1.2">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="observation" value="large">
+	</property>
+	<property name="zone" value="small">
+	</property>
+	<property name="branch_id" value="3">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="leaf_area" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="unit_id" value="3">
+	</property>
+	<property name="YY" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="radius" value="0.0006">
+	</property>
+	<property name="ZZ" value="0.0">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="length" value="0.0001">
+	</property>
+	<property name="lstring_id" value="64">
+	</property>
+	<property name="id" value="64">
+	</property>
+	</node>
+	<node id="4301" name="" type="">
+	</node>
+	<node id="4302" name="" type="">
+	</node>
+	<node id="4303" name="" type="">
+	</node>
+	<node id="4304" name="" type="">
+	</node>
+	<node id="5500" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0006">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="78">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="1.2">
+	</property>
+	<property name="interceptedLightAmount" value="0.0416323133611">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.4125">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="78">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0001">
+	</property>
+	<property name="length" value="0.0021">
+	</property>
+	<property name="photosynthesis" value="4.74639636415">
+	</property>
+	<property name="light_per_surface" value="239.385801826">
+	</property>
+	</node>
+	<node id="5501" name="" type="">
+	</node>
+	<node id="5502" name="" type="">
+	</node>
+	<node id="5503" name="" type="">
+	</node>
+	<node id="2300" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0011">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="28">
+	</property>
+	<property name="branch_id" value="2">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_end">
+	</property>
+	<property name="unit_id" value="2">
+	</property>
+	<property name="TopDia" value="2.1018">
+	</property>
+	<property name="interceptedLightAmount" value="0.0962892847297">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0163">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.1973">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="28">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="medium">
+	</property>
+	<property name="leaf_area" value="0.0018">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="0.272457192223">
+	</property>
+	<property name="light_per_surface" value="30.7590770664">
+	</property>
+	</node>
+	<node id="2301" name="" type="">
+	</node>
+	<node id="2302" name="" type="">
+	</node>
+	<node id="2303" name="" type="">
+	</node>
+	<node id="2304" name="" type="">
+	</node>
+	<node id="2305" name="" type="">
+	</node>
+	<node id="2306" name="" type="">
+	</node>
+	<node id="2307" name="" type="">
+	</node>
+	<node id="2308" name="" type="">
+	</node>
+	<node id="2309" name="" type="">
+	</node>
+	<node id="2310" name="" type="">
+	</node>
+	<node id="2311" name="" type="">
+	</node>
+	<node id="2312" name="" type="">
+	</node>
+	<node id="5506" name="" type="">
+	</node>
+	<node id="5507" name="" type="">
+	</node>
+	<node id="5508" name="" type="">
+	</node>
+	<node id="300" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0028">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="2">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="5.6906">
+	</property>
+	<property name="interceptedLightAmount" value="0.0126646641983">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.0181">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="2">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0004">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="-0.120033986261">
+	</property>
+	<property name="light_per_surface" value="18.205454785">
+	</property>
+	</node>
+	<node id="301" name="" type="">
+	</node>
+	<node id="302" name="" type="">
+	</node>
+	<node id="303" name="" type="">
+	</node>
+	<node id="4400" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0016">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="67">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="3.1435">
+	</property>
+	<property name="interceptedLightAmount" value="0.728234198114">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2534">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="67">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0029">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="3.08926335042">
+	</property>
+	<property name="light_per_surface" value="144.391263419">
+	</property>
+	</node>
+	<node id="305" name="" type="">
+	</node>
+	<node id="306" name="" type="">
+	</node>
+	<node id="307" name="" type="">
+	</node>
+	<node id="308" name="" type="">
+	</node>
+	<node id="309" name="" type="">
+	</node>
+	<node id="310" name="" type="">
+	</node>
+	<node id="311" name="" type="">
+	</node>
+	<node id="312" name="" type="">
+	</node>
+	<node id="4409" name="" type="">
+	</node>
+	<node id="4410" name="" type="">
+	</node>
+	<node id="4411" name="" type="">
+	</node>
+	<node id="4412" name="" type="">
+	</node>
+	<node id="2400" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0009">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="29">
+	</property>
+	<property name="branch_id" value="2">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_end">
+	</property>
+	<property name="unit_id" value="2">
+	</property>
+	<property name="TopDia" value="1.8748">
+	</property>
+	<property name="interceptedLightAmount" value="0.00391644954128">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0195">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2005">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="29">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="medium">
+	</property>
+	<property name="leaf_area" value="0.0022">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="-0.691519810182">
+	</property>
+	<property name="light_per_surface" value="1.02361749374">
+	</property>
+	</node>
+	<node id="2401" name="" type="">
+	</node>
+	<node id="2402" name="" type="">
+	</node>
+	<node id="2403" name="" type="">
+	</node>
+	<node id="2404" name="" type="">
+	</node>
+	<node id="2405" name="" type="">
+	</node>
+	<node id="2406" name="" type="">
+	</node>
+	<node id="2407" name="" type="">
+	</node>
+	<node id="2408" name="" type="">
+	</node>
+	<node id="2409" name="" type="">
+	</node>
+	<node id="2410" name="" type="">
+	</node>
+	<node id="2411" name="" type="">
+	</node>
+	<node id="2412" name="" type="">
+	</node>
+	<node id="404" name="" type="">
+	</node>
+	<node id="4501" name="" type="">
+	</node>
+	<node id="4502" name="" type="">
+	</node>
+	<node id="4503" name="" type="">
+	</node>
+	<node id="400" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0028">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="3">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="5.6429">
+	</property>
+	<property name="interceptedLightAmount" value="0.266293979235">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.0362">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="3">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0007">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="4.4254395672">
+	</property>
+	<property name="light_per_surface" value="218.741482943">
+	</property>
+	</node>
+	<node id="401" name="" type="">
+	</node>
+	<node id="402" name="" type="">
+	</node>
+	<node id="403" name="" type="">
+	</node>
+	<node id="4500" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0015">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="68">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="3.0254">
+	</property>
+	<property name="interceptedLightAmount" value="0.609090790461">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2715">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="68">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0029">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="2.59368657191">
+	</property>
+	<property name="light_per_surface" value="120.768001557">
+	</property>
+	</node>
+	<node id="405" name="" type="">
+	</node>
+	<node id="406" name="" type="">
+	</node>
+	<node id="407" name="" type="">
+	</node>
+	<node id="408" name="" type="">
+	</node>
+	<node id="409" name="" type="">
+	</node>
+	<node id="410" name="" type="">
+	</node>
+	<node id="411" name="" type="">
+	</node>
+	<node id="412" name="" type="">
+	</node>
+	<node id="4506" name="" type="">
+	</node>
+	<node id="4510" name="" type="">
+	</node>
+	<node id="4511" name="" type="">
+	</node>
+	<node id="4512" name="" type="">
+	</node>
+	<node id="4507" name="" type="">
+	</node>
+	<node id="4508" name="" type="">
+	</node>
+	<node id="4509" name="" type="">
+	</node>
+	<node id="2500" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0008">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="30">
+	</property>
+	<property name="branch_id" value="2">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_end">
+	</property>
+	<property name="unit_id" value="2">
+	</property>
+	<property name="TopDia" value="1.597">
+	</property>
+	<property name="interceptedLightAmount" value="0.094895950897">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0228">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2038">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="30">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="medium">
+	</property>
+	<property name="leaf_area" value="0.0025">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="-0.00475678159245">
+	</property>
+	<property name="light_per_surface" value="21.8260687063">
+	</property>
+	</node>
+	<node id="2501" name="" type="">
+	</node>
+	<node id="2502" name="" type="">
+	</node>
+	<node id="2503" name="" type="">
+	</node>
+	<node id="2504" name="" type="">
+	</node>
+	<node id="2505" name="" type="">
+	</node>
+	<node id="2506" name="" type="">
+	</node>
+	<node id="2507" name="" type="">
+	</node>
+	<node id="2508" name="" type="">
+	</node>
+	<node id="2509" name="" type="">
+	</node>
+	<node id="2510" name="" type="">
+	</node>
+	<node id="2511" name="" type="">
+	</node>
+	<node id="2512" name="" type="">
+	</node>
+	<node id="5404" name="" type="">
+	</node>
+	<node id="1104" name="" type="">
+	</node>
+	<node id="5201" name="" type="">
+	</node>
+	<node id="5202" name="" type="">
+	</node>
+	<node id="5203" name="" type="">
+	</node>
+	<node id="500" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0028">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="4">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="5.5946">
+	</property>
+	<property name="interceptedLightAmount" value="0.000689204567226">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.0543">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="4">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0011">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="-0.714430050785">
+	</property>
+	<property name="light_per_surface" value="0.360266023777">
+	</property>
+	</node>
+	<node id="501" name="" type="">
+	</node>
+	<node id="502" name="" type="">
+	</node>
+	<node id="503" name="" type="">
+	</node>
+	<node id="4600" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0015">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="69">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="2.9001">
+	</property>
+	<property name="interceptedLightAmount" value="0.161287702563">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2896">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="69">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0029">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="0.30955466065">
+	</property>
+	<property name="light_per_surface" value="31.9794582667">
+	</property>
+	</node>
+	<node id="505" name="" type="">
+	</node>
+	<node id="506" name="" type="">
+	</node>
+	<node id="507" name="" type="">
+	</node>
+	<node id="508" name="" type="">
+	</node>
+	<node id="509" name="" type="">
+	</node>
+	<node id="510" name="" type="">
+	</node>
+	<node id="511" name="" type="">
+	</node>
+	<node id="512" name="" type="">
+	</node>
+	<node id="4609" name="" type="">
+	</node>
+	<node id="4610" name="" type="">
+	</node>
+	<node id="4611" name="" type="">
+	</node>
+	<node id="4612" name="" type="">
+	</node>
+	<node id="5206" name="" type="">
+	</node>
+	<node id="5207" name="" type="">
+	</node>
+	<node id="5208" name="" type="">
+	</node>
+	<node id="5405" name="" type="">
+	</node>
+	<node id="2600" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0006">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="31">
+	</property>
+	<property name="branch_id" value="2">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_end">
+	</property>
+	<property name="unit_id" value="2">
+	</property>
+	<property name="TopDia" value="1.2177">
+	</property>
+	<property name="interceptedLightAmount" value="0.00752210437387">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.026">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.207">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="31">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="medium">
+	</property>
+	<property name="leaf_area" value="0.0029">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="-0.67540136797">
+	</property>
+	<property name="light_per_surface" value="1.4914517293">
+	</property>
+	</node>
+	<node id="2601" name="" type="">
+	</node>
+	<node id="2602" name="" type="">
+	</node>
+	<node id="2603" name="" type="">
+	</node>
+	<node id="2604" name="" type="">
+	</node>
+	<node id="2605" name="" type="">
+	</node>
+	<node id="2606" name="" type="">
+	</node>
+	<node id="2607" name="" type="">
+	</node>
+	<node id="2608" name="" type="">
+	</node>
+	<node id="2609" name="" type="">
+	</node>
+	<node id="2610" name="" type="">
+	</node>
+	<node id="2611" name="" type="">
+	</node>
+	<node id="2612" name="" type="">
+	</node>
+	<node id="600" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0028">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="5">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="5.5457">
+	</property>
+	<property name="interceptedLightAmount" value="0.519115318622">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.0724">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="5">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0015">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="4.09974704875">
+	</property>
+	<property name="light_per_surface" value="198.994205472">
+	</property>
+	</node>
+	<node id="601" name="" type="">
+	</node>
+	<node id="602" name="" type="">
+	</node>
+	<node id="603" name="" type="">
+	</node>
+	<node id="604" name="" type="">
+	</node>
+	<node id="605" name="" type="">
+	</node>
+	<node id="606" name="" type="">
+	</node>
+	<node id="607" name="" type="">
+	</node>
+	<node id="608" name="" type="">
+	</node>
+	<node id="609" name="" type="">
+	</node>
+	<node id="610" name="" type="">
+	</node>
+	<node id="611" name="" type="">
+	</node>
+	<node id="612" name="" type="">
+	</node>
+	<node id="4709" name="" type="">
+	</node>
+	<node id="4710" name="" type="">
+	</node>
+	<node id="4711" name="" type="">
+	</node>
+	<node id="4712" name="" type="">
+	</node>
+	<node id="5204" name="" type="">
+	</node>
+	<node id="2700" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0022">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="34">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="4.4406">
+	</property>
+	<property name="interceptedLightAmount" value="0.105581880543">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.1991">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="34">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0029">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="-0.0329891872592">
+	</property>
+	<property name="light_per_surface" value="20.9343383835">
+	</property>
+	</node>
+	<node id="2701" name="" type="">
+	</node>
+	<node id="2702" name="" type="">
+	</node>
+	<node id="2703" name="" type="">
+	</node>
+	<node id="2704" name="" type="">
+	</node>
+	<node id="2705" name="" type="">
+	</node>
+	<node id="2706" name="" type="">
+	</node>
+	<node id="2707" name="" type="">
+	</node>
+	<node id="2708" name="" type="">
+	</node>
+	<node id="2709" name="" type="">
+	</node>
+	<node id="2710" name="" type="">
+	</node>
+	<node id="2711" name="" type="">
+	</node>
+	<node id="2712" name="" type="">
+	</node>
+	<node id="5205" name="" type="">
+	</node>
+	<node id="700" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0027">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="6">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="5.4961">
+	</property>
+	<property name="interceptedLightAmount" value="0.194805129688">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.0905">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="6">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0018">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="1.17419024949">
+	</property>
+	<property name="light_per_surface" value="62.229416428">
+	</property>
+	</node>
+	<node id="701" name="" type="">
+	</node>
+	<node id="702" name="" type="">
+	</node>
+	<node id="703" name="" type="">
+	</node>
+	<node id="704" name="" type="">
+	</node>
+	<node id="705" name="" type="">
+	</node>
+	<node id="706" name="" type="">
+	</node>
+	<node id="707" name="" type="">
+	</node>
+	<node id="708" name="" type="">
+	</node>
+	<node id="709" name="" type="">
+	</node>
+	<node id="710" name="" type="">
+	</node>
+	<node id="711" name="" type="">
+	</node>
+	<node id="712" name="" type="">
+	</node>
+	<node id="4809" name="" type="">
+	</node>
+	<node id="4810" name="" type="">
+	</node>
+	<node id="4811" name="" type="">
+	</node>
+	<node id="4812" name="" type="">
+	</node>
+	<node id="4900" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0012">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="72">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="2.4643">
+	</property>
+	<property name="interceptedLightAmount" value="1.15626960133">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.3439">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="72">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0029">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="4.59136206218">
+	</property>
+	<property name="light_per_surface" value="229.260351988">
+	</property>
+	</node>
+	<node id="4901" name="" type="">
+	</node>
+	<node id="4902" name="" type="">
+	</node>
+	<node id="4903" name="" type="">
+	</node>
+	<node id="2800" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0022">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="35">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="4.3712">
+	</property>
+	<property name="interceptedLightAmount" value="1.10948338712">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2172">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="35">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0029">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="4.44530069379">
+	</property>
+	<property name="light_per_surface" value="219.983775032">
+	</property>
+	</node>
+	<node id="2801" name="" type="">
+	</node>
+	<node id="2802" name="" type="">
+	</node>
+	<node id="2803" name="" type="">
+	</node>
+	<node id="2804" name="" type="">
+	</node>
+	<node id="2805" name="" type="">
+	</node>
+	<node id="2806" name="" type="">
+	</node>
+	<node id="2807" name="" type="">
+	</node>
+	<node id="2808" name="" type="">
+	</node>
+	<node id="2809" name="" type="">
+	</node>
+	<node id="2810" name="" type="">
+	</node>
+	<node id="2811" name="" type="">
+	</node>
+	<node id="2812" name="" type="">
+	</node>
+	<node id="4906" name="" type="">
+	</node>
+	<node id="4907" name="" type="">
+	</node>
+	<node id="4908" name="" type="">
+	</node>
+	<node id="5004" name="" type="">
+	</node>
+	<node id="800" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0027">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="7">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="5.4458">
+	</property>
+	<property name="interceptedLightAmount" value="0.0660632384702">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.1086">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="7">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0022">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="-0.150211356799">
+	</property>
+	<property name="light_per_surface" value="17.2665282365">
+	</property>
+	</node>
+	<node id="801" name="" type="">
+	</node>
+	<node id="802" name="" type="">
+	</node>
+	<node id="803" name="" type="">
+	</node>
+	<node id="804" name="" type="">
+	</node>
+	<node id="805" name="" type="">
+	</node>
+	<node id="806" name="" type="">
+	</node>
+	<node id="807" name="" type="">
+	</node>
+	<node id="808" name="" type="">
+	</node>
+	<node id="809" name="" type="">
+	</node>
+	<node id="810" name="" type="">
+	</node>
+	<node id="811" name="" type="">
+	</node>
+	<node id="812" name="" type="">
+	</node>
+	<node id="4909" name="" type="">
+	</node>
+	<node id="4910" name="" type="">
+	</node>
+	<node id="4911" name="" type="">
+	</node>
+	<node id="4912" name="" type="">
+	</node>
+	<node id="2900" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0022">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="36">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="4.3001">
+	</property>
+	<property name="interceptedLightAmount" value="0.013050253154">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2353">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="36">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0029">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="-0.637763506488">
+	</property>
+	<property name="light_per_surface" value="2.58755019433">
+	</property>
+	</node>
+	<node id="2901" name="" type="">
+	</node>
+	<node id="2902" name="" type="">
+	</node>
+	<node id="2903" name="" type="">
+	</node>
+	<node id="2904" name="" type="">
+	</node>
+	<node id="2905" name="" type="">
+	</node>
+	<node id="2906" name="" type="">
+	</node>
+	<node id="2907" name="" type="">
+	</node>
+	<node id="2908" name="" type="">
+	</node>
+	<node id="2909" name="" type="">
+	</node>
+	<node id="2910" name="" type="">
+	</node>
+	<node id="2911" name="" type="">
+	</node>
+	<node id="2912" name="" type="">
+	</node>
+	<node id="900" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0027">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="8">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="5.3949">
+	</property>
+	<property name="interceptedLightAmount" value="0.935824465917">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.1267">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="8">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0025">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="4.36906311481">
+	</property>
+	<property name="light_per_surface" value="215.239627161">
+	</property>
+	</node>
+	<node id="901" name="" type="">
+	</node>
+	<node id="902" name="" type="">
+	</node>
+	<node id="903" name="" type="">
+	</node>
+	<node id="904" name="" type="">
+	</node>
+	<node id="905" name="" type="">
+	</node>
+	<node id="906" name="" type="">
+	</node>
+	<node id="907" name="" type="">
+	</node>
+	<node id="908" name="" type="">
+	</node>
+	<node id="909" name="" type="">
+	</node>
+	<node id="910" name="" type="">
+	</node>
+	<node id="911" name="" type="">
+	</node>
+	<node id="912" name="" type="">
+	</node>
+	<node id="5009" name="" type="">
+	</node>
+	<node id="5010" name="" type="">
+	</node>
+	<node id="5011" name="" type="">
+	</node>
+	<node id="4804" name="" type="">
+	</node>
+	<node id="4805" name="" type="">
+	</node>
+	<node id="3000" name="" type="MtgVertex">
+	<property name="interceptedLightAmount" value="0.0">
+	</property>
+	<property name="id" value="39">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	</node>
+	<node id="504" name="" type="">
+	</node>
+	<node id="4601" name="" type="">
+	</node>
+	<node id="4602" name="" type="">
+	</node>
+	<node id="5304" name="" type="">
+	</node>
+	<node id="4603" name="" type="">
+	</node>
+	<node id="1000" name="" type="MtgVertex">
+	<property name="interceptedLightAmount" value="0.0">
+	</property>
+	<property name="id" value="11">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	</node>
+	<node id="4604" name="" type="">
+	</node>
+	<node id="5100" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.001">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="74">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="2.094">
+	</property>
+	<property name="interceptedLightAmount" value="0.924413738799">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.3801">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="74">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0027">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="4.06348408172">
+	</property>
+	<property name="light_per_surface" value="196.865888818">
+	</property>
+	</node>
+	<node id="5101" name="" type="">
+	</node>
+	<node id="5102" name="" type="">
+	</node>
+	<node id="4605" name="" type="">
+	</node>
+	<node id="5104" name="" type="">
+	</node>
+	<node id="5105" name="" type="">
+	</node>
+	<node id="5106" name="" type="">
+	</node>
+	<node id="5107" name="" type="">
+	</node>
+	<node id="5108" name="" type="">
+	</node>
+	<node id="4606" name="" type="">
+	</node>
+	<node id="5110" name="" type="">
+	</node>
+	<node id="5111" name="" type="">
+	</node>
+	<node id="5112" name="" type="">
+	</node>
+	<node id="5012" name="" type="">
+	</node>
+	<node id="4607" name="" type="">
+	</node>
+	<node id="4608" name="" type="">
+	</node>
+	<node id="3100" name="" type="MtgVertex">
+	<property name="YY" value="-0.0031">
+	</property>
+	<property name="radius" value="0.0016">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="40">
+	</property>
+	<property name="branch_id" value="3">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="3">
+	</property>
+	<property name="TopDia" value="3.2553">
+	</property>
+	<property name="interceptedLightAmount" value="0.0028683030507">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.001">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2386">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="40">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="large">
+	</property>
+	<property name="leaf_area" value="0.0004">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="-0.585328763644">
+	</property>
+	<property name="light_per_surface" value="4.12318563539">
+	</property>
+	</node>
+	<node id="3101" name="" type="">
+	</node>
+	<node id="3102" name="" type="">
+	</node>
+	<node id="3103" name="" type="">
+	</node>
+	<node id="3104" name="" type="">
+	</node>
+	<node id="3105" name="" type="">
+	</node>
+	<node id="3106" name="" type="">
+	</node>
+	<node id="3107" name="" type="">
+	</node>
+	<node id="3108" name="" type="">
+	</node>
+	<node id="3109" name="" type="">
+	</node>
+	<node id="3110" name="" type="">
+	</node>
+	<node id="3111" name="" type="">
+	</node>
+	<node id="3112" name="" type="">
+	</node>
+	<node id="5300" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0008">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="76">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="1.5852">
+	</property>
+	<property name="interceptedLightAmount" value="0.412668750926">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.4043">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="76">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0011">
+	</property>
+	<property name="length" value="0.0101">
+	</property>
+	<property name="photosynthesis" value="4.37672127536">
+	</property>
+	<property name="light_per_surface" value="215.713210711">
+	</property>
+	</node>
+	<node id="5301" name="" type="">
+	</node>
+	<node id="5302" name="" type="">
+	</node>
+	<node id="4704" name="" type="">
+	</node>
+	<node id="1100" name="" type="MtgVertex">
+	<property name="YY" value="0.0031">
+	</property>
+	<property name="radius" value="0.0011">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="12">
+	</property>
+	<property name="branch_id" value="1">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="1">
+	</property>
+	<property name="TopDia" value="2.1309">
+	</property>
+	<property name="interceptedLightAmount" value="0.0395721062073">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.001">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.13">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="12">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="small">
+	</property>
+	<property name="leaf_area" value="0.0004">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="1.02872103979">
+	</property>
+	<property name="light_per_surface" value="56.8849026729">
+	</property>
+	</node>
+	<node id="1101" name="" type="">
+	</node>
+	<node id="1102" name="" type="">
+	</node>
+	<node id="1103" name="" type="">
+	</node>
+	<node id="5200" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0009">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="75">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="1.8655">
+	</property>
+	<property name="interceptedLightAmount" value="0.750119743727">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.3942">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="75">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0019">
+	</property>
+	<property name="length" value="0.0141">
+	</property>
+	<property name="photosynthesis" value="4.55628852359">
+	</property>
+	<property name="light_per_surface" value="227.009922444">
+	</property>
+	</node>
+	<node id="1105" name="" type="">
+	</node>
+	<node id="1106" name="" type="">
+	</node>
+	<node id="1107" name="" type="">
+	</node>
+	<node id="1108" name="" type="">
+	</node>
+	<node id="1109" name="" type="">
+	</node>
+	<node id="1110" name="" type="">
+	</node>
+	<node id="1111" name="" type="">
+	</node>
+	<node id="1112" name="" type="">
+	</node>
+	<node id="5209" name="" type="">
+	</node>
+	<node id="5210" name="" type="">
+	</node>
+	<node id="5211" name="" type="">
+	</node>
+	<node id="5212" name="" type="">
+	</node>
+	<node id="5306" name="" type="">
+	</node>
+	<node id="5307" name="" type="">
+	</node>
+	<node id="5308" name="" type="">
+	</node>
+	<node id="3200" name="" type="MtgVertex">
+	<property name="YY" value="-0.0062">
+	</property>
+	<property name="radius" value="0.0016">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="41">
+	</property>
+	<property name="branch_id" value="3">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="3">
+	</property>
+	<property name="TopDia" value="3.1435">
+	</property>
+	<property name="interceptedLightAmount" value="0.00129680806109">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.002">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2418">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="41">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="large">
+	</property>
+	<property name="leaf_area" value="0.0007">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="-0.690084630418">
+	</property>
+	<property name="light_per_surface" value="1.06523519304">
+	</property>
+	</node>
+	<node id="3201" name="" type="">
+	</node>
+	<node id="3202" name="" type="">
+	</node>
+	<node id="3203" name="" type="">
+	</node>
+	<node id="3204" name="" type="">
+	</node>
+	<node id="3205" name="" type="">
+	</node>
+	<node id="3206" name="" type="">
+	</node>
+	<node id="3207" name="" type="">
+	</node>
+	<node id="3208" name="" type="">
+	</node>
+	<node id="3209" name="" type="">
+	</node>
+	<node id="3210" name="" type="">
+	</node>
+	<node id="3211" name="" type="">
+	</node>
+	<node id="3212" name="" type="">
+	</node>
+	<node id="1200" name="" type="MtgVertex">
+	<property name="YY" value="0.0062">
+	</property>
+	<property name="radius" value="0.001">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="13">
+	</property>
+	<property name="branch_id" value="1">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="1">
+	</property>
+	<property name="TopDia" value="1.9092">
+	</property>
+	<property name="interceptedLightAmount" value="0.0402937171874">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.002">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.1332">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="13">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="small">
+	</property>
+	<property name="leaf_area" value="0.0007">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="0.343409047018">
+	</property>
+	<property name="light_per_surface" value="33.0984105468">
+	</property>
+	</node>
+	<node id="1201" name="" type="">
+	</node>
+	<node id="1202" name="" type="">
+	</node>
+	<node id="1203" name="" type="">
+	</node>
+	<node id="1204" name="" type="">
+	</node>
+	<node id="1205" name="" type="">
+	</node>
+	<node id="1206" name="" type="">
+	</node>
+	<node id="1207" name="" type="">
+	</node>
+	<node id="1208" name="" type="">
+	</node>
+	<node id="1209" name="" type="">
+	</node>
+	<node id="1210" name="" type="">
+	</node>
+	<node id="1211" name="" type="">
+	</node>
+	<node id="1212" name="" type="">
+	</node>
+	<node id="5309" name="" type="">
+	</node>
+	<node id="5310" name="" type="">
+	</node>
+	<node id="5311" name="" type="">
+	</node>
+	<node id="5312" name="" type="">
+	</node>
+	<node id="4405" name="" type="">
+	</node>
+	<node id="4406" name="" type="">
+	</node>
+	<node id="3300" name="" type="MtgVertex">
+	<property name="YY" value="-0.0093">
+	</property>
+	<property name="radius" value="0.0015">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="42">
+	</property>
+	<property name="branch_id" value="3">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="3">
+	</property>
+	<property name="TopDia" value="3.0254">
+	</property>
+	<property name="interceptedLightAmount" value="0.000534578788998">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.003">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2451">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="42">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="large">
+	</property>
+	<property name="leaf_area" value="0.0011">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="-0.717226052317">
+	</property>
+	<property name="light_per_surface" value="0.279438912431">
+	</property>
+	</node>
+	<node id="3301" name="" type="">
+	</node>
+	<node id="3302" name="" type="">
+	</node>
+	<node id="3303" name="" type="">
+	</node>
+	<node id="3304" name="" type="">
+	</node>
+	<node id="3305" name="" type="">
+	</node>
+	<node id="3306" name="" type="">
+	</node>
+	<node id="3307" name="" type="">
+	</node>
+	<node id="3308" name="" type="">
+	</node>
+	<node id="3309" name="" type="">
+	</node>
+	<node id="3310" name="" type="">
+	</node>
+	<node id="3311" name="" type="">
+	</node>
+	<node id="3312" name="" type="">
+	</node>
+	<node id="1300" name="" type="MtgVertex">
+	<property name="YY" value="0.0093">
+	</property>
+	<property name="radius" value="0.0008">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="14">
+	</property>
+	<property name="branch_id" value="1">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="1">
+	</property>
+	<property name="TopDia" value="1.6404">
+	</property>
+	<property name="interceptedLightAmount" value="0.168042157641">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.003">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.1365">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="14">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="small">
+	</property>
+	<property name="leaf_area" value="0.0011">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="1.83222819955">
+	</property>
+	<property name="light_per_surface" value="87.8402187671">
+	</property>
+	</node>
+	<node id="1301" name="" type="">
+	</node>
+	<node id="1302" name="" type="">
+	</node>
+	<node id="1303" name="" type="">
+	</node>
+	<node id="1304" name="" type="">
+	</node>
+	<node id="1305" name="" type="">
+	</node>
+	<node id="1306" name="" type="">
+	</node>
+	<node id="1307" name="" type="">
+	</node>
+	<node id="1308" name="" type="">
+	</node>
+	<node id="1309" name="" type="">
+	</node>
+	<node id="1310" name="" type="">
+	</node>
+	<node id="1311" name="" type="">
+	</node>
+	<node id="1312" name="" type="">
+	</node>
+	<node id="5409" name="" type="">
+	</node>
+	<node id="5410" name="" type="">
+	</node>
+	<node id="5411" name="" type="">
+	</node>
+	<node id="5412" name="" type="">
+	</node>
+	<node id="4905" name="" type="">
+	</node>
+	<node id="5000" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0011">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="73">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="2.2903">
+	</property>
+	<property name="interceptedLightAmount" value="0.815733440338">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.362">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="73">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0029">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="3.4294150472">
+	</property>
+	<property name="light_per_surface" value="161.740251102">
+	</property>
+	</node>
+	<node id="5001" name="" type="">
+	</node>
+	<node id="5002" name="" type="">
+	</node>
+	<node id="5003" name="" type="">
+	</node>
+	<node id="3400" name="" type="MtgVertex">
+	<property name="YY" value="-0.0124">
+	</property>
+	<property name="radius" value="0.0015">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="43">
+	</property>
+	<property name="branch_id" value="3">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="3">
+	</property>
+	<property name="TopDia" value="2.9001">
+	</property>
+	<property name="interceptedLightAmount" value="0.150497069528">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.004">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2483">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="43">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="large">
+	</property>
+	<property name="leaf_area" value="0.0015">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="1.05083980151">
+	</property>
+	<property name="light_per_surface" value="57.6905433191">
+	</property>
+	</node>
+	<node id="3401" name="" type="">
+	</node>
+	<node id="3402" name="" type="">
+	</node>
+	<node id="3403" name="" type="">
+	</node>
+	<node id="3404" name="" type="">
+	</node>
+	<node id="3405" name="" type="">
+	</node>
+	<node id="3406" name="" type="">
+	</node>
+	<node id="3407" name="" type="">
+	</node>
+	<node id="3408" name="" type="">
+	</node>
+	<node id="3409" name="" type="">
+	</node>
+	<node id="3410" name="" type="">
+	</node>
+	<node id="3411" name="" type="">
+	</node>
+	<node id="3412" name="" type="">
+	</node>
+	<node id="5006" name="" type="">
+	</node>
+	<node id="5007" name="" type="">
+	</node>
+	<node id="5008" name="" type="">
+	</node>
+	<node id="1400" name="" type="MtgVertex">
+	<property name="YY" value="0.0124">
+	</property>
+	<property name="radius" value="0.0006">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="15">
+	</property>
+	<property name="branch_id" value="1">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="1">
+	</property>
+	<property name="TopDia" value="1.2816">
+	</property>
+	<property name="interceptedLightAmount" value="0.00469707907216">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.004">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.1397">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="15">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="small">
+	</property>
+	<property name="leaf_area" value="0.0015">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="-0.66476974356">
+	</property>
+	<property name="light_per_surface" value="1.80054697766">
+	</property>
+	</node>
+	<node id="1401" name="" type="">
+	</node>
+	<node id="1402" name="" type="">
+	</node>
+	<node id="1403" name="" type="">
+	</node>
+	<node id="1404" name="" type="">
+	</node>
+	<node id="1405" name="" type="">
+	</node>
+	<node id="1406" name="" type="">
+	</node>
+	<node id="1407" name="" type="">
+	</node>
+	<node id="1408" name="" type="">
+	</node>
+	<node id="1409" name="" type="">
+	</node>
+	<node id="1410" name="" type="">
+	</node>
+	<node id="1411" name="" type="">
+	</node>
+	<node id="1412" name="" type="">
+	</node>
+	<node id="5509" name="" type="">
+	</node>
+	<node id="5510" name="" type="">
+	</node>
+	<node id="5511" name="" type="">
+	</node>
+	<node id="5512" name="" type="">
+	</node>
+	<node id="3500" name="" type="MtgVertex">
+	<property name="YY" value="-0.0155">
+	</property>
+	<property name="radius" value="0.0014">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="44">
+	</property>
+	<property name="branch_id" value="3">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="3">
+	</property>
+	<property name="TopDia" value="2.7661">
+	</property>
+	<property name="interceptedLightAmount" value="0.00140495116144">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.005">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2516">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="44">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="large">
+	</property>
+	<property name="leaf_area" value="0.0018">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="-0.711368432543">
+	</property>
+	<property name="light_per_surface" value="0.448803843237">
+	</property>
+	</node>
+	<node id="3501" name="" type="">
+	</node>
+	<node id="3502" name="" type="">
+	</node>
+	<node id="3503" name="" type="">
+	</node>
+	<node id="3504" name="" type="">
+	</node>
+	<node id="3505" name="" type="">
+	</node>
+	<node id="3506" name="" type="">
+	</node>
+	<node id="3507" name="" type="">
+	</node>
+	<node id="3508" name="" type="">
+	</node>
+	<node id="3509" name="" type="">
+	</node>
+	<node id="3510" name="" type="">
+	</node>
+	<node id="3511" name="" type="">
+	</node>
+	<node id="3512" name="" type="">
+	</node>
+	<node id="5505" name="" type="">
+	</node>
+	<node id="1500" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0026">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="18">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="5.1187">
+	</property>
+	<property name="interceptedLightAmount" value="0.0643454044396">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.1448">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="18">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0029">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="-0.296765133473">
+	</property>
+	<property name="light_per_surface" value="12.7581405354">
+	</property>
+	</node>
+	<node id="1501" name="" type="">
+	</node>
+	<node id="1502" name="" type="">
+	</node>
+	<node id="1503" name="" type="">
+	</node>
+	<node id="1504" name="" type="">
+	</node>
+	<node id="1505" name="" type="">
+	</node>
+	<node id="1506" name="" type="">
+	</node>
+	<node id="1507" name="" type="">
+	</node>
+	<node id="1508" name="" type="">
+	</node>
+	<node id="1509" name="" type="">
+	</node>
+	<node id="1510" name="" type="">
+	</node>
+	<node id="1511" name="" type="">
+	</node>
+	<node id="1512" name="" type="">
+	</node>
+	<node id="3600" name="" type="MtgVertex">
+	<property name="YY" value="-0.0186">
+	</property>
+	<property name="radius" value="0.0013">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="45">
+	</property>
+	<property name="branch_id" value="3">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="3">
+	</property>
+	<property name="TopDia" value="2.6217">
+	</property>
+	<property name="interceptedLightAmount" value="0.0417821398699">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.006">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2548">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="45">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="large">
+	</property>
+	<property name="leaf_area" value="0.0022">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="-0.357303614157">
+	</property>
+	<property name="light_per_surface" value="10.9203320115">
+	</property>
+	</node>
+	<node id="3601" name="" type="">
+	</node>
+	<node id="3602" name="" type="">
+	</node>
+	<node id="3603" name="" type="">
+	</node>
+	<node id="3604" name="" type="">
+	</node>
+	<node id="3605" name="" type="">
+	</node>
+	<node id="3606" name="" type="">
+	</node>
+	<node id="3607" name="" type="">
+	</node>
+	<node id="3608" name="" type="">
+	</node>
+	<node id="3609" name="" type="">
+	</node>
+	<node id="3610" name="" type="">
+	</node>
+	<node id="3611" name="" type="">
+	</node>
+	<node id="3612" name="" type="">
+	</node>
+	<node id="5303" name="" type="">
+	</node>
+	<node id="4700" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0014">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="70">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="2.7661">
+	</property>
+	<property name="interceptedLightAmount" value="1.15309474183">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.3077">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="70">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0029">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="4.58157410371">
+	</property>
+	<property name="light_per_surface" value="228.630853984">
+	</property>
+	</node>
+	<node id="4701" name="" type="">
+	</node>
+	<node id="4702" name="" type="">
+	</node>
+	<node id="4703" name="" type="">
+	</node>
+	<node id="1600" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0025">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="19">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="5.0627">
+	</property>
+	<property name="interceptedLightAmount" value="1.04088454557">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.1629">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="19">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0029">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="4.22384267556">
+	</property>
+	<property name="light_per_surface" value="206.382280588">
+	</property>
+	</node>
+	<node id="1601" name="" type="">
+	</node>
+	<node id="1602" name="" type="">
+	</node>
+	<node id="1603" name="" type="">
+	</node>
+	<node id="1604" name="" type="">
+	</node>
+	<node id="1605" name="" type="">
+	</node>
+	<node id="1606" name="" type="">
+	</node>
+	<node id="1607" name="" type="">
+	</node>
+	<node id="1608" name="" type="">
+	</node>
+	<node id="1609" name="" type="">
+	</node>
+	<node id="1610" name="" type="">
+	</node>
+	<node id="1611" name="" type="">
+	</node>
+	<node id="1612" name="" type="">
+	</node>
+	<node id="4706" name="" type="">
+	</node>
+	<node id="4707" name="" type="">
+	</node>
+	<node id="4708" name="" type="">
+	</node>
+	<node id="3700" name="" type="MtgVertex">
+	<property name="YY" value="-0.0217">
+	</property>
+	<property name="radius" value="0.0012">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="46">
+	</property>
+	<property name="branch_id" value="3">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="3">
+	</property>
+	<property name="TopDia" value="2.4643">
+	</property>
+	<property name="interceptedLightAmount" value="0.186395668166">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.007">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2581">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="46">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="large">
+	</property>
+	<property name="leaf_area" value="0.0025">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="0.632739472404">
+	</property>
+	<property name="light_per_surface" value="42.8710036781">
+	</property>
+	</node>
+	<node id="3701" name="" type="">
+	</node>
+	<node id="3702" name="" type="">
+	</node>
+	<node id="3703" name="" type="">
+	</node>
+	<node id="3704" name="" type="">
+	</node>
+	<node id="3705" name="" type="">
+	</node>
+	<node id="3706" name="" type="">
+	</node>
+	<node id="3707" name="" type="">
+	</node>
+	<node id="3708" name="" type="">
+	</node>
+	<node id="3709" name="" type="">
+	</node>
+	<node id="3710" name="" type="">
+	</node>
+	<node id="3711" name="" type="">
+	</node>
+	<node id="3712" name="" type="">
+	</node>
+	<node id="5504" name="" type="">
+	</node>
+	<node id="5400" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0006">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="77">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="1.2">
+	</property>
+	<property name="interceptedLightAmount" value="0.125614260296">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.4104">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="77">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0003">
+	</property>
+	<property name="length" value="0.0061">
+	</property>
+	<property name="photosynthesis" value="4.76710425214">
+	</property>
+	<property name="light_per_surface" value="240.760665567">
+	</property>
+	</node>
+	<node id="5401" name="" type="">
+	</node>
+	<node id="5402" name="" type="">
+	</node>
+	<node id="5403" name="" type="">
+	</node>
+	<node id="1700" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0025">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="20">
+	</property>
+	<property name="branch_id" value="0">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="None">
+	</property>
+	<property name="unit_id" value="0">
+	</property>
+	<property name="TopDia" value="5.0058">
+	</property>
+	<property name="interceptedLightAmount" value="0.620787087981">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.181">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="20">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="trunk">
+	</property>
+	<property name="leaf_area" value="0.0029">
+	</property>
+	<property name="length" value="0.0181">
+	</property>
+	<property name="photosynthesis" value="2.64410038867">
+	</property>
+	<property name="light_per_surface" value="123.087095031">
+	</property>
+	</node>
+	<node id="1701" name="" type="">
+	</node>
+	<node id="1702" name="" type="">
+	</node>
+	<node id="1703" name="" type="">
+	</node>
+	<node id="1704" name="" type="">
+	</node>
+	<node id="1705" name="" type="">
+	</node>
+	<node id="1706" name="" type="">
+	</node>
+	<node id="1707" name="" type="">
+	</node>
+	<node id="1708" name="" type="">
+	</node>
+	<node id="1709" name="" type="">
+	</node>
+	<node id="1710" name="" type="">
+	</node>
+	<node id="1711" name="" type="">
+	</node>
+	<node id="1712" name="" type="">
+	</node>
+	<node id="5406" name="" type="">
+	</node>
+	<node id="5407" name="" type="">
+	</node>
+	<node id="5408" name="" type="">
+	</node>
+	<node id="3800" name="" type="MtgVertex">
+	<property name="YY" value="-0.0247">
+	</property>
+	<property name="radius" value="0.0011">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="47">
+	</property>
+	<property name="branch_id" value="3">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="3">
+	</property>
+	<property name="TopDia" value="2.2903">
+	</property>
+	<property name="interceptedLightAmount" value="0.166954489087">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.008">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2613">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="47">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="large">
+	</property>
+	<property name="leaf_area" value="0.0028">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="0.379152893013">
+	</property>
+	<property name="light_per_surface" value="34.2852968661">
+	</property>
+	</node>
+	<node id="3801" name="" type="">
+	</node>
+	<node id="3802" name="" type="">
+	</node>
+	<node id="3803" name="" type="">
+	</node>
+	<node id="3804" name="" type="">
+	</node>
+	<node id="3805" name="" type="">
+	</node>
+	<node id="3806" name="" type="">
+	</node>
+	<node id="3807" name="" type="">
+	</node>
+	<node id="3808" name="" type="">
+	</node>
+	<node id="3809" name="" type="">
+	</node>
+	<node id="3810" name="" type="">
+	</node>
+	<node id="3811" name="" type="">
+	</node>
+	<node id="3812" name="" type="">
+	</node>
+	<node id="1800" name="" type="MtgVertex">
+	<property name="interceptedLightAmount" value="0.0">
+	</property>
+	<property name="id" value="23">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	</node>
+	<node id="304" name="" type="">
+	</node>
+	<node id="4401" name="" type="">
+	</node>
+	<node id="4402" name="" type="">
+	</node>
+	<node id="4403" name="" type="">
+	</node>
+	<node id="4404" name="" type="">
+	</node>
+	<node id="3900" name="" type="MtgVertex">
+	<property name="YY" value="-0.0302">
+	</property>
+	<property name="radius" value="0.001">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="48">
+	</property>
+	<property name="branch_id" value="3">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="small">
+	</property>
+	<property name="unit_id" value="3">
+	</property>
+	<property name="TopDia" value="2.094">
+	</property>
+	<property name="interceptedLightAmount" value="0.344376900829">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0098">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.267">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="48">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="large">
+	</property>
+	<property name="leaf_area" value="0.0023">
+	</property>
+	<property name="length" value="0.0081">
+	</property>
+	<property name="photosynthesis" value="1.78931050962">
+	</property>
+	<property name="light_per_surface" value="86.0942252071">
+	</property>
+	</node>
+	<node id="3901" name="" type="">
+	</node>
+	<node id="3902" name="" type="">
+	</node>
+	<node id="3903" name="" type="">
+	</node>
+	<node id="3904" name="" type="">
+	</node>
+	<node id="3905" name="" type="">
+	</node>
+	<node id="3906" name="" type="">
+	</node>
+	<node id="3907" name="" type="">
+	</node>
+	<node id="3908" name="" type="">
+	</node>
+	<node id="3909" name="" type="">
+	</node>
+	<node id="3910" name="" type="">
+	</node>
+	<node id="3911" name="" type="">
+	</node>
+	<node id="3912" name="" type="">
+	</node>
+	<node id="4407" name="" type="">
+	</node>
+	<node id="4904" name="" type="">
+	</node>
+	<node id="4408" name="" type="">
+	</node>
+	<node id="1900" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0014">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="24">
+	</property>
+	<property name="branch_id" value="2">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="2">
+	</property>
+	<property name="TopDia" value="2.7713">
+	</property>
+	<property name="interceptedLightAmount" value="0.00492797092637">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0033">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.1843">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="24">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="medium">
+	</property>
+	<property name="leaf_area" value="0.0004">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="-0.485195627353">
+	</property>
+	<property name="light_per_surface" value="7.08395820666">
+	</property>
+	</node>
+	<node id="1901" name="" type="">
+	</node>
+	<node id="1902" name="" type="">
+	</node>
+	<node id="1903" name="" type="">
+	</node>
+	<node id="1904" name="" type="">
+	</node>
+	<node id="1905" name="" type="">
+	</node>
+	<node id="1906" name="" type="">
+	</node>
+	<node id="1907" name="" type="">
+	</node>
+	<node id="1908" name="" type="">
+	</node>
+	<node id="1909" name="" type="">
+	</node>
+	<node id="1910" name="" type="">
+	</node>
+	<node id="1911" name="" type="">
+	</node>
+	<node id="1912" name="" type="">
+	</node>
+	<node id="5103" name="" type="">
+	</node>
+	<node id="4000" name="" type="MtgVertex">
+	<property name="YY" value="-0.0343">
+	</property>
+	<property name="radius" value="0.0009">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="53">
+	</property>
+	<property name="branch_id" value="3">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="small">
+	</property>
+	<property name="unit_id" value="3">
+	</property>
+	<property name="TopDia" value="1.8655">
+	</property>
+	<property name="interceptedLightAmount" value="0.00208528122548">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0111">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.2714">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="53">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="large">
+	</property>
+	<property name="leaf_area" value="0.0015">
+	</property>
+	<property name="length" value="0.0061">
+	</property>
+	<property name="photosynthesis" value="-0.699257786452">
+	</property>
+	<property name="light_per_surface" value="0.799357803101">
+	</property>
+	</node>
+	<node id="4001" name="" type="">
+	</node>
+	<node id="4002" name="" type="">
+	</node>
+	<node id="4003" name="" type="">
+	</node>
+	<node id="4004" name="" type="">
+	</node>
+	<node id="4005" name="" type="">
+	</node>
+	<node id="4006" name="" type="">
+	</node>
+	<node id="4007" name="" type="">
+	</node>
+	<node id="4008" name="" type="">
+	</node>
+	<node id="4009" name="" type="">
+	</node>
+	<node id="4010" name="" type="">
+	</node>
+	<node id="4011" name="" type="">
+	</node>
+	<node id="4012" name="" type="">
+	</node>
+	<node id="5109" name="" type="">
+	</node>
+	<node id="5305" name="" type="">
+	</node>
+	<node id="5005" name="" type="">
+	</node>
+	<node id="2000" name="" type="MtgVertex">
+	<property name="YY" value="0.0">
+	</property>
+	<property name="radius" value="0.0013">
+	</property>
+	<property name="year" value="1994">
+	</property>
+	<property name="id" value="25">
+	</property>
+	<property name="branch_id" value="2">
+	</property>
+	<property name="sa_pgl" value="0.0">
+	</property>
+	<property name="zone" value="dormant_start">
+	</property>
+	<property name="unit_id" value="2">
+	</property>
+	<property name="TopDia" value="2.6273">
+	</property>
+	<property name="interceptedLightAmount" value="0.00502401700006">
+	</property>
+	<property name="star_pgl" value="0.0">
+	</property>
+	<property name="XX" value="0.0065">
+	</property>
+	<property name="fruit" value="0.0">
+	</property>
+	<property name="ZZ" value="0.1875">
+	</property>
+	<property name="ta_pgl" value="0.0">
+	</property>
+	<property name="lstring_id" value="25">
+	</property>
+	<property name="leaf_state" value="growing">
+	</property>
+	<property name="observation" value="medium">
+	</property>
+	<property name="leaf_area" value="0.0007">
+	</property>
+	<property name="length" value="0.0046">
+	</property>
+	<property name="photosynthesis" value="-0.58520333519">
+	</property>
+	<property name="light_per_surface" value="4.12687110719">
+	</property>
+	</node>
+	<node id="2001" name="" type="">
+	</node>
+	<node id="2002" name="" type="">
+	</node>
+	<node id="2003" name="" type="">
+	</node>
+	<node id="2004" name="" type="">
+	</node>
+	<node id="2005" name="" type="">
+	</node>
+	<node id="2006" name="" type="">
+	</node>
+	<node id="2007" name="" type="">
+	</node>
+	<node id="2008" name="" type="">
+	</node>
+	<node id="2009" name="" type="">
+	</node>
+	<node id="2010" name="" type="">
+	</node>
+	<node id="2011" name="" type="">
+	</node>
+	<node id="2012" name="" type="">
+	</node>
+	<node id="4705" name="" type="">
+	</node>
+	<edge dest_id="100" id="1" src_id="0" type="decomposition">
+	</edge>
+	<edge dest_id="200" id="2" src_id="100" type="decomposition">
+	</edge>
+	<edge dest_id="1000" id="3" src_id="100" type="decomposition">
+	</edge>
+	<edge dest_id="1000" id="4" src_id="200" type="branch">
+	</edge>
+	<edge dest_id="1800" id="5" src_id="100" type="decomposition">
+	</edge>
+	<edge dest_id="1800" id="6" src_id="200" type="branch">
+	</edge>
+	<edge dest_id="3000" id="7" src_id="100" type="decomposition">
+	</edge>
+	<edge dest_id="3000" id="8" src_id="200" type="branch">
+	</edge>
+	<edge dest_id="300" id="9" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="400" id="10" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="400" id="11" src_id="300" type="successor">
+	</edge>
+	<edge dest_id="500" id="12" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="500" id="13" src_id="400" type="successor">
+	</edge>
+	<edge dest_id="600" id="14" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="600" id="15" src_id="500" type="successor">
+	</edge>
+	<edge dest_id="700" id="16" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="700" id="17" src_id="600" type="successor">
+	</edge>
+	<edge dest_id="800" id="18" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="800" id="19" src_id="700" type="successor">
+	</edge>
+	<edge dest_id="900" id="20" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="900" id="21" src_id="800" type="successor">
+	</edge>
+	<edge dest_id="1100" id="22" src_id="1000" type="decomposition">
+	</edge>
+	<edge dest_id="1100" id="23" src_id="900" type="branch">
+	</edge>
+	<edge dest_id="1200" id="24" src_id="1000" type="decomposition">
+	</edge>
+	<edge dest_id="1200" id="25" src_id="1100" type="successor">
+	</edge>
+	<edge dest_id="1300" id="26" src_id="1000" type="decomposition">
+	</edge>
+	<edge dest_id="1300" id="27" src_id="1200" type="successor">
+	</edge>
+	<edge dest_id="1400" id="28" src_id="1000" type="decomposition">
+	</edge>
+	<edge dest_id="1400" id="29" src_id="1300" type="successor">
+	</edge>
+	<edge dest_id="1500" id="30" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="1500" id="31" src_id="900" type="successor">
+	</edge>
+	<edge dest_id="1600" id="32" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="1600" id="33" src_id="1500" type="successor">
+	</edge>
+	<edge dest_id="1700" id="34" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="1700" id="35" src_id="1600" type="successor">
+	</edge>
+	<edge dest_id="1900" id="36" src_id="1800" type="decomposition">
+	</edge>
+	<edge dest_id="1900" id="37" src_id="1700" type="branch">
+	</edge>
+	<edge dest_id="2000" id="38" src_id="1800" type="decomposition">
+	</edge>
+	<edge dest_id="2000" id="39" src_id="1900" type="successor">
+	</edge>
+	<edge dest_id="2100" id="40" src_id="1800" type="decomposition">
+	</edge>
+	<edge dest_id="2100" id="41" src_id="2000" type="successor">
+	</edge>
+	<edge dest_id="2200" id="42" src_id="1800" type="decomposition">
+	</edge>
+	<edge dest_id="2200" id="43" src_id="2100" type="successor">
+	</edge>
+	<edge dest_id="2300" id="44" src_id="1800" type="decomposition">
+	</edge>
+	<edge dest_id="2300" id="45" src_id="2200" type="successor">
+	</edge>
+	<edge dest_id="2400" id="46" src_id="1800" type="decomposition">
+	</edge>
+	<edge dest_id="2400" id="47" src_id="2300" type="successor">
+	</edge>
+	<edge dest_id="2500" id="48" src_id="1800" type="decomposition">
+	</edge>
+	<edge dest_id="2500" id="49" src_id="2400" type="successor">
+	</edge>
+	<edge dest_id="2600" id="50" src_id="1800" type="decomposition">
+	</edge>
+	<edge dest_id="2600" id="51" src_id="2500" type="successor">
+	</edge>
+	<edge dest_id="2700" id="52" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="2700" id="53" src_id="1700" type="successor">
+	</edge>
+	<edge dest_id="2800" id="54" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="2800" id="55" src_id="2700" type="successor">
+	</edge>
+	<edge dest_id="2900" id="56" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="2900" id="57" src_id="2800" type="successor">
+	</edge>
+	<edge dest_id="3100" id="58" src_id="3000" type="decomposition">
+	</edge>
+	<edge dest_id="3100" id="59" src_id="2900" type="branch">
+	</edge>
+	<edge dest_id="3200" id="60" src_id="3000" type="decomposition">
+	</edge>
+	<edge dest_id="3200" id="61" src_id="3100" type="successor">
+	</edge>
+	<edge dest_id="3300" id="62" src_id="3000" type="decomposition">
+	</edge>
+	<edge dest_id="3300" id="63" src_id="3200" type="successor">
+	</edge>
+	<edge dest_id="3400" id="64" src_id="3000" type="decomposition">
+	</edge>
+	<edge dest_id="3400" id="65" src_id="3300" type="successor">
+	</edge>
+	<edge dest_id="3500" id="66" src_id="3000" type="decomposition">
+	</edge>
+	<edge dest_id="3500" id="67" src_id="3400" type="successor">
+	</edge>
+	<edge dest_id="3600" id="68" src_id="3000" type="decomposition">
+	</edge>
+	<edge dest_id="3600" id="69" src_id="3500" type="successor">
+	</edge>
+	<edge dest_id="3700" id="70" src_id="3000" type="decomposition">
+	</edge>
+	<edge dest_id="3700" id="71" src_id="3600" type="successor">
+	</edge>
+	<edge dest_id="3800" id="72" src_id="3000" type="decomposition">
+	</edge>
+	<edge dest_id="3800" id="73" src_id="3700" type="successor">
+	</edge>
+	<edge dest_id="3900" id="74" src_id="3000" type="decomposition">
+	</edge>
+	<edge dest_id="3900" id="75" src_id="3800" type="successor">
+	</edge>
+	<edge dest_id="4000" id="76" src_id="3000" type="decomposition">
+	</edge>
+	<edge dest_id="4000" id="77" src_id="3900" type="successor">
+	</edge>
+	<edge dest_id="4100" id="78" src_id="3000" type="decomposition">
+	</edge>
+	<edge dest_id="4100" id="79" src_id="4000" type="successor">
+	</edge>
+	<edge dest_id="4200" id="80" src_id="3000" type="decomposition">
+	</edge>
+	<edge dest_id="4200" id="81" src_id="4100" type="successor">
+	</edge>
+	<edge dest_id="4300" id="82" src_id="3000" type="decomposition">
+	</edge>
+	<edge dest_id="4300" id="83" src_id="4200" type="successor">
+	</edge>
+	<edge dest_id="4400" id="84" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="4400" id="85" src_id="2900" type="successor">
+	</edge>
+	<edge dest_id="4500" id="86" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="4500" id="87" src_id="4400" type="successor">
+	</edge>
+	<edge dest_id="4600" id="88" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="4600" id="89" src_id="4500" type="successor">
+	</edge>
+	<edge dest_id="4700" id="90" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="4700" id="91" src_id="4600" type="successor">
+	</edge>
+	<edge dest_id="4800" id="92" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="4800" id="93" src_id="4700" type="successor">
+	</edge>
+	<edge dest_id="4900" id="94" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="4900" id="95" src_id="4800" type="successor">
+	</edge>
+	<edge dest_id="5000" id="96" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="5000" id="97" src_id="4900" type="successor">
+	</edge>
+	<edge dest_id="5100" id="98" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="5100" id="99" src_id="5000" type="successor">
+	</edge>
+	<edge dest_id="5200" id="100" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="5200" id="101" src_id="5100" type="successor">
+	</edge>
+	<edge dest_id="5300" id="102" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="5300" id="103" src_id="5200" type="successor">
+	</edge>
+	<edge dest_id="5400" id="104" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="5400" id="105" src_id="5300" type="successor">
+	</edge>
+	<edge dest_id="5500" id="106" src_id="200" type="decomposition">
+	</edge>
+	<edge dest_id="5500" id="107" src_id="5400" type="successor">
+	</edge>
+	<edge dest_id="301" id="108" src_id="300" type="decomposition">
+	</edge>
+	<edge dest_id="302" id="109" src_id="300" type="decomposition">
+	</edge>
+	<edge dest_id="303" id="110" src_id="300" type="decomposition">
+	</edge>
+	<edge dest_id="304" id="111" src_id="300" type="decomposition">
+	</edge>
+	<edge dest_id="305" id="112" src_id="300" type="decomposition">
+	</edge>
+	<edge dest_id="306" id="113" src_id="300" type="decomposition">
+	</edge>
+	<edge dest_id="307" id="114" src_id="300" type="decomposition">
+	</edge>
+	<edge dest_id="308" id="115" src_id="300" type="decomposition">
+	</edge>
+	<edge dest_id="309" id="116" src_id="300" type="decomposition">
+	</edge>
+	<edge dest_id="310" id="117" src_id="300" type="decomposition">
+	</edge>
+	<edge dest_id="311" id="118" src_id="300" type="decomposition">
+	</edge>
+	<edge dest_id="312" id="119" src_id="300" type="decomposition">
+	</edge>
+	<edge dest_id="401" id="120" src_id="400" type="decomposition">
+	</edge>
+	<edge dest_id="402" id="121" src_id="400" type="decomposition">
+	</edge>
+	<edge dest_id="403" id="122" src_id="400" type="decomposition">
+	</edge>
+	<edge dest_id="404" id="123" src_id="400" type="decomposition">
+	</edge>
+	<edge dest_id="405" id="124" src_id="400" type="decomposition">
+	</edge>
+	<edge dest_id="406" id="125" src_id="400" type="decomposition">
+	</edge>
+	<edge dest_id="407" id="126" src_id="400" type="decomposition">
+	</edge>
+	<edge dest_id="408" id="127" src_id="400" type="decomposition">
+	</edge>
+	<edge dest_id="409" id="128" src_id="400" type="decomposition">
+	</edge>
+	<edge dest_id="410" id="129" src_id="400" type="decomposition">
+	</edge>
+	<edge dest_id="411" id="130" src_id="400" type="decomposition">
+	</edge>
+	<edge dest_id="412" id="131" src_id="400" type="decomposition">
+	</edge>
+	<edge dest_id="501" id="132" src_id="500" type="decomposition">
+	</edge>
+	<edge dest_id="502" id="133" src_id="500" type="decomposition">
+	</edge>
+	<edge dest_id="503" id="134" src_id="500" type="decomposition">
+	</edge>
+	<edge dest_id="504" id="135" src_id="500" type="decomposition">
+	</edge>
+	<edge dest_id="505" id="136" src_id="500" type="decomposition">
+	</edge>
+	<edge dest_id="506" id="137" src_id="500" type="decomposition">
+	</edge>
+	<edge dest_id="507" id="138" src_id="500" type="decomposition">
+	</edge>
+	<edge dest_id="508" id="139" src_id="500" type="decomposition">
+	</edge>
+	<edge dest_id="509" id="140" src_id="500" type="decomposition">
+	</edge>
+	<edge dest_id="510" id="141" src_id="500" type="decomposition">
+	</edge>
+	<edge dest_id="511" id="142" src_id="500" type="decomposition">
+	</edge>
+	<edge dest_id="512" id="143" src_id="500" type="decomposition">
+	</edge>
+	<edge dest_id="601" id="144" src_id="600" type="decomposition">
+	</edge>
+	<edge dest_id="602" id="145" src_id="600" type="decomposition">
+	</edge>
+	<edge dest_id="603" id="146" src_id="600" type="decomposition">
+	</edge>
+	<edge dest_id="604" id="147" src_id="600" type="decomposition">
+	</edge>
+	<edge dest_id="605" id="148" src_id="600" type="decomposition">
+	</edge>
+	<edge dest_id="606" id="149" src_id="600" type="decomposition">
+	</edge>
+	<edge dest_id="607" id="150" src_id="600" type="decomposition">
+	</edge>
+	<edge dest_id="608" id="151" src_id="600" type="decomposition">
+	</edge>
+	<edge dest_id="609" id="152" src_id="600" type="decomposition">
+	</edge>
+	<edge dest_id="610" id="153" src_id="600" type="decomposition">
+	</edge>
+	<edge dest_id="611" id="154" src_id="600" type="decomposition">
+	</edge>
+	<edge dest_id="612" id="155" src_id="600" type="decomposition">
+	</edge>
+	<edge dest_id="701" id="156" src_id="700" type="decomposition">
+	</edge>
+	<edge dest_id="702" id="157" src_id="700" type="decomposition">
+	</edge>
+	<edge dest_id="703" id="158" src_id="700" type="decomposition">
+	</edge>
+	<edge dest_id="704" id="159" src_id="700" type="decomposition">
+	</edge>
+	<edge dest_id="705" id="160" src_id="700" type="decomposition">
+	</edge>
+	<edge dest_id="706" id="161" src_id="700" type="decomposition">
+	</edge>
+	<edge dest_id="707" id="162" src_id="700" type="decomposition">
+	</edge>
+	<edge dest_id="708" id="163" src_id="700" type="decomposition">
+	</edge>
+	<edge dest_id="709" id="164" src_id="700" type="decomposition">
+	</edge>
+	<edge dest_id="710" id="165" src_id="700" type="decomposition">
+	</edge>
+	<edge dest_id="711" id="166" src_id="700" type="decomposition">
+	</edge>
+	<edge dest_id="712" id="167" src_id="700" type="decomposition">
+	</edge>
+	<edge dest_id="801" id="168" src_id="800" type="decomposition">
+	</edge>
+	<edge dest_id="802" id="169" src_id="800" type="decomposition">
+	</edge>
+	<edge dest_id="803" id="170" src_id="800" type="decomposition">
+	</edge>
+	<edge dest_id="804" id="171" src_id="800" type="decomposition">
+	</edge>
+	<edge dest_id="805" id="172" src_id="800" type="decomposition">
+	</edge>
+	<edge dest_id="806" id="173" src_id="800" type="decomposition">
+	</edge>
+	<edge dest_id="807" id="174" src_id="800" type="decomposition">
+	</edge>
+	<edge dest_id="808" id="175" src_id="800" type="decomposition">
+	</edge>
+	<edge dest_id="809" id="176" src_id="800" type="decomposition">
+	</edge>
+	<edge dest_id="810" id="177" src_id="800" type="decomposition">
+	</edge>
+	<edge dest_id="811" id="178" src_id="800" type="decomposition">
+	</edge>
+	<edge dest_id="812" id="179" src_id="800" type="decomposition">
+	</edge>
+	<edge dest_id="901" id="180" src_id="900" type="decomposition">
+	</edge>
+	<edge dest_id="902" id="181" src_id="900" type="decomposition">
+	</edge>
+	<edge dest_id="903" id="182" src_id="900" type="decomposition">
+	</edge>
+	<edge dest_id="904" id="183" src_id="900" type="decomposition">
+	</edge>
+	<edge dest_id="905" id="184" src_id="900" type="decomposition">
+	</edge>
+	<edge dest_id="906" id="185" src_id="900" type="decomposition">
+	</edge>
+	<edge dest_id="907" id="186" src_id="900" type="decomposition">
+	</edge>
+	<edge dest_id="908" id="187" src_id="900" type="decomposition">
+	</edge>
+	<edge dest_id="909" id="188" src_id="900" type="decomposition">
+	</edge>
+	<edge dest_id="910" id="189" src_id="900" type="decomposition">
+	</edge>
+	<edge dest_id="911" id="190" src_id="900" type="decomposition">
+	</edge>
+	<edge dest_id="912" id="191" src_id="900" type="decomposition">
+	</edge>
+	<edge dest_id="1101" id="192" src_id="1100" type="decomposition">
+	</edge>
+	<edge dest_id="1102" id="193" src_id="1100" type="decomposition">
+	</edge>
+	<edge dest_id="1103" id="194" src_id="1100" type="decomposition">
+	</edge>
+	<edge dest_id="1104" id="195" src_id="1100" type="decomposition">
+	</edge>
+	<edge dest_id="1105" id="196" src_id="1100" type="decomposition">
+	</edge>
+	<edge dest_id="1106" id="197" src_id="1100" type="decomposition">
+	</edge>
+	<edge dest_id="1107" id="198" src_id="1100" type="decomposition">
+	</edge>
+	<edge dest_id="1108" id="199" src_id="1100" type="decomposition">
+	</edge>
+	<edge dest_id="1109" id="200" src_id="1100" type="decomposition">
+	</edge>
+	<edge dest_id="1110" id="201" src_id="1100" type="decomposition">
+	</edge>
+	<edge dest_id="1111" id="202" src_id="1100" type="decomposition">
+	</edge>
+	<edge dest_id="1112" id="203" src_id="1100" type="decomposition">
+	</edge>
+	<edge dest_id="1201" id="204" src_id="1200" type="decomposition">
+	</edge>
+	<edge dest_id="1202" id="205" src_id="1200" type="decomposition">
+	</edge>
+	<edge dest_id="1203" id="206" src_id="1200" type="decomposition">
+	</edge>
+	<edge dest_id="1204" id="207" src_id="1200" type="decomposition">
+	</edge>
+	<edge dest_id="1205" id="208" src_id="1200" type="decomposition">
+	</edge>
+	<edge dest_id="1206" id="209" src_id="1200" type="decomposition">
+	</edge>
+	<edge dest_id="1207" id="210" src_id="1200" type="decomposition">
+	</edge>
+	<edge dest_id="1208" id="211" src_id="1200" type="decomposition">
+	</edge>
+	<edge dest_id="1209" id="212" src_id="1200" type="decomposition">
+	</edge>
+	<edge dest_id="1210" id="213" src_id="1200" type="decomposition">
+	</edge>
+	<edge dest_id="1211" id="214" src_id="1200" type="decomposition">
+	</edge>
+	<edge dest_id="1212" id="215" src_id="1200" type="decomposition">
+	</edge>
+	<edge dest_id="1301" id="216" src_id="1300" type="decomposition">
+	</edge>
+	<edge dest_id="1302" id="217" src_id="1300" type="decomposition">
+	</edge>
+	<edge dest_id="1303" id="218" src_id="1300" type="decomposition">
+	</edge>
+	<edge dest_id="1304" id="219" src_id="1300" type="decomposition">
+	</edge>
+	<edge dest_id="1305" id="220" src_id="1300" type="decomposition">
+	</edge>
+	<edge dest_id="1306" id="221" src_id="1300" type="decomposition">
+	</edge>
+	<edge dest_id="1307" id="222" src_id="1300" type="decomposition">
+	</edge>
+	<edge dest_id="1308" id="223" src_id="1300" type="decomposition">
+	</edge>
+	<edge dest_id="1309" id="224" src_id="1300" type="decomposition">
+	</edge>
+	<edge dest_id="1310" id="225" src_id="1300" type="decomposition">
+	</edge>
+	<edge dest_id="1311" id="226" src_id="1300" type="decomposition">
+	</edge>
+	<edge dest_id="1312" id="227" src_id="1300" type="decomposition">
+	</edge>
+	<edge dest_id="1401" id="228" src_id="1400" type="decomposition">
+	</edge>
+	<edge dest_id="1402" id="229" src_id="1400" type="decomposition">
+	</edge>
+	<edge dest_id="1403" id="230" src_id="1400" type="decomposition">
+	</edge>
+	<edge dest_id="1404" id="231" src_id="1400" type="decomposition">
+	</edge>
+	<edge dest_id="1405" id="232" src_id="1400" type="decomposition">
+	</edge>
+	<edge dest_id="1406" id="233" src_id="1400" type="decomposition">
+	</edge>
+	<edge dest_id="1407" id="234" src_id="1400" type="decomposition">
+	</edge>
+	<edge dest_id="1408" id="235" src_id="1400" type="decomposition">
+	</edge>
+	<edge dest_id="1409" id="236" src_id="1400" type="decomposition">
+	</edge>
+	<edge dest_id="1410" id="237" src_id="1400" type="decomposition">
+	</edge>
+	<edge dest_id="1411" id="238" src_id="1400" type="decomposition">
+	</edge>
+	<edge dest_id="1412" id="239" src_id="1400" type="decomposition">
+	</edge>
+	<edge dest_id="1501" id="240" src_id="1500" type="decomposition">
+	</edge>
+	<edge dest_id="1502" id="241" src_id="1500" type="decomposition">
+	</edge>
+	<edge dest_id="1503" id="242" src_id="1500" type="decomposition">
+	</edge>
+	<edge dest_id="1504" id="243" src_id="1500" type="decomposition">
+	</edge>
+	<edge dest_id="1505" id="244" src_id="1500" type="decomposition">
+	</edge>
+	<edge dest_id="1506" id="245" src_id="1500" type="decomposition">
+	</edge>
+	<edge dest_id="1507" id="246" src_id="1500" type="decomposition">
+	</edge>
+	<edge dest_id="1508" id="247" src_id="1500" type="decomposition">
+	</edge>
+	<edge dest_id="1509" id="248" src_id="1500" type="decomposition">
+	</edge>
+	<edge dest_id="1510" id="249" src_id="1500" type="decomposition">
+	</edge>
+	<edge dest_id="1511" id="250" src_id="1500" type="decomposition">
+	</edge>
+	<edge dest_id="1512" id="251" src_id="1500" type="decomposition">
+	</edge>
+	<edge dest_id="1601" id="252" src_id="1600" type="decomposition">
+	</edge>
+	<edge dest_id="1602" id="253" src_id="1600" type="decomposition">
+	</edge>
+	<edge dest_id="1603" id="254" src_id="1600" type="decomposition">
+	</edge>
+	<edge dest_id="1604" id="255" src_id="1600" type="decomposition">
+	</edge>
+	<edge dest_id="1605" id="256" src_id="1600" type="decomposition">
+	</edge>
+	<edge dest_id="1606" id="257" src_id="1600" type="decomposition">
+	</edge>
+	<edge dest_id="1607" id="258" src_id="1600" type="decomposition">
+	</edge>
+	<edge dest_id="1608" id="259" src_id="1600" type="decomposition">
+	</edge>
+	<edge dest_id="1609" id="260" src_id="1600" type="decomposition">
+	</edge>
+	<edge dest_id="1610" id="261" src_id="1600" type="decomposition">
+	</edge>
+	<edge dest_id="1611" id="262" src_id="1600" type="decomposition">
+	</edge>
+	<edge dest_id="1612" id="263" src_id="1600" type="decomposition">
+	</edge>
+	<edge dest_id="1701" id="264" src_id="1700" type="decomposition">
+	</edge>
+	<edge dest_id="1702" id="265" src_id="1700" type="decomposition">
+	</edge>
+	<edge dest_id="1703" id="266" src_id="1700" type="decomposition">
+	</edge>
+	<edge dest_id="1704" id="267" src_id="1700" type="decomposition">
+	</edge>
+	<edge dest_id="1705" id="268" src_id="1700" type="decomposition">
+	</edge>
+	<edge dest_id="1706" id="269" src_id="1700" type="decomposition">
+	</edge>
+	<edge dest_id="1707" id="270" src_id="1700" type="decomposition">
+	</edge>
+	<edge dest_id="1708" id="271" src_id="1700" type="decomposition">
+	</edge>
+	<edge dest_id="1709" id="272" src_id="1700" type="decomposition">
+	</edge>
+	<edge dest_id="1710" id="273" src_id="1700" type="decomposition">
+	</edge>
+	<edge dest_id="1711" id="274" src_id="1700" type="decomposition">
+	</edge>
+	<edge dest_id="1712" id="275" src_id="1700" type="decomposition">
+	</edge>
+	<edge dest_id="1901" id="276" src_id="1900" type="decomposition">
+	</edge>
+	<edge dest_id="1902" id="277" src_id="1900" type="decomposition">
+	</edge>
+	<edge dest_id="1903" id="278" src_id="1900" type="decomposition">
+	</edge>
+	<edge dest_id="1904" id="279" src_id="1900" type="decomposition">
+	</edge>
+	<edge dest_id="1905" id="280" src_id="1900" type="decomposition">
+	</edge>
+	<edge dest_id="1906" id="281" src_id="1900" type="decomposition">
+	</edge>
+	<edge dest_id="1907" id="282" src_id="1900" type="decomposition">
+	</edge>
+	<edge dest_id="1908" id="283" src_id="1900" type="decomposition">
+	</edge>
+	<edge dest_id="1909" id="284" src_id="1900" type="decomposition">
+	</edge>
+	<edge dest_id="1910" id="285" src_id="1900" type="decomposition">
+	</edge>
+	<edge dest_id="1911" id="286" src_id="1900" type="decomposition">
+	</edge>
+	<edge dest_id="1912" id="287" src_id="1900" type="decomposition">
+	</edge>
+	<edge dest_id="2001" id="288" src_id="2000" type="decomposition">
+	</edge>
+	<edge dest_id="2002" id="289" src_id="2000" type="decomposition">
+	</edge>
+	<edge dest_id="2003" id="290" src_id="2000" type="decomposition">
+	</edge>
+	<edge dest_id="2004" id="291" src_id="2000" type="decomposition">
+	</edge>
+	<edge dest_id="2005" id="292" src_id="2000" type="decomposition">
+	</edge>
+	<edge dest_id="2006" id="293" src_id="2000" type="decomposition">
+	</edge>
+	<edge dest_id="2007" id="294" src_id="2000" type="decomposition">
+	</edge>
+	<edge dest_id="2008" id="295" src_id="2000" type="decomposition">
+	</edge>
+	<edge dest_id="2009" id="296" src_id="2000" type="decomposition">
+	</edge>
+	<edge dest_id="2010" id="297" src_id="2000" type="decomposition">
+	</edge>
+	<edge dest_id="2011" id="298" src_id="2000" type="decomposition">
+	</edge>
+	<edge dest_id="2012" id="299" src_id="2000" type="decomposition">
+	</edge>
+	<edge dest_id="2101" id="300" src_id="2100" type="decomposition">
+	</edge>
+	<edge dest_id="2102" id="301" src_id="2100" type="decomposition">
+	</edge>
+	<edge dest_id="2103" id="302" src_id="2100" type="decomposition">
+	</edge>
+	<edge dest_id="2104" id="303" src_id="2100" type="decomposition">
+	</edge>
+	<edge dest_id="2105" id="304" src_id="2100" type="decomposition">
+	</edge>
+	<edge dest_id="2106" id="305" src_id="2100" type="decomposition">
+	</edge>
+	<edge dest_id="2107" id="306" src_id="2100" type="decomposition">
+	</edge>
+	<edge dest_id="2108" id="307" src_id="2100" type="decomposition">
+	</edge>
+	<edge dest_id="2109" id="308" src_id="2100" type="decomposition">
+	</edge>
+	<edge dest_id="2110" id="309" src_id="2100" type="decomposition">
+	</edge>
+	<edge dest_id="2111" id="310" src_id="2100" type="decomposition">
+	</edge>
+	<edge dest_id="2112" id="311" src_id="2100" type="decomposition">
+	</edge>
+	<edge dest_id="2201" id="312" src_id="2200" type="decomposition">
+	</edge>
+	<edge dest_id="2202" id="313" src_id="2200" type="decomposition">
+	</edge>
+	<edge dest_id="2203" id="314" src_id="2200" type="decomposition">
+	</edge>
+	<edge dest_id="2204" id="315" src_id="2200" type="decomposition">
+	</edge>
+	<edge dest_id="2205" id="316" src_id="2200" type="decomposition">
+	</edge>
+	<edge dest_id="2206" id="317" src_id="2200" type="decomposition">
+	</edge>
+	<edge dest_id="2207" id="318" src_id="2200" type="decomposition">
+	</edge>
+	<edge dest_id="2208" id="319" src_id="2200" type="decomposition">
+	</edge>
+	<edge dest_id="2209" id="320" src_id="2200" type="decomposition">
+	</edge>
+	<edge dest_id="2210" id="321" src_id="2200" type="decomposition">
+	</edge>
+	<edge dest_id="2211" id="322" src_id="2200" type="decomposition">
+	</edge>
+	<edge dest_id="2212" id="323" src_id="2200" type="decomposition">
+	</edge>
+	<edge dest_id="2301" id="324" src_id="2300" type="decomposition">
+	</edge>
+	<edge dest_id="2302" id="325" src_id="2300" type="decomposition">
+	</edge>
+	<edge dest_id="2303" id="326" src_id="2300" type="decomposition">
+	</edge>
+	<edge dest_id="2304" id="327" src_id="2300" type="decomposition">
+	</edge>
+	<edge dest_id="2305" id="328" src_id="2300" type="decomposition">
+	</edge>
+	<edge dest_id="2306" id="329" src_id="2300" type="decomposition">
+	</edge>
+	<edge dest_id="2307" id="330" src_id="2300" type="decomposition">
+	</edge>
+	<edge dest_id="2308" id="331" src_id="2300" type="decomposition">
+	</edge>
+	<edge dest_id="2309" id="332" src_id="2300" type="decomposition">
+	</edge>
+	<edge dest_id="2310" id="333" src_id="2300" type="decomposition">
+	</edge>
+	<edge dest_id="2311" id="334" src_id="2300" type="decomposition">
+	</edge>
+	<edge dest_id="2312" id="335" src_id="2300" type="decomposition">
+	</edge>
+	<edge dest_id="2401" id="336" src_id="2400" type="decomposition">
+	</edge>
+	<edge dest_id="2402" id="337" src_id="2400" type="decomposition">
+	</edge>
+	<edge dest_id="2403" id="338" src_id="2400" type="decomposition">
+	</edge>
+	<edge dest_id="2404" id="339" src_id="2400" type="decomposition">
+	</edge>
+	<edge dest_id="2405" id="340" src_id="2400" type="decomposition">
+	</edge>
+	<edge dest_id="2406" id="341" src_id="2400" type="decomposition">
+	</edge>
+	<edge dest_id="2407" id="342" src_id="2400" type="decomposition">
+	</edge>
+	<edge dest_id="2408" id="343" src_id="2400" type="decomposition">
+	</edge>
+	<edge dest_id="2409" id="344" src_id="2400" type="decomposition">
+	</edge>
+	<edge dest_id="2410" id="345" src_id="2400" type="decomposition">
+	</edge>
+	<edge dest_id="2411" id="346" src_id="2400" type="decomposition">
+	</edge>
+	<edge dest_id="2412" id="347" src_id="2400" type="decomposition">
+	</edge>
+	<edge dest_id="2501" id="348" src_id="2500" type="decomposition">
+	</edge>
+	<edge dest_id="2502" id="349" src_id="2500" type="decomposition">
+	</edge>
+	<edge dest_id="2503" id="350" src_id="2500" type="decomposition">
+	</edge>
+	<edge dest_id="2504" id="351" src_id="2500" type="decomposition">
+	</edge>
+	<edge dest_id="2505" id="352" src_id="2500" type="decomposition">
+	</edge>
+	<edge dest_id="2506" id="353" src_id="2500" type="decomposition">
+	</edge>
+	<edge dest_id="2507" id="354" src_id="2500" type="decomposition">
+	</edge>
+	<edge dest_id="2508" id="355" src_id="2500" type="decomposition">
+	</edge>
+	<edge dest_id="2509" id="356" src_id="2500" type="decomposition">
+	</edge>
+	<edge dest_id="2510" id="357" src_id="2500" type="decomposition">
+	</edge>
+	<edge dest_id="2511" id="358" src_id="2500" type="decomposition">
+	</edge>
+	<edge dest_id="2512" id="359" src_id="2500" type="decomposition">
+	</edge>
+	<edge dest_id="2601" id="360" src_id="2600" type="decomposition">
+	</edge>
+	<edge dest_id="2602" id="361" src_id="2600" type="decomposition">
+	</edge>
+	<edge dest_id="2603" id="362" src_id="2600" type="decomposition">
+	</edge>
+	<edge dest_id="2604" id="363" src_id="2600" type="decomposition">
+	</edge>
+	<edge dest_id="2605" id="364" src_id="2600" type="decomposition">
+	</edge>
+	<edge dest_id="2606" id="365" src_id="2600" type="decomposition">
+	</edge>
+	<edge dest_id="2607" id="366" src_id="2600" type="decomposition">
+	</edge>
+	<edge dest_id="2608" id="367" src_id="2600" type="decomposition">
+	</edge>
+	<edge dest_id="2609" id="368" src_id="2600" type="decomposition">
+	</edge>
+	<edge dest_id="2610" id="369" src_id="2600" type="decomposition">
+	</edge>
+	<edge dest_id="2611" id="370" src_id="2600" type="decomposition">
+	</edge>
+	<edge dest_id="2612" id="371" src_id="2600" type="decomposition">
+	</edge>
+	<edge dest_id="2701" id="372" src_id="2700" type="decomposition">
+	</edge>
+	<edge dest_id="2702" id="373" src_id="2700" type="decomposition">
+	</edge>
+	<edge dest_id="2703" id="374" src_id="2700" type="decomposition">
+	</edge>
+	<edge dest_id="2704" id="375" src_id="2700" type="decomposition">
+	</edge>
+	<edge dest_id="2705" id="376" src_id="2700" type="decomposition">
+	</edge>
+	<edge dest_id="2706" id="377" src_id="2700" type="decomposition">
+	</edge>
+	<edge dest_id="2707" id="378" src_id="2700" type="decomposition">
+	</edge>
+	<edge dest_id="2708" id="379" src_id="2700" type="decomposition">
+	</edge>
+	<edge dest_id="2709" id="380" src_id="2700" type="decomposition">
+	</edge>
+	<edge dest_id="2710" id="381" src_id="2700" type="decomposition">
+	</edge>
+	<edge dest_id="2711" id="382" src_id="2700" type="decomposition">
+	</edge>
+	<edge dest_id="2712" id="383" src_id="2700" type="decomposition">
+	</edge>
+	<edge dest_id="2801" id="384" src_id="2800" type="decomposition">
+	</edge>
+	<edge dest_id="2802" id="385" src_id="2800" type="decomposition">
+	</edge>
+	<edge dest_id="2803" id="386" src_id="2800" type="decomposition">
+	</edge>
+	<edge dest_id="2804" id="387" src_id="2800" type="decomposition">
+	</edge>
+	<edge dest_id="2805" id="388" src_id="2800" type="decomposition">
+	</edge>
+	<edge dest_id="2806" id="389" src_id="2800" type="decomposition">
+	</edge>
+	<edge dest_id="2807" id="390" src_id="2800" type="decomposition">
+	</edge>
+	<edge dest_id="2808" id="391" src_id="2800" type="decomposition">
+	</edge>
+	<edge dest_id="2809" id="392" src_id="2800" type="decomposition">
+	</edge>
+	<edge dest_id="2810" id="393" src_id="2800" type="decomposition">
+	</edge>
+	<edge dest_id="2811" id="394" src_id="2800" type="decomposition">
+	</edge>
+	<edge dest_id="2812" id="395" src_id="2800" type="decomposition">
+	</edge>
+	<edge dest_id="2901" id="396" src_id="2900" type="decomposition">
+	</edge>
+	<edge dest_id="2902" id="397" src_id="2900" type="decomposition">
+	</edge>
+	<edge dest_id="2903" id="398" src_id="2900" type="decomposition">
+	</edge>
+	<edge dest_id="2904" id="399" src_id="2900" type="decomposition">
+	</edge>
+	<edge dest_id="2905" id="400" src_id="2900" type="decomposition">
+	</edge>
+	<edge dest_id="2906" id="401" src_id="2900" type="decomposition">
+	</edge>
+	<edge dest_id="2907" id="402" src_id="2900" type="decomposition">
+	</edge>
+	<edge dest_id="2908" id="403" src_id="2900" type="decomposition">
+	</edge>
+	<edge dest_id="2909" id="404" src_id="2900" type="decomposition">
+	</edge>
+	<edge dest_id="2910" id="405" src_id="2900" type="decomposition">
+	</edge>
+	<edge dest_id="2911" id="406" src_id="2900" type="decomposition">
+	</edge>
+	<edge dest_id="2912" id="407" src_id="2900" type="decomposition">
+	</edge>
+	<edge dest_id="3101" id="408" src_id="3100" type="decomposition">
+	</edge>
+	<edge dest_id="3102" id="409" src_id="3100" type="decomposition">
+	</edge>
+	<edge dest_id="3103" id="410" src_id="3100" type="decomposition">
+	</edge>
+	<edge dest_id="3104" id="411" src_id="3100" type="decomposition">
+	</edge>
+	<edge dest_id="3105" id="412" src_id="3100" type="decomposition">
+	</edge>
+	<edge dest_id="3106" id="413" src_id="3100" type="decomposition">
+	</edge>
+	<edge dest_id="3107" id="414" src_id="3100" type="decomposition">
+	</edge>
+	<edge dest_id="3108" id="415" src_id="3100" type="decomposition">
+	</edge>
+	<edge dest_id="3109" id="416" src_id="3100" type="decomposition">
+	</edge>
+	<edge dest_id="3110" id="417" src_id="3100" type="decomposition">
+	</edge>
+	<edge dest_id="3111" id="418" src_id="3100" type="decomposition">
+	</edge>
+	<edge dest_id="3112" id="419" src_id="3100" type="decomposition">
+	</edge>
+	<edge dest_id="3201" id="420" src_id="3200" type="decomposition">
+	</edge>
+	<edge dest_id="3202" id="421" src_id="3200" type="decomposition">
+	</edge>
+	<edge dest_id="3203" id="422" src_id="3200" type="decomposition">
+	</edge>
+	<edge dest_id="3204" id="423" src_id="3200" type="decomposition">
+	</edge>
+	<edge dest_id="3205" id="424" src_id="3200" type="decomposition">
+	</edge>
+	<edge dest_id="3206" id="425" src_id="3200" type="decomposition">
+	</edge>
+	<edge dest_id="3207" id="426" src_id="3200" type="decomposition">
+	</edge>
+	<edge dest_id="3208" id="427" src_id="3200" type="decomposition">
+	</edge>
+	<edge dest_id="3209" id="428" src_id="3200" type="decomposition">
+	</edge>
+	<edge dest_id="3210" id="429" src_id="3200" type="decomposition">
+	</edge>
+	<edge dest_id="3211" id="430" src_id="3200" type="decomposition">
+	</edge>
+	<edge dest_id="3212" id="431" src_id="3200" type="decomposition">
+	</edge>
+	<edge dest_id="3301" id="432" src_id="3300" type="decomposition">
+	</edge>
+	<edge dest_id="3302" id="433" src_id="3300" type="decomposition">
+	</edge>
+	<edge dest_id="3303" id="434" src_id="3300" type="decomposition">
+	</edge>
+	<edge dest_id="3304" id="435" src_id="3300" type="decomposition">
+	</edge>
+	<edge dest_id="3305" id="436" src_id="3300" type="decomposition">
+	</edge>
+	<edge dest_id="3306" id="437" src_id="3300" type="decomposition">
+	</edge>
+	<edge dest_id="3307" id="438" src_id="3300" type="decomposition">
+	</edge>
+	<edge dest_id="3308" id="439" src_id="3300" type="decomposition">
+	</edge>
+	<edge dest_id="3309" id="440" src_id="3300" type="decomposition">
+	</edge>
+	<edge dest_id="3310" id="441" src_id="3300" type="decomposition">
+	</edge>
+	<edge dest_id="3311" id="442" src_id="3300" type="decomposition">
+	</edge>
+	<edge dest_id="3312" id="443" src_id="3300" type="decomposition">
+	</edge>
+	<edge dest_id="3401" id="444" src_id="3400" type="decomposition">
+	</edge>
+	<edge dest_id="3402" id="445" src_id="3400" type="decomposition">
+	</edge>
+	<edge dest_id="3403" id="446" src_id="3400" type="decomposition">
+	</edge>
+	<edge dest_id="3404" id="447" src_id="3400" type="decomposition">
+	</edge>
+	<edge dest_id="3405" id="448" src_id="3400" type="decomposition">
+	</edge>
+	<edge dest_id="3406" id="449" src_id="3400" type="decomposition">
+	</edge>
+	<edge dest_id="3407" id="450" src_id="3400" type="decomposition">
+	</edge>
+	<edge dest_id="3408" id="451" src_id="3400" type="decomposition">
+	</edge>
+	<edge dest_id="3409" id="452" src_id="3400" type="decomposition">
+	</edge>
+	<edge dest_id="3410" id="453" src_id="3400" type="decomposition">
+	</edge>
+	<edge dest_id="3411" id="454" src_id="3400" type="decomposition">
+	</edge>
+	<edge dest_id="3412" id="455" src_id="3400" type="decomposition">
+	</edge>
+	<edge dest_id="3501" id="456" src_id="3500" type="decomposition">
+	</edge>
+	<edge dest_id="3502" id="457" src_id="3500" type="decomposition">
+	</edge>
+	<edge dest_id="3503" id="458" src_id="3500" type="decomposition">
+	</edge>
+	<edge dest_id="3504" id="459" src_id="3500" type="decomposition">
+	</edge>
+	<edge dest_id="3505" id="460" src_id="3500" type="decomposition">
+	</edge>
+	<edge dest_id="3506" id="461" src_id="3500" type="decomposition">
+	</edge>
+	<edge dest_id="3507" id="462" src_id="3500" type="decomposition">
+	</edge>
+	<edge dest_id="3508" id="463" src_id="3500" type="decomposition">
+	</edge>
+	<edge dest_id="3509" id="464" src_id="3500" type="decomposition">
+	</edge>
+	<edge dest_id="3510" id="465" src_id="3500" type="decomposition">
+	</edge>
+	<edge dest_id="3511" id="466" src_id="3500" type="decomposition">
+	</edge>
+	<edge dest_id="3512" id="467" src_id="3500" type="decomposition">
+	</edge>
+	<edge dest_id="3601" id="468" src_id="3600" type="decomposition">
+	</edge>
+	<edge dest_id="3602" id="469" src_id="3600" type="decomposition">
+	</edge>
+	<edge dest_id="3603" id="470" src_id="3600" type="decomposition">
+	</edge>
+	<edge dest_id="3604" id="471" src_id="3600" type="decomposition">
+	</edge>
+	<edge dest_id="3605" id="472" src_id="3600" type="decomposition">
+	</edge>
+	<edge dest_id="3606" id="473" src_id="3600" type="decomposition">
+	</edge>
+	<edge dest_id="3607" id="474" src_id="3600" type="decomposition">
+	</edge>
+	<edge dest_id="3608" id="475" src_id="3600" type="decomposition">
+	</edge>
+	<edge dest_id="3609" id="476" src_id="3600" type="decomposition">
+	</edge>
+	<edge dest_id="3610" id="477" src_id="3600" type="decomposition">
+	</edge>
+	<edge dest_id="3611" id="478" src_id="3600" type="decomposition">
+	</edge>
+	<edge dest_id="3612" id="479" src_id="3600" type="decomposition">
+	</edge>
+	<edge dest_id="3701" id="480" src_id="3700" type="decomposition">
+	</edge>
+	<edge dest_id="3702" id="481" src_id="3700" type="decomposition">
+	</edge>
+	<edge dest_id="3703" id="482" src_id="3700" type="decomposition">
+	</edge>
+	<edge dest_id="3704" id="483" src_id="3700" type="decomposition">
+	</edge>
+	<edge dest_id="3705" id="484" src_id="3700" type="decomposition">
+	</edge>
+	<edge dest_id="3706" id="485" src_id="3700" type="decomposition">
+	</edge>
+	<edge dest_id="3707" id="486" src_id="3700" type="decomposition">
+	</edge>
+	<edge dest_id="3708" id="487" src_id="3700" type="decomposition">
+	</edge>
+	<edge dest_id="3709" id="488" src_id="3700" type="decomposition">
+	</edge>
+	<edge dest_id="3710" id="489" src_id="3700" type="decomposition">
+	</edge>
+	<edge dest_id="3711" id="490" src_id="3700" type="decomposition">
+	</edge>
+	<edge dest_id="3712" id="491" src_id="3700" type="decomposition">
+	</edge>
+	<edge dest_id="3801" id="492" src_id="3800" type="decomposition">
+	</edge>
+	<edge dest_id="3802" id="493" src_id="3800" type="decomposition">
+	</edge>
+	<edge dest_id="3803" id="494" src_id="3800" type="decomposition">
+	</edge>
+	<edge dest_id="3804" id="495" src_id="3800" type="decomposition">
+	</edge>
+	<edge dest_id="3805" id="496" src_id="3800" type="decomposition">
+	</edge>
+	<edge dest_id="3806" id="497" src_id="3800" type="decomposition">
+	</edge>
+	<edge dest_id="3807" id="498" src_id="3800" type="decomposition">
+	</edge>
+	<edge dest_id="3808" id="499" src_id="3800" type="decomposition">
+	</edge>
+	<edge dest_id="3809" id="500" src_id="3800" type="decomposition">
+	</edge>
+	<edge dest_id="3810" id="501" src_id="3800" type="decomposition">
+	</edge>
+	<edge dest_id="3811" id="502" src_id="3800" type="decomposition">
+	</edge>
+	<edge dest_id="3812" id="503" src_id="3800" type="decomposition">
+	</edge>
+	<edge dest_id="3901" id="504" src_id="3900" type="decomposition">
+	</edge>
+	<edge dest_id="3902" id="505" src_id="3900" type="decomposition">
+	</edge>
+	<edge dest_id="3903" id="506" src_id="3900" type="decomposition">
+	</edge>
+	<edge dest_id="3904" id="507" src_id="3900" type="decomposition">
+	</edge>
+	<edge dest_id="3905" id="508" src_id="3900" type="decomposition">
+	</edge>
+	<edge dest_id="3906" id="509" src_id="3900" type="decomposition">
+	</edge>
+	<edge dest_id="3907" id="510" src_id="3900" type="decomposition">
+	</edge>
+	<edge dest_id="3908" id="511" src_id="3900" type="decomposition">
+	</edge>
+	<edge dest_id="3909" id="512" src_id="3900" type="decomposition">
+	</edge>
+	<edge dest_id="3910" id="513" src_id="3900" type="decomposition">
+	</edge>
+	<edge dest_id="3911" id="514" src_id="3900" type="decomposition">
+	</edge>
+	<edge dest_id="3912" id="515" src_id="3900" type="decomposition">
+	</edge>
+	<edge dest_id="4001" id="516" src_id="4000" type="decomposition">
+	</edge>
+	<edge dest_id="4002" id="517" src_id="4000" type="decomposition">
+	</edge>
+	<edge dest_id="4003" id="518" src_id="4000" type="decomposition">
+	</edge>
+	<edge dest_id="4004" id="519" src_id="4000" type="decomposition">
+	</edge>
+	<edge dest_id="4005" id="520" src_id="4000" type="decomposition">
+	</edge>
+	<edge dest_id="4006" id="521" src_id="4000" type="decomposition">
+	</edge>
+	<edge dest_id="4007" id="522" src_id="4000" type="decomposition">
+	</edge>
+	<edge dest_id="4008" id="523" src_id="4000" type="decomposition">
+	</edge>
+	<edge dest_id="4009" id="524" src_id="4000" type="decomposition">
+	</edge>
+	<edge dest_id="4010" id="525" src_id="4000" type="decomposition">
+	</edge>
+	<edge dest_id="4011" id="526" src_id="4000" type="decomposition">
+	</edge>
+	<edge dest_id="4012" id="527" src_id="4000" type="decomposition">
+	</edge>
+	<edge dest_id="4101" id="528" src_id="4100" type="decomposition">
+	</edge>
+	<edge dest_id="4102" id="529" src_id="4100" type="decomposition">
+	</edge>
+	<edge dest_id="4103" id="530" src_id="4100" type="decomposition">
+	</edge>
+	<edge dest_id="4104" id="531" src_id="4100" type="decomposition">
+	</edge>
+	<edge dest_id="4105" id="532" src_id="4100" type="decomposition">
+	</edge>
+	<edge dest_id="4106" id="533" src_id="4100" type="decomposition">
+	</edge>
+	<edge dest_id="4107" id="534" src_id="4100" type="decomposition">
+	</edge>
+	<edge dest_id="4108" id="535" src_id="4100" type="decomposition">
+	</edge>
+	<edge dest_id="4109" id="536" src_id="4100" type="decomposition">
+	</edge>
+	<edge dest_id="4110" id="537" src_id="4100" type="decomposition">
+	</edge>
+	<edge dest_id="4111" id="538" src_id="4100" type="decomposition">
+	</edge>
+	<edge dest_id="4112" id="539" src_id="4100" type="decomposition">
+	</edge>
+	<edge dest_id="4201" id="540" src_id="4200" type="decomposition">
+	</edge>
+	<edge dest_id="4202" id="541" src_id="4200" type="decomposition">
+	</edge>
+	<edge dest_id="4203" id="542" src_id="4200" type="decomposition">
+	</edge>
+	<edge dest_id="4204" id="543" src_id="4200" type="decomposition">
+	</edge>
+	<edge dest_id="4205" id="544" src_id="4200" type="decomposition">
+	</edge>
+	<edge dest_id="4206" id="545" src_id="4200" type="decomposition">
+	</edge>
+	<edge dest_id="4207" id="546" src_id="4200" type="decomposition">
+	</edge>
+	<edge dest_id="4208" id="547" src_id="4200" type="decomposition">
+	</edge>
+	<edge dest_id="4209" id="548" src_id="4200" type="decomposition">
+	</edge>
+	<edge dest_id="4210" id="549" src_id="4200" type="decomposition">
+	</edge>
+	<edge dest_id="4211" id="550" src_id="4200" type="decomposition">
+	</edge>
+	<edge dest_id="4212" id="551" src_id="4200" type="decomposition">
+	</edge>
+	<edge dest_id="4301" id="552" src_id="4300" type="decomposition">
+	</edge>
+	<edge dest_id="4302" id="553" src_id="4300" type="decomposition">
+	</edge>
+	<edge dest_id="4303" id="554" src_id="4300" type="decomposition">
+	</edge>
+	<edge dest_id="4304" id="555" src_id="4300" type="decomposition">
+	</edge>
+	<edge dest_id="4401" id="556" src_id="4400" type="decomposition">
+	</edge>
+	<edge dest_id="4402" id="557" src_id="4400" type="decomposition">
+	</edge>
+	<edge dest_id="4403" id="558" src_id="4400" type="decomposition">
+	</edge>
+	<edge dest_id="4404" id="559" src_id="4400" type="decomposition">
+	</edge>
+	<edge dest_id="4405" id="560" src_id="4400" type="decomposition">
+	</edge>
+	<edge dest_id="4406" id="561" src_id="4400" type="decomposition">
+	</edge>
+	<edge dest_id="4407" id="562" src_id="4400" type="decomposition">
+	</edge>
+	<edge dest_id="4408" id="563" src_id="4400" type="decomposition">
+	</edge>
+	<edge dest_id="4409" id="564" src_id="4400" type="decomposition">
+	</edge>
+	<edge dest_id="4410" id="565" src_id="4400" type="decomposition">
+	</edge>
+	<edge dest_id="4411" id="566" src_id="4400" type="decomposition">
+	</edge>
+	<edge dest_id="4412" id="567" src_id="4400" type="decomposition">
+	</edge>
+	<edge dest_id="4501" id="568" src_id="4500" type="decomposition">
+	</edge>
+	<edge dest_id="4502" id="569" src_id="4500" type="decomposition">
+	</edge>
+	<edge dest_id="4503" id="570" src_id="4500" type="decomposition">
+	</edge>
+	<edge dest_id="4504" id="571" src_id="4500" type="decomposition">
+	</edge>
+	<edge dest_id="4505" id="572" src_id="4500" type="decomposition">
+	</edge>
+	<edge dest_id="4506" id="573" src_id="4500" type="decomposition">
+	</edge>
+	<edge dest_id="4507" id="574" src_id="4500" type="decomposition">
+	</edge>
+	<edge dest_id="4508" id="575" src_id="4500" type="decomposition">
+	</edge>
+	<edge dest_id="4509" id="576" src_id="4500" type="decomposition">
+	</edge>
+	<edge dest_id="4510" id="577" src_id="4500" type="decomposition">
+	</edge>
+	<edge dest_id="4511" id="578" src_id="4500" type="decomposition">
+	</edge>
+	<edge dest_id="4512" id="579" src_id="4500" type="decomposition">
+	</edge>
+	<edge dest_id="4601" id="580" src_id="4600" type="decomposition">
+	</edge>
+	<edge dest_id="4602" id="581" src_id="4600" type="decomposition">
+	</edge>
+	<edge dest_id="4603" id="582" src_id="4600" type="decomposition">
+	</edge>
+	<edge dest_id="4604" id="583" src_id="4600" type="decomposition">
+	</edge>
+	<edge dest_id="4605" id="584" src_id="4600" type="decomposition">
+	</edge>
+	<edge dest_id="4606" id="585" src_id="4600" type="decomposition">
+	</edge>
+	<edge dest_id="4607" id="586" src_id="4600" type="decomposition">
+	</edge>
+	<edge dest_id="4608" id="587" src_id="4600" type="decomposition">
+	</edge>
+	<edge dest_id="4609" id="588" src_id="4600" type="decomposition">
+	</edge>
+	<edge dest_id="4610" id="589" src_id="4600" type="decomposition">
+	</edge>
+	<edge dest_id="4611" id="590" src_id="4600" type="decomposition">
+	</edge>
+	<edge dest_id="4612" id="591" src_id="4600" type="decomposition">
+	</edge>
+	<edge dest_id="4701" id="592" src_id="4700" type="decomposition">
+	</edge>
+	<edge dest_id="4702" id="593" src_id="4700" type="decomposition">
+	</edge>
+	<edge dest_id="4703" id="594" src_id="4700" type="decomposition">
+	</edge>
+	<edge dest_id="4704" id="595" src_id="4700" type="decomposition">
+	</edge>
+	<edge dest_id="4705" id="596" src_id="4700" type="decomposition">
+	</edge>
+	<edge dest_id="4706" id="597" src_id="4700" type="decomposition">
+	</edge>
+	<edge dest_id="4707" id="598" src_id="4700" type="decomposition">
+	</edge>
+	<edge dest_id="4708" id="599" src_id="4700" type="decomposition">
+	</edge>
+	<edge dest_id="4709" id="600" src_id="4700" type="decomposition">
+	</edge>
+	<edge dest_id="4710" id="601" src_id="4700" type="decomposition">
+	</edge>
+	<edge dest_id="4711" id="602" src_id="4700" type="decomposition">
+	</edge>
+	<edge dest_id="4712" id="603" src_id="4700" type="decomposition">
+	</edge>
+	<edge dest_id="4801" id="604" src_id="4800" type="decomposition">
+	</edge>
+	<edge dest_id="4802" id="605" src_id="4800" type="decomposition">
+	</edge>
+	<edge dest_id="4803" id="606" src_id="4800" type="decomposition">
+	</edge>
+	<edge dest_id="4804" id="607" src_id="4800" type="decomposition">
+	</edge>
+	<edge dest_id="4805" id="608" src_id="4800" type="decomposition">
+	</edge>
+	<edge dest_id="4806" id="609" src_id="4800" type="decomposition">
+	</edge>
+	<edge dest_id="4807" id="610" src_id="4800" type="decomposition">
+	</edge>
+	<edge dest_id="4808" id="611" src_id="4800" type="decomposition">
+	</edge>
+	<edge dest_id="4809" id="612" src_id="4800" type="decomposition">
+	</edge>
+	<edge dest_id="4810" id="613" src_id="4800" type="decomposition">
+	</edge>
+	<edge dest_id="4811" id="614" src_id="4800" type="decomposition">
+	</edge>
+	<edge dest_id="4812" id="615" src_id="4800" type="decomposition">
+	</edge>
+	<edge dest_id="4901" id="616" src_id="4900" type="decomposition">
+	</edge>
+	<edge dest_id="4902" id="617" src_id="4900" type="decomposition">
+	</edge>
+	<edge dest_id="4903" id="618" src_id="4900" type="decomposition">
+	</edge>
+	<edge dest_id="4904" id="619" src_id="4900" type="decomposition">
+	</edge>
+	<edge dest_id="4905" id="620" src_id="4900" type="decomposition">
+	</edge>
+	<edge dest_id="4906" id="621" src_id="4900" type="decomposition">
+	</edge>
+	<edge dest_id="4907" id="622" src_id="4900" type="decomposition">
+	</edge>
+	<edge dest_id="4908" id="623" src_id="4900" type="decomposition">
+	</edge>
+	<edge dest_id="4909" id="624" src_id="4900" type="decomposition">
+	</edge>
+	<edge dest_id="4910" id="625" src_id="4900" type="decomposition">
+	</edge>
+	<edge dest_id="4911" id="626" src_id="4900" type="decomposition">
+	</edge>
+	<edge dest_id="4912" id="627" src_id="4900" type="decomposition">
+	</edge>
+	<edge dest_id="5001" id="628" src_id="5000" type="decomposition">
+	</edge>
+	<edge dest_id="5002" id="629" src_id="5000" type="decomposition">
+	</edge>
+	<edge dest_id="5003" id="630" src_id="5000" type="decomposition">
+	</edge>
+	<edge dest_id="5004" id="631" src_id="5000" type="decomposition">
+	</edge>
+	<edge dest_id="5005" id="632" src_id="5000" type="decomposition">
+	</edge>
+	<edge dest_id="5006" id="633" src_id="5000" type="decomposition">
+	</edge>
+	<edge dest_id="5007" id="634" src_id="5000" type="decomposition">
+	</edge>
+	<edge dest_id="5008" id="635" src_id="5000" type="decomposition">
+	</edge>
+	<edge dest_id="5009" id="636" src_id="5000" type="decomposition">
+	</edge>
+	<edge dest_id="5010" id="637" src_id="5000" type="decomposition">
+	</edge>
+	<edge dest_id="5011" id="638" src_id="5000" type="decomposition">
+	</edge>
+	<edge dest_id="5012" id="639" src_id="5000" type="decomposition">
+	</edge>
+	<edge dest_id="5101" id="640" src_id="5100" type="decomposition">
+	</edge>
+	<edge dest_id="5102" id="641" src_id="5100" type="decomposition">
+	</edge>
+	<edge dest_id="5103" id="642" src_id="5100" type="decomposition">
+	</edge>
+	<edge dest_id="5104" id="643" src_id="5100" type="decomposition">
+	</edge>
+	<edge dest_id="5105" id="644" src_id="5100" type="decomposition">
+	</edge>
+	<edge dest_id="5106" id="645" src_id="5100" type="decomposition">
+	</edge>
+	<edge dest_id="5107" id="646" src_id="5100" type="decomposition">
+	</edge>
+	<edge dest_id="5108" id="647" src_id="5100" type="decomposition">
+	</edge>
+	<edge dest_id="5109" id="648" src_id="5100" type="decomposition">
+	</edge>
+	<edge dest_id="5110" id="649" src_id="5100" type="decomposition">
+	</edge>
+	<edge dest_id="5111" id="650" src_id="5100" type="decomposition">
+	</edge>
+	<edge dest_id="5112" id="651" src_id="5100" type="decomposition">
+	</edge>
+	<edge dest_id="5201" id="652" src_id="5200" type="decomposition">
+	</edge>
+	<edge dest_id="5202" id="653" src_id="5200" type="decomposition">
+	</edge>
+	<edge dest_id="5203" id="654" src_id="5200" type="decomposition">
+	</edge>
+	<edge dest_id="5204" id="655" src_id="5200" type="decomposition">
+	</edge>
+	<edge dest_id="5205" id="656" src_id="5200" type="decomposition">
+	</edge>
+	<edge dest_id="5206" id="657" src_id="5200" type="decomposition">
+	</edge>
+	<edge dest_id="5207" id="658" src_id="5200" type="decomposition">
+	</edge>
+	<edge dest_id="5208" id="659" src_id="5200" type="decomposition">
+	</edge>
+	<edge dest_id="5209" id="660" src_id="5200" type="decomposition">
+	</edge>
+	<edge dest_id="5210" id="661" src_id="5200" type="decomposition">
+	</edge>
+	<edge dest_id="5211" id="662" src_id="5200" type="decomposition">
+	</edge>
+	<edge dest_id="5212" id="663" src_id="5200" type="decomposition">
+	</edge>
+	<edge dest_id="5301" id="664" src_id="5300" type="decomposition">
+	</edge>
+	<edge dest_id="5302" id="665" src_id="5300" type="decomposition">
+	</edge>
+	<edge dest_id="5303" id="666" src_id="5300" type="decomposition">
+	</edge>
+	<edge dest_id="5304" id="667" src_id="5300" type="decomposition">
+	</edge>
+	<edge dest_id="5305" id="668" src_id="5300" type="decomposition">
+	</edge>
+	<edge dest_id="5306" id="669" src_id="5300" type="decomposition">
+	</edge>
+	<edge dest_id="5307" id="670" src_id="5300" type="decomposition">
+	</edge>
+	<edge dest_id="5308" id="671" src_id="5300" type="decomposition">
+	</edge>
+	<edge dest_id="5309" id="672" src_id="5300" type="decomposition">
+	</edge>
+	<edge dest_id="5310" id="673" src_id="5300" type="decomposition">
+	</edge>
+	<edge dest_id="5311" id="674" src_id="5300" type="decomposition">
+	</edge>
+	<edge dest_id="5312" id="675" src_id="5300" type="decomposition">
+	</edge>
+	<edge dest_id="5401" id="676" src_id="5400" type="decomposition">
+	</edge>
+	<edge dest_id="5402" id="677" src_id="5400" type="decomposition">
+	</edge>
+	<edge dest_id="5403" id="678" src_id="5400" type="decomposition">
+	</edge>
+	<edge dest_id="5404" id="679" src_id="5400" type="decomposition">
+	</edge>
+	<edge dest_id="5405" id="680" src_id="5400" type="decomposition">
+	</edge>
+	<edge dest_id="5406" id="681" src_id="5400" type="decomposition">
+	</edge>
+	<edge dest_id="5407" id="682" src_id="5400" type="decomposition">
+	</edge>
+	<edge dest_id="5408" id="683" src_id="5400" type="decomposition">
+	</edge>
+	<edge dest_id="5409" id="684" src_id="5400" type="decomposition">
+	</edge>
+	<edge dest_id="5410" id="685" src_id="5400" type="decomposition">
+	</edge>
+	<edge dest_id="5411" id="686" src_id="5400" type="decomposition">
+	</edge>
+	<edge dest_id="5412" id="687" src_id="5400" type="decomposition">
+	</edge>
+	<edge dest_id="5501" id="688" src_id="5500" type="decomposition">
+	</edge>
+	<edge dest_id="5502" id="689" src_id="5500" type="decomposition">
+	</edge>
+	<edge dest_id="5503" id="690" src_id="5500" type="decomposition">
+	</edge>
+	<edge dest_id="5504" id="691" src_id="5500" type="decomposition">
+	</edge>
+	<edge dest_id="5505" id="692" src_id="5500" type="decomposition">
+	</edge>
+	<edge dest_id="5506" id="693" src_id="5500" type="decomposition">
+	</edge>
+	<edge dest_id="5507" id="694" src_id="5500" type="decomposition">
+	</edge>
+	<edge dest_id="5508" id="695" src_id="5500" type="decomposition">
+	</edge>
+	<edge dest_id="5509" id="696" src_id="5500" type="decomposition">
+	</edge>
+	<edge dest_id="5510" id="697" src_id="5500" type="decomposition">
+	</edge>
+	<edge dest_id="5511" id="698" src_id="5500" type="decomposition">
+	</edge>
+	<edge dest_id="5512" id="699" src_id="5500" type="decomposition">
+	</edge>
+	</graph>
+
