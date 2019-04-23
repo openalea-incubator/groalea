@@ -17,6 +17,14 @@ fns = data_dir.glob('*.xeg')
 #fns = with_fruit, sphere, with_flower, small
 f1, f2 = fns
 
+"""
+# TODO:
+# 1. recuperer les fruits (vid) et les spheres
+# 2. fonction modifiant le rayon d ela sphere en fonction de la photosynthese
+
+fruit: indicate fruit biomass
+"""
+
 
 # test1
 
@@ -120,18 +128,49 @@ def fruit_growth(g):
     photos = g.property('photosynthesis')
     surfaces = g.property('leaf_area')
 
-    inflos = [vid for vid in g.vertices_iter(scale=2) if g.class_name(vid) == 'I']
+    fids = get_fruits(g)
+    inflos = fids
 
-    def fruit_mass(v_inflo):
+    def fruit_mass(v_fruit):
+        v_inflo = g.complex(v_fruit)
         descendants = g.Descendants(v_inflo)
         NRJ = sum(photos.get(c,0.) * surfaces.get(c,0.) for d in descendants for c in g.components(d))
         NRJ = NRJ if NRJ >=0 else 0.
         fruit_id = g.components(v_inflo)[-1]
-        fruits[fruit_id]+= energy2biomass(NRJ)
+        fruits[fruit_id]= fruits.get(fruit_id,0.) + energy2biomass(NRJ)
 
         #print ('NRJ :', NRJ, v_inflo, fruit_id)
 
     map(fruit_mass, inflos)
+
+    max_biomass = max(fruits.itervalues())
+
+    max_radius = 0.6 # 6 cm
+    fruit_radius = g.properties()['fruit_radius'] = {}
+
+    geometry = g.property('geometry')
+
+    for vid in fids:
+        # get the actual fruit radius
+        geoms = geometry[vid]
+
+        radius = 0.
+        fruit_shape = None
+        for sh in geoms:
+            if get_final_shape(sh, 'Sphere'):
+                radius = get_scaled(sh).scale[0]
+                fruit_shape = sh
+                break
+
+        #radius = 0.3
+        biomass = fruits[vid]
+        # Uodate the radius
+        new_radius = radius + biomass/max_biomass *(max_radius - radius)
+
+        # modify the geometry
+        fruit_shape.scale = (new_radius, new_radius, new_radius)
+        #print(vid, new_radius)
+        fruit_radius[vid] = new_radius
 
 
 def energy2biomass(nrj):
@@ -174,28 +213,39 @@ def mtg2xeg(g, scene, xeg_fn):
 
     return fn
 
-def detect_fruits(g, scene):
-    def sType(geom):
-        return type(geom).__name__
 
-    def getgeom(sh):
-        if hasattr(sh,'geometry'):
-            return getgeom(sh.geometry)
-        else:
-            return sh
+def getgeom(sh):
+    if hasattr(sh,'geometry'):
+        return getgeom(sh.geometry)
+    else:
+        return sh
+
+def sType(geom):
+    return type(geom).__name__
+
+def get_final_shape(shape, _type='Sphere'):
+    geom = getgeom(shape)
+    if sType(geom) == _type:
+        return geom
+    else:
+        return None
+
+def get_scaled(shape):
+    geom = None
+    _geom = shape
+    while hasattr(_geom,'geometry'):
+        _geom = _geom.geometry
+        if sType(_geom) == 'Scaled':
+            geom = _geom
+    return geom
+
+
+def get_fruits(g):
     ids =g.property('id')
-    inv_dict = dict(zip(ids.itervalues(), ids.iterkeys()))
-    fruits = []
-    geoms = scene.todict()
-    for k in geoms:
-        shapes = geoms[k]
-        for sh in shapes:
-            geom = getgeom(sh)
-            if sType(geom) == 'Sphere':
-                fruits.append((inv_dict[k], geom))
-    return fruits
+    fruit = g.property('fruit')
 
-
+    fruit_ids = [vid for vid, f in fruit.iteritems() if f != 0.]
+    return fruit_ids
 
 
 def run(fn):
@@ -204,7 +254,7 @@ def run(fn):
     fruit_growth(g)
     scene = extract_scene(g)
 
-    fruits_sphere = detect_fruits(g, scene)
+    #fruits_sphere = detect_fruits(g, scene)
     del g.properties()['geometry']
     fn1 = mtg2xeg(g, scene, fn)
     return g, scene
