@@ -117,7 +117,7 @@ def photosynthesis(par, alpha=0.03464, Amax= 16.1, Rd = 0.72690):
 
     return y
 
-def fruit_growth(g):
+def fruit_growth(g, NRJ=8.):
     """
     Integrate photosynthesis over the GU (I and the Descendants).
     Multiply by leaf_surface on each of the components
@@ -145,7 +145,8 @@ def fruit_growth(g):
 
     max_biomass = max(fruits.itervalues())
 
-    max_radius = 0.6 # 6 cm
+    max_NRJ = 8.
+    max_radius = 0.3 + 0.3 * (NRJ/max_NRJ) # 6 cm
     fruit_radius = g.properties()['fruit_radius'] = {}
 
     geometry = g.property('geometry')
@@ -158,18 +159,19 @@ def fruit_growth(g):
         fruit_shape = None
         for sh in geoms:
             if get_final_shape(sh, 'Sphere'):
-                radius = get_scaled(sh).scale[0]
-                fruit_shape = sh
+                scaled_sh = get_scaled(sh)
+                radius = scaled_sh.scale[0]
+                fruit_shape = scaled_sh
                 break
 
         #radius = 0.3
         biomass = fruits[vid]
         # Uodate the radius
-        new_radius = radius + biomass/max_biomass *(max_radius - radius)
+        new_radius = radius + (biomass / max_biomass) * (max_radius - radius)
 
         # modify the geometry
-        fruit_shape.scale = (new_radius, new_radius, new_radius)
-        #print(vid, new_radius)
+        fruit_shape.scale = [new_radius, new_radius, new_radius]
+        print(vid, new_radius)
         fruit_radius[vid] = new_radius
 
 
@@ -250,8 +252,7 @@ def get_fruits(g):
 
 def run(fn):
     g = xeg2mtg(fn)
-    g.properties()['fruit_biomass']={}
-    fruit_growth(g)
+    fruit_growth(g, NRJ=5.)
     scene = extract_scene(g)
 
     #fruits_sphere = detect_fruits(g, scene)
