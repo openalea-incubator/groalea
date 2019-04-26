@@ -122,7 +122,7 @@ def setVetexProperties(vid, sid, rootedgraph):
         #pass
         label = " " #mtg[vid]["name"]
         rootedgraph.vertex_property("name")[sid] = label #+ "." + str(sid)
-        
+
 
     # set type
     class_name = mtg.class_name(vid)
@@ -226,10 +226,10 @@ def func_metamer_convert(vid, metamerlist, ve2pdic, rootedgraph):
 def getmetamer(vid, metamerlist):
 
     property_dic = mtg.get_vertex_property(vid)
-    metamer_id = property_dic['id']
-    if type(metamer_id) is str:
-        metamer_id = int(metamer_id)
-    #metamer_id = Feature(vid, "id")
+    #metamer_id = property_dic['id']
+    #if type(metamer_id) is str:
+    #    metamer_id = int(metamer_id)
+    metamer_id = Feature(vid, "id")
     metamer = metamerlist[metamer_id]
 
     return metamer
@@ -402,8 +402,8 @@ def addStructure4SubMetamerLevel(shape_geo_pro, geo_list_index, trans_geo_list, 
             temp_composite_localmatrix.A[0,3] = temp_composite_localmatrix.A[1,3] = temp_composite_localmatrix.A[2,3] = 0
             templist = temp_composite_localmatrix.transpose().tolist()
             localm = Matrix4(templist[0], templist[1], templist[2], templist[3])
-            mlst = localm.data()
-            lmstr = serializeList2string(mlst)
+            #mlst = localm.data()
+            #lmstr = serializeList2string(mlst)
             para = {'transform':localm}
             trans_type = "ShadedNull"
 
@@ -428,6 +428,16 @@ def addStructure4SubMetamerLevel(shape_geo_pro, geo_list_index, trans_geo_list, 
             # scale has been taken into local rotation (transform matrix of ShadedNull)
             para = {'scaleX':'1', 'scaleY':'1', 'scaleZ':'1'}
             trans_type = "Scale"
+        elif type(trans_geo_list[i]) is EulerRotated:
+            # TODO : CPL
+            trans_type = "ShadedNull"
+            temp_composite_localmatrix.A[0,3] = temp_composite_localmatrix.A[1,3] = temp_composite_localmatrix.A[2,3] = 0
+            templist = temp_composite_localmatrix.transpose().tolist()
+            localm = Matrix4(templist[0], templist[1], templist[2], templist[3])
+            para = {'transform':localm}
+        else:
+            print type(trans_geo_list[i])
+            print "ERROR"
 
         #transgeo_id = sid + preshape_geo_sum + i + 1
         rootedgraph.vertex_property("type")[transgeo_id] = trans_type
@@ -534,15 +544,21 @@ def getTM4Transgeo(transgeo):
         row4 = [0,0,0,1]
 
     elif type(transgeo) is EulerRotated:
-        azimuth = transgeo.azimuth
-        elevation = transgeo.elevation
-        roll = transgeo.roll
-        cr = np.cos(roll); sr = np.sin(roll); ce = np.cos(elevation)
-        se = np.sin(elevation); ca = np.cos(azimuth); sa = np.sin(azimuth)
-        row1 = [ca*ce, ca*se*sr - sa*cr, ca*se*cr + sa*sr, 0]
-        row2 = [sa*ce, ca*cr + sa*se*sr, sa*se*cr - ca*sr, 0]
-        row3 = [-se, ce*sr, ce*cr, 0]
-        row4 = [0, 0, 0, 1]
+        vs = transgeo.transformation()
+        m = vs.getMatrix()
+        row1 = list(m.getRow(0))
+        row2 = list(m.getRow(1))
+        row3 = list(m.getRow(2))
+        row4 = list(m.getRow(3))
+
+    elif type(transgeo) is Matrix4:
+        m = transgeo
+        row1 = list(m.getRow(0))
+        row2 = list(m.getRow(1))
+        row3 = list(m.getRow(2))
+        row4 = list(m.getRow(3))
+    else:
+        print (type(transgeo))
 
     return np.matrix([row1,row2,row3,row4])
 
