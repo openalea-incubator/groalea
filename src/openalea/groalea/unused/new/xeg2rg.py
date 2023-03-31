@@ -5,7 +5,7 @@ from math import cos
 from math import sin
 from math import radians
 from copy import deepcopy
-from StringIO import StringIO
+from io import StringIO
 
 
 import openalea.plantgl.all as pgl
@@ -57,12 +57,12 @@ class Parser(object):
         if len(list(elt)) > 1:
             list(elt)
         
-        print "Dispatch elt : ", elt
-        print "list(elt) : ", list(elt)
-        print 'Dispatch elt.tag :', elt.tag 
-        print 'Dispatch elt.attrib',elt.attrib 
-        print "self.__getattribute__(elt.tag)", self.__getattribute__(elt.tag)
-        print "elt.getchildren() : ", elt.getchildren()
+        print("Dispatch elt : ", elt)
+        print("list(elt) : ", list(elt))
+        print('Dispatch elt.tag :', elt.tag) 
+        print('Dispatch elt.attrib',elt.attrib) 
+        print("self.__getattribute__(elt.tag)", self.__getattribute__(elt.tag))
+        print("elt.getchildren() : ", elt.getchildren())
 
         # return self.__getattribute__(elt.tag)(elt.getchildren(), **elt.attrib)
         #try:
@@ -245,7 +245,7 @@ class Parser(object):
     Node = node
 
     def Sphere(self, radius=1., **kwds):
-        print "#### get in Sphere func"
+        print("#### get in Sphere func")
         return pgl.Sphere(radius=float(radius)), None
 
     def Box(self, depth=1., width=1., height=1., **kwds):
@@ -300,7 +300,7 @@ class Parser(object):
         if pointSize <= 0:
             pointSize = 1
         items, chunk = points, 3
-        point3Array = zip(*[iter(items)] * chunk)
+        point3Array = list(zip(*[iter(items)] * chunk))
         idx4 = pgl.Index4(int(colorlist[0] * 255), int(colorlist[1] * 255),
                           int(colorlist[2] * 255), int(colorlist[3] * 255))
         lidx4, v3array = [], []
@@ -315,7 +315,7 @@ class Parser(object):
         points = str(vertices)
         points = [float(num) for num in points.split(",")]
         items, chunk = points, 3
-        p3list = zip(*[iter(items)] * chunk)
+        p3list = list(zip(*[iter(items)] * chunk))
         p2list = project3Dto2D(p3list)
         pd2list = []
         for i in range(len(p2list)):
@@ -330,14 +330,14 @@ class Parser(object):
                 # By definition, at least there are two ears;
                 # we will iterate at end only if poly_orientation
                 # was incorrect.
-                pcur, pprev, pnex = pd2list[cur].values()[0], pd2list[prev].values()[0], pd2list[nex].values()[0]
+                pcur, pprev, pnex = list(pd2list[cur].values())[0], list(pd2list[prev].values())[0], list(pd2list[nex].values())[0]
                 det = determinant(pcur, pprev, pnex)
                 inside = no_interior(pprev, pcur, pnex, pd2list, poly_orientation)
                 if (det == poly_orientation) and inside:
                     # Same orientation as polygon
                     # No points inside
                     # Add index of this triangle to the index list
-                    index = pd2list[prev].keys()[0], pd2list[cur].keys()[0], pd2list[nex].keys()[0]
+                    index = list(pd2list[prev].keys())[0], list(pd2list[cur].keys())[0], list(pd2list[nex].keys())[0]
                     indexlist.append(index)
                     # Remove the triangle from the polygon
                     del(pd2list[cur])
@@ -345,18 +345,18 @@ class Parser(object):
         return (pgl.TriangleSet(pgl.Point3Array(p3list), indexlist), None)
 
     def BezierSurface(self, uCount, data, dimension, **kwds):
-        print "#### get in BezierSurface func"
+        print("#### get in BezierSurface func")
         points = str(data)
         dimension = int(dimension)
         points = [float(num) for num in points.split(",")]
         items, chunk = points, dimension 
-        pdlist = zip(*[iter(items)] * chunk)
+        pdlist = list(zip(*[iter(items)] * chunk))
         
         
         p4m = pgl.Point4Matrix(dimension,dimension)
       
         its, pice = pdlist, 4
-        pdmrlst = zip(*[iter(its)] * pice)
+        pdmrlst = list(zip(*[iter(its)] * pice))
         for i in range(len(pdmrlst)):
             for j in range(len(pdmrlst[i])):
                 p4m.__setitem__((i,j),pdmrlst[i][j])
@@ -365,13 +365,13 @@ class Parser(object):
         
         
     def ShadedNull(self, transform, **kwds):
-        print "pass null in"
+        print("pass null in")
 
         transform = str(transform)
         transform = [float(num) for num in transform.split(",")]
         
         items, chunk = transform, 4
-        m4rlist = zip(*[iter(items)] * chunk)
+        m4rlist = list(zip(*[iter(items)] * chunk))
         m4 = pgl.Matrix4()
 
         for i in range(len(m4rlist)):
@@ -380,7 +380,7 @@ class Parser(object):
 
         #self._current_turtle.color = self.color(color)
                 
-        print "pass null out"
+        print("pass null out")
 
         return (None, m4)
 
@@ -567,7 +567,7 @@ class Parser(object):
 
         matrix = elements[0]
         assert matrix.tag == 'matrix'
-        m4 = map(float, matrix.text.strip().split())
+        m4 = list(map(float, matrix.text.strip().split()))
         m4 = pgl.Matrix4(m4[:4], m4[4:8], m4[8:12], m4[12:])
         m4 = m4.transpose()
         return m4
@@ -597,7 +597,7 @@ class Parser(object):
         edges = self._edges
         graph = self._graph
 
-        for eid, edge in edges.iteritems():
+        for eid, edge in edges.items():
             graph.add_edge(edge=edge, eid=eid)
 
     def universal_node(self, type_name, **kwds):

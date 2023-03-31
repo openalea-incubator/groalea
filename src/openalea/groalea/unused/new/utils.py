@@ -152,7 +152,7 @@ class TurtleState(object):
               )
         return ok
 
-    def __nonzero__(self):
+    def __bool__(self):
         return not self.__eq__(TurtleState())
 
 
@@ -241,13 +241,13 @@ def no_interior(p1, p2, p3, v, poly_or):
     """ TODO : Use static method
     """
     for p in v:
-        if p.values()[0] == p1 or p.values()[0] == p2 or p.values()[0] == p3:
+        if list(p.values())[0] == p1 or list(p.values())[0] == p2 or list(p.values())[0] == p3:
             # Don't bother checking against yourself
             continue
 
-        if ((determinant(p1, p2, p.values()[0]) == poly_or) or
-            (determinant(p3, p1, p.values()[0]) == poly_or) or
-            (determinant(p2, p3, p.values()[0]) == poly_or)):
+        if ((determinant(p1, p2, list(p.values())[0]) == poly_or) or
+            (determinant(p3, p1, list(p.values())[0]) == poly_or) or
+            (determinant(p2, p3, list(p.values())[0]) == poly_or)):
             # This point is outside
             continue
         # The point is inside

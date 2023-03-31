@@ -187,7 +187,7 @@ def adjustToGroIMP(scale_num, rootedgraph):
         # for the first vertex that is in the 2nd scale, there is already a decomposition edge from root to it, so change its type to branch
         else:
             edgedic = rootedgraph._edges
-            for eid in edgedic.keys():
+            for eid in list(edgedic.keys()):
                 if edgedic[eid] == (rootedgraph.root, sfv):
                     if rootedgraph.edge_property("edge_type")[eid]== "/":
                         rootedgraph.edge_property("edge_type")[eid]= "+"
@@ -200,7 +200,7 @@ def adjustToGroIMP(scale_num, rootedgraph):
         if len(fs_vs_without_fv) != 0:
             for v in fs_vs_without_fv:
                 edgedic = rootedgraph._edges
-                for eid in edgedic.keys():
+                for eid in list(edgedic.keys()):
                     if edgedic[eid] == (rootedgraph.root, v):
                         if rootedgraph.edge_property("edge_type")[eid]== "/":
                             #rootedgraph.edge_property("edge_type")[eid]= "+"
@@ -283,7 +283,7 @@ def adjustToGroIMP_new(pv2fvids, max_vid, metamerlist, rootedgraph):
 
     """
     i = 0
-    for pvid in pv2fvids.keys():
+    for pvid in list(pv2fvids.keys()):
 
         #the decomposition edge from root node to each plant node will not be removed
         #edgedic = rootedgraph._edges
@@ -329,7 +329,7 @@ def adjustToGroIMP_new(pv2fvids, max_vid, metamerlist, rootedgraph):
             fsids.append(vid2sid(fvid))
         #append frist node of a plant at submetamer scale
         fsids.append(fsids[-1]+1)
-        print "pvid, fsids : ", pvid, fsids
+        print("pvid, fsids : ", pvid, fsids)
         for fsid in fsids:
             addEdge(geosid, fsid, "<", rootedgraph)
 
@@ -352,10 +352,10 @@ def getPv2fvidsDic(scale_num):
                 for i in range(1, scale):
                     vidcomplex = mtg.complex(tmpvid)
                     tmpvid = vidcomplex
-                print "tempvid :", tmpvid
+                print("tempvid :", tmpvid)
                 if pvid == tmpvid:
                     vids_sp.append(vid)
-            print "pvid, vids_sp : ", pvid, vids_sp
+            print("pvid, vids_sp : ", pvid, vids_sp)
             
             for vid_sp in vids_sp:
                 if (mtg.parent(vid_sp) == None) or (mtg.parent(vid_sp) not in vids_sp):
@@ -369,7 +369,7 @@ def findsvlistFromSVComplex(sid, rootedgraph):
 
     svlSubScale = []
     edgedic = rootedgraph._edges
-    for eid in edgedic.keys():
+    for eid in list(edgedic.keys()):
         if edgedic[eid][0] == sid and rootedgraph.edge_property("edge_type")[eid]== "/": 
             svlSubScale.append(edgedic[eid][1])
 
@@ -381,7 +381,7 @@ def findFirstVertexInScalePerPlant(fsid, edgedic, rootedgraph):
      recursively get the first/root node in a set of node
     """
 
-    for eid in edgedic.keys():
+    for eid in list(edgedic.keys()):
         if edgedic[eid][1] == fsid and rootedgraph.edge_property("edge_type")[eid] != "/":
             fsid = edgedic[eid][0]
             findFirstVertexInScale(fsid, edgedic, rootedgraph)
@@ -406,7 +406,7 @@ def addTypeGraph(max_vid, rootedgraph):
     rootedgraph.vertex_property("parameters")[sid] = {}
     addEdge(rootedgraph.root, sid, "/", rootedgraph)
 
-    for tp in vtypedic.values():
+    for tp in list(vtypedic.values()):
         #tsid = tsid + 1
         tvid = rootedgraph.add_vertex()
         rootedgraph.vertex_property("type")[tvid] = tp
@@ -468,7 +468,7 @@ def vid2sid(vid):
 def findFirstVertexInScale(fv, scale, vInScale, rootedgraph):
 
     edgedic = rootedgraph._edges
-    for eid in edgedic.keys():
+    for eid in list(edgedic.keys()):
         if edgedic[eid][1] == fv and rootedgraph.edge_property("edge_type")[eid] != "/":
             fv = edgedic[eid][0]
             findFirstVertexInScale(fv, scale, vInScale, rootedgraph)
@@ -504,7 +504,7 @@ def convert(mtgfile, bgeomfile=None, scale_num=1):
             #break
         metamer = getmetamer(vid, metamerlist)
         parentvid = mtg.parent(vid)
-        print "vid, parentvid", vid, parentvid
+        print("vid, parentvid", vid, parentvid)
         if parentvid == None:
             parentmetamer = None
         else:
@@ -1060,7 +1060,7 @@ def serializeList2string(lst):
 
 def getedgeid(edge, rg):
     eid = None
-    for i, e in rg._edges.iteritems():
+    for i, e in rg._edges.items():
         if e == edge:
             eid = i
     return eid

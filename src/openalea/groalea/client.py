@@ -1,9 +1,9 @@
 # licence
 
-import httplib, urllib
+import http.client, urllib.request, urllib.parse, urllib.error
 import re
 
-class GroIMPClient(object):
+class GroIMPClient:
     """
     GroIMPClient communicates with GroIMP through the network:
       - it creates a socket,
@@ -21,8 +21,8 @@ class GroIMPClient(object):
         self.host = host
         self.port = port
 
-    def send( self, xl_code, xml_graph = None, command = '' ):
-        conn = httplib.HTTPConnection(self.host, self.port)
+    def send(self, xl_code, xml_graph = None, command = ''):
+        conn = http.client.HTTPConnection(self.host, self.port)
 
         params, headers = self.url_encode(xl_code, xml_graph, command)
 
@@ -31,8 +31,6 @@ class GroIMPClient(object):
 
         data = response.read()
         conn.close()
-
-        #print 'received graph: ', data
 
         # We receive the whole web page.
         # Just extract the graph only...
@@ -56,7 +54,7 @@ class GroIMPClient(object):
         params['graph'] = xml_graph
         if command:
             params['command'] = command
-        p = urllib.urlencode(params)
+        p = urllib.parse.urlencode(params)
         h = headers
         return p, h
 

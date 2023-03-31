@@ -15,7 +15,7 @@
 
 # 3. Add enum like FUNCTIONAL
 
-from StringIO import StringIO
+from io import StringIO
 from math import radians
 from math import sqrt
 from math import cos
@@ -25,8 +25,7 @@ from math import pow
 from copy import deepcopy
 import xml.etree.ElementTree as xml
 import threading
-import Queue
-
+import queue
 
 from openalea.mtg.io import *
 from openalea.core.graph.property_graph import PropertyGraph
@@ -52,7 +51,12 @@ msidShapeidDic = None
 
 
 class Parser(object):
-    edge_type_name = {'successor': '<', 'branch': '+', 'decomposition': '/'}
+    edge_type_name = {
+        'successor': '<', 
+        'branch': '+', 
+        'decomposition': '/'
+        }
+    
     geometries = ['Sphere', 'Box', 'Cone', 'Cylinder', 'Frustum',
                   'sphere', 'box', 'cone', 'cylinder', 'frustum',
                   'parallelogram', 'Parallelogram', 'TextLabel', 'textLabel', 'PointCloud', 'pointCloud',
@@ -125,9 +129,9 @@ class Parser(object):
 
         # Process / Parse all the xml nodes contains directly inside the <graph> node.
         for elt in elements:
-	        th = threading.Thread(target=self.dispatch, args=(elt,))
-	        th.start()
-	        th.join()
+            th = threading.Thread(target=self.dispatch, args=(elt,))
+            th.start()
+            th.join()
             #self.dispatch(elt)
 
         # add the edges to the graph, when all the nodes have been added.
@@ -331,7 +335,7 @@ class Parser(object):
         if pointSize <= 0:
             pointSize = 1
         items, chunk = points, 3
-        point3Array = zip(*[iter(items)] * chunk)
+        point3Array = list(zip(*[iter(items)] * chunk))
         idx4 = pgl.Index4(int(colorlist[0] * 255), int(colorlist[1] * 255),
                           int(colorlist[2] * 255), int(colorlist[3] * 255))
         lidx4, v3array = [], []
@@ -348,7 +352,7 @@ class Parser(object):
         dimension = int(dimension)
         degree = int(degree)
         items, chunk = ctrlpoints, dimension
-        pointArray = zip(*[iter(items)] * chunk)
+        pointArray = list(zip(*[iter(items)] * chunk))
 
         if (dimension == 2):
             v4array = []
@@ -380,7 +384,7 @@ class Parser(object):
         uDegree = int(uDegree)
         vDegree = int(vDegree)
         items, chunk = ctrlpoints, dimension
-        pointArray = zip(*[iter(items)] * chunk)
+        pointArray = list(zip(*[iter(items)] * chunk))
         v4array = []
 
         if (dimension == 2):
@@ -393,7 +397,7 @@ class Parser(object):
             v4array = pointArray
 
         # create uSize x vSize matrix
-        matrixArray = [v4array[i:i+uSize] for i in xrange(0, len(v4array), uSize)]
+        matrixArray = [v4array[i:i+uSize] for i in range(0, len(v4array), uSize)]
 
         return pgl.NurbsPatch(matrixArray, uDegree, vDegree), None
 
@@ -402,7 +406,7 @@ class Parser(object):
         points = str(vertices)
         points = [float(num) for num in points.split(",")]
         items, chunk = points, 3
-        p3list = zip(*[iter(items)] * chunk)
+        p3list = list(zip(*[iter(items)] * chunk))
         p2list = project3Dto2D(p3list)
         pd2list = []
         for i in range(len(p2list)):
@@ -417,14 +421,14 @@ class Parser(object):
                 # By definition, at least there are two ears;
                 # we will iterate at end only if poly_orientation
                 # was incorrect.
-                pcur, pprev, pnex = pd2list[cur].values()[0], pd2list[prev].values()[0], pd2list[nex].values()[0]
+                pcur, pprev, pnex = list(pd2list[cur].values())[0], list(pd2list[prev].values())[0], list(pd2list[nex].values())[0]
                 det = determinant(pcur, pprev, pnex)
                 inside = no_interior(pprev, pcur, pnex, pd2list, poly_orientation)
                 if (det == poly_orientation) and inside:
                     # Same orientation as polygon
                     # No points inside
                     # Add index of this triangle to the index list
-                    index = pd2list[prev].keys()[0], pd2list[cur].keys()[0], pd2list[nex].keys()[0]
+                    index = list(pd2list[prev].keys())[0], list(pd2list[cur].keys())[0], list(pd2list[nex].keys())[0]
                     indexlist.append(index)
                     # Remove the triangle from the polygon
                     del(pd2list[cur])
@@ -437,13 +441,13 @@ class Parser(object):
         dimension = int(dimension)
         points = [float(num) for num in points.split(",")]
         items, chunk = points, dimension
-        pdlist = zip(*[iter(items)] * chunk)
+        pdlist = list(zip(*[iter(items)] * chunk))
 
 
         p4m = pgl.Point4Matrix(dimension,dimension)
 
         its, pice = pdlist, 4
-        pdmrlst = zip(*[iter(its)] * pice)
+        pdmrlst = list(zip(*[iter(its)] * pice))
         for i in range(len(pdmrlst)):
             for j in range(len(pdmrlst[i])):
                 p4m.__setitem__((i,j),pdmrlst[i][j])
@@ -459,7 +463,7 @@ class Parser(object):
             transform = [float(num) for num in transform.split(",")]
 
             items, chunk = transform, 4
-            m4rlist = zip(*[iter(items)] * chunk)
+            m4rlist = list(zip(*[iter(items)] * chunk))
             m4 = pgl.Matrix4()
 
             for i in range(len(m4rlist)):
@@ -574,7 +578,7 @@ class Parser(object):
         points = str(ctrlpoints)
         points = [float(num) for num in points.split(",")]
         items, chunk = points, dimension
-        plist = zip(*[iter(items)] * chunk)
+        plist = list(zip(*[iter(items)] * chunk))
 
         ctlplist = []
         for i in range(len(plist)):
@@ -593,7 +597,7 @@ class Parser(object):
         points = str(coords)
         points = [float(num) for num in points.split(",")]
         items, chunk = points, dimension
-        pointlist = zip(*[iter(items)] * chunk)
+        pointlist = list(zip(*[iter(items)] * chunk))
 
 
         v3list = []
@@ -605,7 +609,7 @@ class Parser(object):
         indices = str(indices)
         indices = [int(num) for num in indices.split(",")]
         items, chunk = indices, edgeNum 
-        indexlist = zip(*[iter(items)] * chunk)
+        indexlist = list(zip(*[iter(items)] * chunk))
 
         return (pgl.TriangleSet(v3list, indexlist), None)
 
@@ -636,9 +640,9 @@ class Parser(object):
             height = length
             radius = turtle.diameter /2.
             color = turtle.color
-	    if radius !=0 and height !=0 :
+            if radius !=0 and height !=0 :
                 return (pgl.Cylinder(radius=radius, height=height),
-                pgl.Matrix4.translation(Vector3(0, 0, height)))
+                    pgl.Matrix4.translation(Vector3(0, 0, height)))
             else:
                 return (None, pgl.Matrix4.translation(Vector3(0, 0, height)))
 
@@ -656,14 +660,13 @@ class Parser(object):
             height = turtle.length
             radius = turtle.diameter /2.
             color = turtle.color
-	    if radius !=0 and height !=0 :
+            if radius !=0 and height !=0 :
                 return (pgl.Cylinder(radius=radius, height=height),
-                pgl.Matrix4.translation(Vector3(0, 0, height)))
+                    pgl.Matrix4.translation(Vector3(0, 0, height)))
             else:
                 return (None, pgl.Matrix4.translation(Vector3(0, 0, height)))
 
         self._current_turtle.node_type = 'F0'
-
         return (FunctionalGeometry(f), self.FUNCTIONAL)
 
     def M(self, length, **kwds):
@@ -768,7 +771,7 @@ class Parser(object):
     def L(self, length, **kwds):
         """ Set the turtle state to the given length. """
         self._current_turtle.set_length_value = float(length)
-	self._current_turtle.set_length = True
+        self._current_turtle.set_length = True
         return (None, None)
 
     def Ll(self, argument, **kwds):
@@ -873,7 +876,7 @@ class Parser(object):
 
         matrix = elements[0]
         assert matrix.tag == 'matrix'
-        m4 = map(float, matrix.text.strip().split())
+        m4 = list(map(float, matrix.text.strip().split()))
         m4 = pgl.Matrix4(m4[:4], m4[4:8], m4[8:12], m4[12:])
         m4 = m4.transpose()
         return m4
@@ -896,7 +899,7 @@ class Parser(object):
         edges = self._edges
         graph = self._graph
 
-        for eid, edge in edges.iteritems():
+        for eid, edge in edges.items():
             graph.add_edge(edge=edge, eid=eid)
 
     def universal_node(self, type_name, **kwds):
@@ -928,20 +931,20 @@ class Parser(object):
             metamer toplogy applied in mappletConverter to convert MTG+Scene to XEG
             """
             vid_set = set()
-            for sid in final_geometry.keys():
+            for sid in list(final_geometry.keys()):
                 vid_set.add(sid/10**offset)
     
             
             vid_sid_dic = {}
             for vid in vid_set:
                 sidspvid = []
-                for sid in final_geometry.keys():
+                for sid in list(final_geometry.keys()):
                     if sid/10**offset == vid:
                         sidspvid.append(sid)
                 vid_sid_dic[vid]=sidspvid
 
             shapess=[]
-            for sidspvid in vid_sid_dic.values():
+            for sidspvid in list(vid_sid_dic.values()):
                 sidspvid.sort()
                 shapes = []
                 for sid in sidspvid:
@@ -1205,7 +1208,7 @@ class Dumper(object):
         #_types['Boid']=['sphere']
         attrib = {}
         if _types:
-            for t, extends in _types.iteritems():
+            for t, extends in _types.items():
                 attrib['name'] = t
                 user_type = self.SubElement(self.doc, 'type', attrib)
                 for t in extends:
@@ -1260,12 +1263,12 @@ class Dumper(object):
         pdicts = properties.get(vid, [])
         if type(pdicts) is list:
             for pdict in pdicts:
-                for (name, value) in pdicts.iteritems():
+                for (name, value) in pdicts.items():
                     if name != 'transform':
                         attrib = {'name': name, 'value': str(value)}
                         self.SubElement(node, 'property', attrib)
         else:
-            for (name, value) in properties.get(vid, []).iteritems():
+            for (name, value) in properties.get(vid, []).items():
                 if name != 'transform':
                     attrib = {'name': name, 'value': str(value)}
                     self.SubElement(node, 'property', attrib)
@@ -1367,8 +1370,8 @@ def xeg2MtgAndScene(xml_graph):
     crg, nullscene = xml2graph(xml_graph, True)
 
     # then, produce the scene and mtg by Parallel Computing in two threads
-    scene_queue = Queue.Queue()
-    mtg_queue = Queue.Queue()
+    scene_queue = queue.Queue()
+    mtg_queue = queue.Queue()
 
     for i in range(2):
         if i == 0:
@@ -1406,15 +1409,15 @@ def upscaling4Light(rootedgraph):
     aggregate light interception value from submetamer scale (0-many blades) to metamer scale (1 vertex)
     using color to detact BezierSurface typed blades
     """
-    sids = rootedgraph._vertices.keys()
+    sids = list(rootedgraph._vertices.keys())
     sids.remove(rootedgraph.root)
     edgedic = rootedgraph._edges
     for sid in sids:
         if rootedgraph.vertex_property("type")[sid] == "BezierSurface":
             rgb_color = rootedgraph.vertex_property("color")[sid]
             if isGreen(rgb_color):
-                print " BezierSurface node sid == ", sid
-                for eid in edgedic.keys():
+                print(" BezierSurface node sid == ", sid)
+                for eid in list(edgedic.keys()):
                     if edgedic[eid][1] == sid and rootedgraph.edge_property("edge_type")[eid]== "/":
                         msid = edgedic[eid][0]
                         rootedgraph.vertex_property("lightInterception")[mid] += rootedgraph.vertex_property("lightInterception")[sid]
@@ -1444,7 +1447,7 @@ def getSceneRootedGraph(rootedgraph):
     # to allow resulting single scale XEG have "transform" as node's property
     # transform need to be put as paramters of nodes in rootedgraph
     transdic = g.vertex_property("transform")
-    for sid in transdic.keys():
+    for sid in list(transdic.keys()):
         para = {'transform': transdic[sid]}
         g.vertex_property("parameters")[sid] = para
 
@@ -1455,7 +1458,7 @@ def getSceneRootedGraph(rootedgraph):
     roots = mtg_mpt.roots(mtg_mpt.max_scale())
 
     #delete the scales from MTG
-    sids = g._vertices.keys()
+    sids = list(g._vertices.keys())
         # for error caused by that root has no name property
     sids.remove(g.root)
     for sid in sids:
@@ -1493,7 +1496,7 @@ def getSceneXEG(rootedgraph):
     # to allow resulting single scale XEG have "transform" as node's property
     # transform need to be put as paramters of nodes in rootedgraph
     transdic = g.vertex_property("transform")
-    for sid in transdic.keys():
+    for sid in list(transdic.keys()):
         para = {'transform': transdic[sid]}
         g.vertex_property("parameters")[sid] = para
 
@@ -1505,7 +1508,7 @@ def getSceneXEG(rootedgraph):
     roots = mtg_mpt.roots(maxscale)
 
     #delete the scales from MTG
-    sids = g._vertices.keys()
+    sids = list(g._vertices.keys())
         # for error caused by that root has no name property
     sids.remove(g.root)
     for sid in sids:
@@ -1514,7 +1517,7 @@ def getSceneXEG(rootedgraph):
 
     # delete the decomposition edges for GroIMP one scale case (one or multi tree)
     edgedic = g._edges
-    for edgeid in edgedic.keys():
+    for edgeid in list(edgedic.keys()):
         if g.edge_property("edge_type")[edgeid] == "/":
             g.remove_edge(edgeid)
 
@@ -1547,7 +1550,7 @@ def storeMsidShapeidDic(rootedgraph):
     prodic = g.vertex_property('parameters')
 
     msidShapeidDic = {}
-    for sid in prodic.keys():
+    for sid in list(prodic.keys()):
         try:
             if prodic.get(sid)['id']:
                 shapeid = prodic.get(sid)['id']
@@ -1560,7 +1563,7 @@ def getMTGRootedGraph(rootedgraph):
     """
     delete sub-metamer scale and set the sid of each remained node to original vid
     """
-    sids = rootedgraph._vertices.keys()
+    sids = list(rootedgraph._vertices.keys())
     # for error caused by that root has no name property
     sids.remove(rootedgraph.root)
     for sid in sids:
@@ -1569,7 +1572,7 @@ def getMTGRootedGraph(rootedgraph):
 
 
     # set the sid of each remained node to original vid
-    temp_sids = rootedgraph._vertices.keys()
+    temp_sids = list(rootedgraph._vertices.keys())
     mtg_sids = sorted(temp_sids, key=int)
     mtg_sids_edgedic = rootedgraph._edges
     for mtg_sid in mtg_sids:
@@ -1587,14 +1590,14 @@ def getMTGRootedGraph(rootedgraph):
                 del rootedgraph._vertices[mtg_sid]
 
     # set also the edge (for source and destination vetex) sid to vid
-    for mtg_eid in mtg_sids_edgedic.keys():
+    for mtg_eid in list(mtg_sids_edgedic.keys()):
         srcsid = mtg_sids_edgedic[mtg_eid][0]
         dstsid = mtg_sids_edgedic[mtg_eid][1]
         mtg_sids_edgedic[mtg_eid] = (srcsid/10**offset, dstsid/10**offset)
 
 
     # set also the parameters sid to vid
-    temp_skeys = rootedgraph.vertex_property("parameters").keys()
+    temp_skeys = list(rootedgraph.vertex_property("parameters").keys())
     mtg_skeys = sorted(temp_skeys, key=int)
 
     for skey in mtg_skeys:
@@ -1608,17 +1611,17 @@ def getMTGRootedGraph(rootedgraph):
     # remove properties does not belongs to the mtg (properties have been added to allow scene creation)
     non_mtg_pnames = ["name", "type", "color", "geometry", "transform", "turtle_state", "final_geometry"]
     for non_mtg_pname in non_mtg_pnames:
-        if non_mtg_pname in rootedgraph._vertex_property.keys():
+        if non_mtg_pname in list(rootedgraph._vertex_property.keys()):
             rootedgraph.remove_vertex_property(non_mtg_pname)
 
 
     # get all the paramters back as properties of vertex/node
-    for nkey in rootedgraph.vertex_property("parameters").keys():
+    for nkey in list(rootedgraph.vertex_property("parameters").keys()):
         para_dic = rootedgraph.vertex_property("parameters")[nkey]
-        pnames = para_dic.keys()
+        pnames = list(para_dic.keys())
 
         for pname in pnames:
-            if pname not in rootedgraph._vertex_property.keys():
+            if pname not in list(rootedgraph._vertex_property.keys()):
                 rootedgraph.add_vertex_property(pname)
             rootedgraph.vertex_property(pname)[nkey] = para_dic[pname]
 
@@ -1638,13 +1641,13 @@ def resumeVidFromSid(rootedgraph):
 
     # set the edge (for source and destination vetex) sid to vid
     mtg_sids_edgedic = rootedgraph._edges
-    for mtg_eid in mtg_sids_edgedic.keys():
+    for mtg_eid in list(mtg_sids_edgedic.keys()):
         srcsid = mtg_sids_edgedic[mtg_eid][0]
         dstsid = mtg_sids_edgedic[mtg_eid][1]
         mtg_sids_edgedic[mtg_eid] = (srcsid/10**offset, dstsid/10**offset)
 
     # set the node sid sid to vid
-    mtg_sids = rootedgraph._vertices.keys()
+    mtg_sids = list(rootedgraph._vertices.keys())
     for mtg_sid in mtg_sids:
         mtg_vid = mtg_sid/ 10**offset
         # for error caused by root == 0
@@ -1730,7 +1733,7 @@ def produceMTGfile(mtg_object, mtg_file_abname):
 
     g = mtg_object
     properties = [(p, 'REAL') for p in g.property_names() if p not in ['edge_type', 'index', 'label', '_line']]
-    print properties
+    print(properties)
     mtg_lines = write_mtg(g, properties)
     f = open(mtg_file_abname, 'w')
     f.write(mtg_lines)

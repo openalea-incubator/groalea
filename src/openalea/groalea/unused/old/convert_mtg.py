@@ -155,7 +155,7 @@ def rootedgraph_pre(mtg):
     '''
     rootedgraph.root = 1
     '''
-    rootedgraph.root = mtg.component_roots_at_scale_iter(mtg.root, scale=mtg.max_scale()).next()
+    rootedgraph.root = next(mtg.component_roots_at_scale_iter(mtg.root, scale=mtg.max_scale()))
     '''
     if rootedgraph.root not in rootedgraph:
         rootedgraph.add_vertex(rootedgraph.root)
@@ -262,7 +262,7 @@ def trans_mtg(mtgfile, bgeomfile):
     metamerlist = scene.todict()
 
     mtg_properties = mtg.properties()
-    mtg_properties_list = mtg_properties.keys()
+    mtg_properties_list = list(mtg_properties.keys())
     mtgproperty_diclist = []
 
     for vertex in vlist:
@@ -359,9 +359,9 @@ def trans_mtg(mtgfile, bgeomfile):
                         y = ellocaltm4list[j].A[1][1]
                         z = ellocaltm4list[j].A[2][2]
 
-            print('ok', metamer_id, len(metamerlist[vertex_id]))
+            print(('ok', metamer_id, len(metamerlist[vertex_id])))
         except KeyError:
-            print('ERROR',vertex_id)
+            print(('ERROR',vertex_id))
 
 
 def getMat4Shape(material):

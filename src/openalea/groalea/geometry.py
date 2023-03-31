@@ -51,7 +51,7 @@ def rgb_color(index):
     return color
 
 
-class TurtleState(object):
+class TurtleState:
     """ Store the turtle state of each vertex. """
     #DIAMETER = 
     #LDIAMETER = 0.1
@@ -282,7 +282,7 @@ class TurtleState(object):
               )
         return ok
 
-    def __nonzero__(self):
+    def __bool__(self):
         return not self.__eq__(TurtleState())
 
 
@@ -319,7 +319,7 @@ def transform4(matrix, shape):
 				                   pgl.EulerRotated(a, e, r,
 				                                     shape))
         else:
-            raise Exception,"Invalid transformation for cylinder!"
+            raise Exception("Invalid transformation for cylinder!")
 
     elif type(shape) is pgl.Sphere:
         shape = pgl.Translated(translation,
@@ -414,13 +414,13 @@ def no_interior(p1, p2, p3, v, poly_or):
     """ TODO : Use static method
     """
     for p in v:
-        if p.values()[0] == p1 or p.values()[0] == p2 or p.values()[0] == p3:
+        if list(p.values())[0] == p1 or list(p.values())[0] == p2 or list(p.values())[0] == p3:
             # Don't bother checking against yourself
             continue
 
-        if ((determinant(p1, p2, p.values()[0]) == poly_or) or
-            (determinant(p3, p1, p.values()[0]) == poly_or) or
-            (determinant(p2, p3, p.values()[0]) == poly_or)):
+        if ((determinant(p1, p2, list(p.values())[0]) == poly_or) or
+            (determinant(p3, p1, list(p.values())[0]) == poly_or) or
+            (determinant(p2, p3, list(p.values())[0]) == poly_or)):
             # This point is outside
             continue
         # The point is inside
@@ -591,7 +591,9 @@ def positionalTropism(m, target, strength):
         yv = x * t.z - z * t.x
         zv = y * t.x - x * t.y
         vec3 = Vector3(xv, yv, zv)
-        angle = strength * sqrt((xv * xv + yv * yv + zv * zv) / (l * (t.x * t.x + t.y * t.y + t.z * t.z)))
+        angle = strength * sqrt(
+            (xv * xv + yv * yv + zv * zv) / (l * (t.x * t.x + t.y * t.y + t.z * t.z))
+            )
         if (angle * angle) >= 1e-20:
             invTransformVector(m, vec3)
             return setFromAxisAngle(vec3.x, vec3.y, vec3.z, angle)

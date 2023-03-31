@@ -54,7 +54,7 @@ class Dumper(object):
         #_types['Boid']=['sphere']
         attrib = {}
         if _types:
-            for t, extends in _types.iteritems():
+            for t, extends in _types.items():
                 attrib['name'] = t
                 user_type = self.SubElement(self.doc, 'type', attrib)
                 for t in extends:
@@ -108,12 +108,12 @@ class Dumper(object):
         pdicts = properties.get(vid, [])
         if type(pdicts) is list:
             for pdict in pdicts:
-                for (name, value) in pdicts.iteritems():
+                for (name, value) in pdicts.items():
                     if name != 'transform':
                         attrib = {'name': name, 'value': str(value)}
                         self.SubElement(node, 'property', attrib)
         else:
-            for (name, value) in properties.get(vid, []).iteritems():
+            for (name, value) in properties.get(vid, []).items():
                 if name != 'transform':
                     attrib = {'name': name, 'value': str(value)}
                     self.SubElement(node, 'property', attrib)

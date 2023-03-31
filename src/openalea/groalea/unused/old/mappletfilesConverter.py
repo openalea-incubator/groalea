@@ -61,7 +61,7 @@ def rootedgraph_pre(mtg):
   
     #rootedgraph.root = 1
     
-    max_scale_root = mtg.component_roots_at_scale_iter(mtg.root, scale=mtg.max_scale()).next()
+    max_scale_root = next(mtg.component_roots_at_scale_iter(mtg.root, scale=mtg.max_scale()))
     #rootedgraph.root = max_scale_root * 10**offset
     
     # set root value
@@ -116,7 +116,7 @@ def uppermetamerLevelConvert(mtg, rootedgraph):
             rootedgraph.vertex_property("name")[sid] = label
 
             if scale - 1 == max_scale:
-                print "sid :", sid, "label : ", label
+                print("sid :", sid, "label : ", label)
 
             # set type
             rootedgraph.vertex_property("type")[sid] = vtypedic[label[0]]
@@ -216,7 +216,7 @@ def metamerLevelConvert(vid, mtg, rootedgraph):
     # set name
     label = mtg[vid]["label"]
     rootedgraph.vertex_property("name")[sid] = label
-    print "sid :", sid, "label : ", label
+    print("sid :", sid, "label : ", label)
 
 
     # set type
@@ -678,7 +678,7 @@ def serializeList2string(lst):
 
 def getedgeid(edge, rg):
     eid = None
-    for i, e in rg._edges.iteritems():
+    for i, e in rg._edges.items():
         if e == edge:
             eid = i
     return eid

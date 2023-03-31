@@ -47,7 +47,7 @@ def inputs_pre(mtg_object, scene_object=None):
     ms_vlist = mtg.vertices(max_scale)
 
     if scene_object == None:
-        print "scene is none!!!"
+        print("scene is none!!!")
         metamerlist = []
     else:
         scene = scene_object
@@ -436,8 +436,8 @@ def addStructure4SubMetamerLevel(shape_geo_pro, geo_list_index, trans_geo_list, 
             localm = Matrix4(templist[0], templist[1], templist[2], templist[3])
             para = {'transform':localm}
         else:
-            print type(trans_geo_list[i])
-            print "ERROR"
+            print(type(trans_geo_list[i]))
+            print("ERROR")
 
         #transgeo_id = sid + preshape_geo_sum + i + 1
         rootedgraph.vertex_property("type")[transgeo_id] = trans_type
@@ -558,7 +558,7 @@ def getTM4Transgeo(transgeo):
         row3 = list(m.getRow(2))
         row4 = list(m.getRow(3))
     else:
-        print (type(transgeo))
+        print((type(transgeo)))
 
     return np.matrix([row1,row2,row3,row4])
 

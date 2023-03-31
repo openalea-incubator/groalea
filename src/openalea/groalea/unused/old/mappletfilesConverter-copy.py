@@ -61,7 +61,7 @@ def rootedgraph_pre(mtg):
   
     #rootedgraph.root = 1
     
-    max_scale_root = mtg.component_roots_at_scale_iter(mtg.root, scale=mtg.max_scale()).next()
+    max_scale_root = next(mtg.component_roots_at_scale_iter(mtg.root, scale=mtg.max_scale()))
     #rootedgraph.root = max_scale_root * 10**offset
     
     # set root value
@@ -201,7 +201,7 @@ def metamerLevelConvert(vid, mtg, rootedgraph):
             rootedgraph.add_vertex(scomplex)
             rootedgraph = setVetexProperties(vcomplex, scomplex, mtg, rootedgraph)
 
-        if (scomplex, tmpsid) not in rootedgraph._edges.values():
+        if (scomplex, tmpsid) not in list(rootedgraph._edges.values()):
             addEdge2RootedGraph(rootedgraph, scomplex, tmpsid, "/")
 
         vparent = mtg.parent(tmpvid)
@@ -234,7 +234,7 @@ def metamerLevelConvert(vid, mtg, rootedgraph):
                 # if condition may not necessary
                 if child_sid not in rootedgraph:
                     rootedgraph.add_vertex(child_sid)
-                    print "add : ", child_sid
+                    print("add : ", child_sid)
 
                 edgeid = edgeid + 1
                 edge_type = mtg.EdgeType(edge[0], edge[1])
@@ -654,7 +654,7 @@ def serializeList2string(lst):
 
 def getedgeid(edge, rg):
     eid = None
-    for i, e in rg._edges.iteritems():
+    for i, e in rg._edges.items():
         if e == edge:
             eid = i
     return eid

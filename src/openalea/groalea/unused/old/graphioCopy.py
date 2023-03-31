@@ -15,7 +15,7 @@
 
 # 3. Add enum like FUNCTIONAL
 
-from StringIO import StringIO
+from io import StringIO
 from math import radians
 from math import sqrt
 from math import cos
@@ -57,12 +57,12 @@ class Parser(object):
         self._scene = None
         #from lxml import etree
         #p = etree.XMLParser(recover=True)
-        print "pass parse intialisation"
-        print fn
+        print("pass parse intialisation")
+        print(fn)
 
         #doc = etree.parse(fn, parser=p)
         doc = xml.parse(fn)
-        print "after parse"
+        print("after parse")
         root = doc.getroot()
         #print root
 
@@ -101,7 +101,7 @@ class Parser(object):
         """
         A graph is a set of nodes and edges.
         """
-        print "pass graph(self, elements) function"
+        print("pass graph(self, elements) function")
 
         graph = self._graph = RootedGraph()
 
@@ -123,8 +123,8 @@ class Parser(object):
             self.dispatch(elt)
 
         # add the edges to the graph, when all the nodes have been added.
-        print "graph.root", type(graph)
-        print graph
+        print("graph.root", type(graph))
+        print(graph)
         if graph.root not in graph:
             graph.add_vertex(graph.root)
 
@@ -321,7 +321,7 @@ class Parser(object):
         if pointSize <= 0:
             pointSize = 1
         items, chunk = points, 3
-        point3Array = zip(*[iter(items)] * chunk)
+        point3Array = list(zip(*[iter(items)] * chunk))
         idx4 = pgl.Index4(int(colorlist[0] * 255), int(colorlist[1] * 255),
                           int(colorlist[2] * 255), int(colorlist[3] * 255))
         lidx4, v3array = [], []
@@ -336,7 +336,7 @@ class Parser(object):
         points = str(vertices)
         points = [float(num) for num in points.split(",")]
         items, chunk = points, 3
-        p3list = zip(*[iter(items)] * chunk)
+        p3list = list(zip(*[iter(items)] * chunk))
         p2list = project3Dto2D(p3list)
         pd2list = []
         for i in range(len(p2list)):
@@ -351,14 +351,14 @@ class Parser(object):
                 # By definition, at least there are two ears;
                 # we will iterate at end only if poly_orientation
                 # was incorrect.
-                pcur, pprev, pnex = pd2list[cur].values()[0], pd2list[prev].values()[0], pd2list[nex].values()[0]
+                pcur, pprev, pnex = list(pd2list[cur].values())[0], list(pd2list[prev].values())[0], list(pd2list[nex].values())[0]
                 det = determinant(pcur, pprev, pnex)
                 inside = no_interior(pprev, pcur, pnex, pd2list, poly_orientation)
                 if (det == poly_orientation) and inside:
                     # Same orientation as polygon
                     # No points inside
                     # Add index of this triangle to the index list
-                    index = pd2list[prev].keys()[0], pd2list[cur].keys()[0], pd2list[nex].keys()[0]
+                    index = list(pd2list[prev].keys())[0], list(pd2list[cur].keys())[0], list(pd2list[nex].keys())[0]
                     indexlist.append(index)
                     # Remove the triangle from the polygon
                     del(pd2list[cur])
@@ -371,13 +371,13 @@ class Parser(object):
         dimension = int(dimension)
         points = [float(num) for num in points.split(",")]
         items, chunk = points, dimension 
-        pdlist = zip(*[iter(items)] * chunk)
+        pdlist = list(zip(*[iter(items)] * chunk))
         
         
         p4m = pgl.Point4Matrix(dimension,dimension)
       
         its, pice = pdlist, 4
-        pdmrlst = zip(*[iter(its)] * pice)
+        pdmrlst = list(zip(*[iter(its)] * pice))
         for i in range(len(pdmrlst)):
             for j in range(len(pdmrlst[i])):
                 p4m.__setitem__((i,j),pdmrlst[i][j])
@@ -386,13 +386,13 @@ class Parser(object):
         
         
     def ShadedNull(self, transform, color, **kwds):
-        print "pass null in"
+        print("pass null in")
 
         transform = str(transform)
         transform = [float(num) for num in transform.split(",")]
         
         items, chunk = transform, 4
-        m4rlist = zip(*[iter(items)] * chunk)
+        m4rlist = list(zip(*[iter(items)] * chunk))
         m4 = pgl.Matrix4()
 
         for i in range(len(m4rlist)):
@@ -401,7 +401,7 @@ class Parser(object):
 
         self._current_turtle.color = self.color(color)
                 
-        print "pass null out"
+        print("pass null out")
 
         return (None, m4)
 
@@ -587,7 +587,7 @@ class Parser(object):
 
         matrix = elements[0]
         assert matrix.tag == 'matrix'
-        m4 = map(float, matrix.text.strip().split())
+        m4 = list(map(float, matrix.text.strip().split()))
         m4 = pgl.Matrix4(m4[:4], m4[4:8], m4[8:12], m4[12:])
         m4 = m4.transpose()
         return m4
@@ -617,7 +617,7 @@ class Parser(object):
         edges = self._edges
         graph = self._graph
 
-        for eid, edge in edges.iteritems():
+        for eid, edge in edges.items():
             graph.add_edge(edge=edge, eid=eid)
 
     def universal_node(self, type_name, **kwds):
@@ -657,7 +657,7 @@ class Parser(object):
         transfos = [pgl.Matrix4()]
 
         self.traverse2(g.root)
-        self._scene.merge(pgl.Scene(final_geometry.values()))
+        self._scene.merge(pgl.Scene(list(final_geometry.values())))
         return self._scene
 
     def traverse2(self, vid):
@@ -690,8 +690,8 @@ class Parser(object):
             pid = parent(v)
 
             if pid == v and v != g.root:
-                print "ERRRORRRR"
-                print v
+                print("ERRRORRRR")
+                print(v)
                 continue
             # print "v",v
             # print "parent(v)", parent(v)
@@ -851,7 +851,7 @@ class Dumper(object):
         #_types['Boid']=['sphere']
         attrib = {}
         if _types:
-            for t, extends in _types.iteritems():
+            for t, extends in _types.items():
                 attrib['name'] = t
                 user_type = self.SubElement(self.doc, 'type', attrib)
                 for t in extends:
@@ -905,12 +905,12 @@ class Dumper(object):
         pdicts = properties.get(vid, [])
         if type(pdicts) is list:
             for pdict in pdicts:
-                for (name, value) in pdicts.iteritems():
+                for (name, value) in pdicts.items():
                     if name != 'transform':
                         attrib = {'name': name, 'value': str(value)}
                         self.SubElement(node, 'property', attrib)
         else:
-            for (name, value) in properties.get(vid, []).iteritems():
+            for (name, value) in properties.get(vid, []).items():
                 if name != 'transform':
                     attrib = {'name': name, 'value': str(value)}
                     self.SubElement(node, 'property', attrib)
@@ -982,14 +982,14 @@ def removeTypeGraph(graph):
 
     vertices = graph._vertieces
 
-    vids = vertices.keys()
+    vids = list(vertices.keys())
     
     for vid in vids:
         vtype = graph.vertex_property('type')[vid]
         if (vtype in geotypes):
             edgedic = graph._edges
 
-            for eid in edgedic.keys():
+            for eid in list(edgedic.keys()):
                 esrc = edgedic[eid][0]
                 edst = edgedic[eid][1]
                 srcType = graph.vertex_property('type')[esrc]
@@ -1010,7 +1010,7 @@ def adjustFromGroIMP(graph):
     eid_max = -1;
     edgedic = graph._edges
 
-    for eid in edgedic.keys():
+    for eid in list(edgedic.keys()):
 
         if eid_max < eid:
             eid_max = eid
@@ -1018,7 +1018,7 @@ def adjustFromGroIMP(graph):
         if edgedic[eid][0] == graph.root:
             fv = edgedic[eid][1]
             vs = []
-            for eidd in edgedic.keys():
+            for eidd in list(edgedic.keys()):
                 if fv == edgedic[eidd][1]:
                     vs.append(eidd)
 
@@ -1045,7 +1045,7 @@ def findChildren(pvs, cvs, edgedic, graph):
     oneGenChv = []
 
     for pv in pvs:
-        for eeid in edgedic.keys():      
+        for eeid in list(edgedic.keys()):      
             if pv == edgedic[eeid][0] and graph.edge_property("edge_type")[eeid] != "/":
                 oneGenChv.append(edgedic[eeid][1])
 

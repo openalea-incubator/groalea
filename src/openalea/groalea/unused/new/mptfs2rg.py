@@ -187,7 +187,7 @@ def convert(mtgfile, bgeomfile=None, scale_num=1):
             #break
         metamer = getmetamer(vid, metamerlist)
         parentvid = mtg.parent(vid)
-        print "vid, parentvid", vid, parentvid
+        print("vid, parentvid", vid, parentvid)
         if parentvid == None:
             parentmetamer = None
         else:
@@ -743,7 +743,7 @@ def serializeList2string(lst):
 
 def getedgeid(edge, rg):
     eid = None
-    for i, e in rg._edges.iteritems():
+    for i, e in rg._edges.items():
         if e == edge:
             eid = i
     return eid

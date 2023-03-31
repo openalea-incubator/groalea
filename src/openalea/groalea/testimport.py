@@ -7,7 +7,7 @@ def test(rg):
 
 
 def testglobal():
-    print globaltestdef()
+    print(globaltestdef())
 
 def testvar():
-    print y+8
+    print(y+8)

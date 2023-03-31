@@ -12,7 +12,7 @@ def adjustmentToMtg(rg):
     delete sub-metamer scale and set the sid of each remained node to original vid
     """
     rootedgraph = deepcopy(rg)
-    sids = rootedgraph._vertices.keys()
+    sids = list(rootedgraph._vertices.keys())
     # for error caused by that root has no name property
     sids.remove(rootedgraph.root)
     for sid in sids:
@@ -20,7 +20,7 @@ def adjustmentToMtg(rg):
             rootedgraph.remove_vertex(sid)
 
     # set the sid of each remained node to original vid
-    mtg_sids = rootedgraph._vertices.keys()
+    mtg_sids = list(rootedgraph._vertices.keys())
     mtg_sids_edgedic = rootedgraph._edges
     for mtg_sid in mtg_sids:
         mtg_vid = mtg_sid/ 10**2
@@ -30,7 +30,7 @@ def adjustmentToMtg(rg):
             del rootedgraph._vertices[mtg_sid]
 
     # set also the edge (for source and destination vetex) sid to vid
-    for mtg_eid in mtg_sids_edgedic.keys():
+    for mtg_eid in list(mtg_sids_edgedic.keys()):
         srcsid = mtg_sids_edgedic[mtg_eid][0]
         dstsid = mtg_sids_edgedic[mtg_eid][1]
         mtg_sids_edgedic[mtg_eid] = (srcsid/10**2, dstsid/10**2)
@@ -97,7 +97,7 @@ def is_multiscale(graph):
     g = graph
     edge_type = g.edge_property('edge_type')
 
-    labels = set(edge_label for edge_label in edge_type.itervalues() if edge_label not in ('<', '+'))
+    labels = set(edge_label for edge_label in edge_type.values() if edge_label not in ('<', '+'))
     if labels:
         return True
     else:
@@ -126,7 +126,7 @@ def scales(g):
                 empty_vertex = False
                 break
         if empty_vertex:
-            root_edge = g.out_edges(root).next()
+            root_edge = next(g.out_edges(root))
             edge_type[root_edge] = '/'
 
 
@@ -160,7 +160,7 @@ def _build_edge_type(g, mtg):
 
     vertex_edge_type = {}
 
-    for eid, et in edge_type.iteritems():
+    for eid, et in edge_type.items():
         source, target = g.source(eid), g.target(eid)
         if source != root and et in ('<', '+'):
             vertex_edge_type[target] = et
@@ -179,7 +179,7 @@ def _children_and_parent(g, mtg):
 
     # TODO : filter the edges that belong to the spanning MTG
 
-    for eid, et in edge_type.iteritems():
+    for eid, et in edge_type.items():
         source, target = g.source(eid), g.target(eid)
         if source == g.root:
             continue
@@ -190,12 +190,12 @@ def _children_and_parent(g, mtg):
     # reorder the children to have < edges at the end of the children
     vet = vertex_edge_type = mtg.properties()['edge_type']
     reorder = {}
-    for p, cids in children.iteritems():
+    for p, cids in children.items():
         cids = list(cids)
         ets = [vet[cid] for cid in cids]
         nb_less = ets.count('<')
         if nb_less > 1:
-            print 'ERROR: %d has more than one successor (%d)' % (p, nb_less)
+            print('ERROR: %d has more than one successor (%d)' % (p, nb_less))
         elif nb_less == 1:
             n = len(ets)
             index = ets.index('<')
@@ -233,7 +233,7 @@ def _complex_and_components(g, mtg):
 
     complex = {}
     components = {}
-    for eid, et in edge_type.iteritems():
+    for eid, et in edge_type.items():
         source, target = g.source(eid), g.target(eid)
         if (source == root) or (et == '/'):
             complex[target] = source
@@ -246,7 +246,7 @@ def _complex_and_components(g, mtg):
 
     # all the components have to be sorted in the pre_order order (parent before children)
     minimum_components = {}
-    for vid, components_ids in components.iteritems():
+    for vid, components_ids in components.items():
         new_comp = []
         for cid in components_ids:
             pid = mtg.parent(cid)

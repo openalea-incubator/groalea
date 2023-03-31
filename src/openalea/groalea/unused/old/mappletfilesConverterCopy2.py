@@ -556,7 +556,7 @@ def serializeList2string(lst):
 
 def getedgeid(edge, rg):
     eid = None
-    for i, e in rg._edges.iteritems():
+    for i, e in rg._edges.items():
         if e == edge:
             eid = i
     return eid
