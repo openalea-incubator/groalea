@@ -38,7 +38,7 @@ def test1():
     geometries = g.properties()['geometry'] = {}
     color = g.properties()['color'] = {}
 
-    for vid, gid in geom_ids.items():
+    for vid, gid in list(geom_ids.items()):
         # select only geometries at max_scale
         if g.scale(vid) != max_scale:
             continue

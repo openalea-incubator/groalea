@@ -1,9 +1,4 @@
-import sys
-import (
-	urllib.request, 
-	urllib.error, 
-	urllib.parse
-)
+import sys, urllib.request, urllib.error, urllib.parse, urllib.request, urllib.parse, urllib.error
 from urllib.error import URLError, HTTPError
 
 #read graph
@@ -35,3 +30,5 @@ except HTTPError as e:
 	print(e.read())
 except URLError as e:
 	print("Error: "+str(e.reason))
+
+

@@ -14,7 +14,7 @@ data = None
 def setup():
     global data
     data = shared_data(openalea.groalea)
-    print 'Data ', data
+    print('Data ', data)
 
 
 def teardown():
