@@ -1,5 +1,10 @@
-import sys, urllib2, urllib
-from urllib2 import URLError, HTTPError
+import sys
+import (
+	urllib.request, 
+	urllib.error, 
+	urllib.parse
+)
+from urllib.error import URLError, HTTPError
 
 #read graph
 f = file("beech.xeg")
@@ -13,22 +18,20 @@ f.close()
 
 #prepare data
 url = 'http://localhost:58070'
-data = urllib.urlencode({'graph': graph, 'xlcode': xl, 'command': 'init'})
+data = urllib.parse.urlencode({'graph': graph, 'xlcode': xl, 'command': 'init'})
 
 #send
-req = urllib2.Request(url)
+req = urllib.request.Request(url)
 try:
-	fd = urllib2.urlopen(req, data)
+	fd = urllib.request.urlopen(req, data)
 	#answer
 	while 1:
 		data = fd.read()
 		if not len(data):
 			break
 	sys.stdout.write(data)
-except HTTPError, e:
-	print "Error code: "+str(e.code)
-	print e.read()
-except URLError, e:
-	print "Error: "+str(e.reason)
-
-
+except HTTPError as e:
+	print("Error code: "+str(e.code))
+	print(e.read())
+except URLError as e:
+	print("Error: "+str(e.reason))
