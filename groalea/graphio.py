@@ -59,7 +59,7 @@ class Parser(object):
                   'Polygon', 'polygon', 'BezierSurface', 'bezierSurface', 'ShadedNull', 'shadedNull',
                   'F', 'F0', 'M', 'M0', 'RL', 'RU', 'RH', 'V', 'Vl', 'VlAdd', 'VlMul', 'VAdd', 'VMul','RV', 'RV0', 'RG', 'RD', 'RO', 'RP', 'RN', 'AdjustLU',
                   'L', 'Ll', 'LlAdd', 'LlMul', 'LAdd', 'LMul', 'D', 'Dl', 'DlAdd', 'DlMul', 'DAdd', 'DMul', 'P', 'Translate', 'Scale', 'Rotate', 'NURBSCurve', 'nURBSCurve',
-                  'NURBSSurface', 'nURBSSurface', 'Supershape', 'supershape', 'HeightField', 'heightField']
+                  'NURBSSurface', 'nURBSSurface', 'Supershape', 'supershape', 'HeightField', 'heightField', 'Mesh', 'mesh']
 
     FUNCTIONAL = -10
 
@@ -240,6 +240,7 @@ class Parser(object):
             #shape, transfo = self.dispatch2(type, args)
 
             # Here to switch off geometrical type mapping (groimp type to plantgl type)
+            #print type, args
             if not self.onlyTopology :
                 shape, transfo = self.dispatch2(type, args)
             else:
@@ -585,6 +586,30 @@ class Parser(object):
             return (pgl.NurbsCurve(ctlplist), None)
 
 
+    def Mesh(self, indices, coords, **kwds):
+
+        dimension = 3
+
+        points = str(coords)
+        points = [float(num) for num in points.split(",")]
+        items, chunk = points, dimension
+        pointlist = zip(*[iter(items)] * chunk)
+
+
+        v3list = []
+        for point in pointlist:
+            v3list.append(Vector3(point))
+
+        edgeNum = 3
+
+        indices = str(indices)
+        indices = [int(num) for num in indices.split(",")]
+        items, chunk = indices, edgeNum 
+        indexlist = zip(*[iter(items)] * chunk)
+
+        return (pgl.TriangleSet(v3list, indexlist), None)
+
+
     sphere = Sphere
     box = Box
     cone = Cone
@@ -600,6 +625,7 @@ class Parser(object):
     nURBSSurface = NURBSSurface
     supershape = Supershape
     heightField = HeightField
+    mesh = Mesh
 
 
 
@@ -672,7 +698,7 @@ class Parser(object):
 
     def V(self, argument, **kwds):
         self._current_turtle.set_tropism_value = float(argument)
-	self._current_turtle.set_tropism = True
+        self._current_turtle.set_tropism = True
         return (None, None)
 
     def Vl(self, argument, **kwds):
@@ -1568,7 +1594,10 @@ def getMTGRootedGraph(rootedgraph):
 
 
     # set also the parameters sid to vid
-    for skey in rootedgraph.vertex_property("parameters").keys():
+    temp_skeys = rootedgraph.vertex_property("parameters").keys()
+    mtg_skeys = sorted(temp_skeys, key=int)
+
+    for skey in mtg_skeys:
         nkey = skey/ 10**offset
         if nkey != skey:
             rootedgraph.vertex_property("parameters")[nkey] = rootedgraph.vertex_property("parameters")[skey]

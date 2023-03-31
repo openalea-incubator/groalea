@@ -333,7 +333,12 @@ def transform4(matrix, shape):
 		                                  	    pgl.Scaled(scale,
 													       pgl.Scaled(scale1,
 		                                                              shape))))
-		
+    else:
+        shape = pgl.Translated(translation,
+                               pgl.EulerRotated(a, e, r,
+		                                        pgl.Scaled(scale,
+		                                                   shape)))		
+    
     return shape
 
 
