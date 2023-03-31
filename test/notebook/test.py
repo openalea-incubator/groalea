@@ -27,6 +27,6 @@ for filename in (sti_fn, st_fn):
     graph = getMTGRootedGraph(graph)
     g = spanning_mtg(graph)
 
-    print g.display()
+    print(g.display())
     #g.display()
 

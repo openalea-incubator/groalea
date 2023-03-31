@@ -35,7 +35,7 @@ f = open('test_color.xeg','w')
 f.write(out_graph)
 f.close()
 
-print out_graph
+print(out_graph)
 
 #g, s = io.xml2graph(out_graph)
 #Viewer.display(s)
